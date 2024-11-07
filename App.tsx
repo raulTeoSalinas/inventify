@@ -11,28 +11,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Internal Dependencies
 import ThemeProvider from "./src/theme/ThemeProvider";
 import {
-  TrackFlightScreen,
-  FlightsListingScreen,
-  FlightDetailScreen
-} from "./src/screens";
-import { store } from "./src/redux/store";
-import { Airport } from "./src/models/Airport";
-import { FlightStatus } from "./src/models/FlightStatus";
+  CatalogView
+} from "./src/Views";
+import { store } from "./src/store/store";
 
 
 SplashScreen.preventAutoHideAsync();
 
 export type RootStackParamList = {
-  FlightsListingScreen: {
-    departureDate: string | null;
-    flightNumber: string | null,
-    originAirport: Airport | null,
-    destinationAirport: Airport | null
-  };
-  TrackFlightScreen: undefined;
-  FlightDetailScreen: {
-    flightStatus: FlightStatus
-  }
+  CatalogView: undefined,
+  DashBoardView: undefined,
+  NotesView: undefined,
+  InventoriesView: undefined,
+  SettingsView: undefined
 };
 
 
@@ -46,10 +37,7 @@ const StackNavigation = () => {
       <Stack.Navigator screenOptions={{
         headerShown: false
       }}>
-        <Stack.Screen name="TrackFlightScreen" component={TrackFlightScreen} />
-        <Stack.Screen name="FlightsListingScreen" component={FlightsListingScreen} />
-        <Stack.Screen name="FlightDetailScreen" component={FlightDetailScreen} />
-
+        <Stack.Screen name="CatalogView" component={CatalogView} />
       </Stack.Navigator>
     </NavigationContainer>
   )
