@@ -11,6 +11,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.3",
     "@react-native-community/cli": "^13.6.9",
+    "@react-navigation/bottom-tabs": "^6.1.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.10.0",
     "@reduxjs/toolkit": "^2.2.6",
@@ -29,6 +30,7 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "^15.4.0",
     "react-redux": "^9.1.2",
+    "redux-persist": "^6.0.0",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {

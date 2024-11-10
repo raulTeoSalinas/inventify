@@ -1,8 +1,8 @@
 // External Dependencies
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 // Internal Dependencies
-import { RootStackParamList } from "../../../App"
+import { RootTabParamList } from "../../navigation/BottomTabNavigation/BottomTabNavigation"
 
-export type InventoriesViewProps = NativeStackScreenProps<RootStackParamList, "InventoriesView">;
+export type InventoriesViewProps = BottomTabScreenProps<RootTabParamList, "InventoriesView">;
 
 

@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { TouchableOpacity, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Calendar } from "react-native-calendars";
 // Internal Dependencies
-import { theme } from "../../theme/theme";
+import { theme } from "../../theme/baseTheme";
 import Text from "../atoms/Text/Text";
 import Icon from "../atoms/Icon/Icon";
 import useInputDate from "./InputDate.controller";

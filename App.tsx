@@ -5,43 +5,16 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from "react-redux";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Internal Dependencies
 import ThemeProvider from "./src/theme/ThemeProvider";
-import {
-  CatalogView
-} from "./src/Views";
+import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
 import { store } from "./src/store/store";
 
 
 SplashScreen.preventAutoHideAsync();
 
-export type RootStackParamList = {
-  CatalogView: undefined,
-  DashBoardView: undefined,
-  NotesView: undefined,
-  InventoriesView: undefined,
-  SettingsView: undefined
-};
 
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-
-const StackNavigation = () => {
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false
-      }}>
-        <Stack.Screen name="CatalogView" component={CatalogView} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
 
 const App = () => {
 
@@ -61,14 +34,14 @@ const App = () => {
   }
 
   return (
-    <ThemeProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ThemeProvider>
         <GestureHandlerRootView>
           <StatusBar style="auto" />
-          <StackNavigation />
+          <BottomTabNavigation />
         </GestureHandlerRootView>
-      </Provider>
-    </ThemeProvider >
+      </ThemeProvider >
+    </Provider>
   );
 }
 

@@ -5,18 +5,12 @@ import React from 'react'
 
 // External Dependencies
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
 // Internal Dependencies
 import {
     Text,
 } from "../../designSystem"
 import { Container, Header } from "./CatalogView.styles"
-import { RootStackParamList } from "../../../App"
-
-
-
-type CatalogViewProps = NativeStackScreenProps<RootStackParamList, "CatalogView">
+import { CatalogViewProps } from "./CatalogView.model"
 
 const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
@@ -26,7 +20,7 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
             <Container>
                 <Header>
-                    <Text style={{ marginTop: 40 }} bold size="huge">Track your flight</Text>
+                    <Text style={{ marginTop: 40 }} bold size="huge">Fierro</Text>
                     <Text>Keep you informed in real time!</Text>
                 </Header>
 

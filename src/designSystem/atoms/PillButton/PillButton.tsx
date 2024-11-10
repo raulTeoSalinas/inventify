@@ -5,12 +5,12 @@ import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 // External Dependencies
 import styled from "styled-components/native";
 // Internal Dependencies
-import { theme, ThemeType } from "../../../theme/theme";
+import { ThemeType } from "../../../theme/baseTheme";
 import Text from "../Text/Text";
 
 
 const StyledTouchableOpacity = styled(TouchableOpacity) <StyledTouchableOpacityProps>`
-    background-color: ${(props) => theme.colors[props.backgroundColor]};
+    background-color: ${(props) => props.theme.colors[props.backgroundColor]};
     padding: ${(props) => getPadding(props.size)};
     border-radius: ${(props) => getBorderRadius(props.size)};
     max-width: ${(props) => getWidth(props.size)};

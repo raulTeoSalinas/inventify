@@ -1,9 +1,11 @@
+// External Dependencies
 import { configureStore } from '@reduxjs/toolkit';
-import flightsReducer from './slices/flightsSlice';
+// Internal Dependencies
+import configReducer from './slices/configSlice';
 
 export const store = configureStore({
     reducer: {
-        flights: flightsReducer,
+        config: configReducer,
     },
 });
 

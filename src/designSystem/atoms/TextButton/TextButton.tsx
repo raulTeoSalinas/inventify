@@ -4,11 +4,12 @@ import React from "react";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 // Internal Dependencies
 import Text from "../Text/Text";
-import { ThemeType } from "../../../theme/theme";
+import { ThemeType } from "../../../theme/baseTheme";
+import { ThemeColorsType } from "../../../theme/colors/light";
 
 
 interface TextButtonProps extends TouchableOpacityProps {
-    textColor?: keyof ThemeType["colors"];
+    textColor?: keyof ThemeColorsType;
     textSize?: keyof ThemeType["fontSizes"];
     bold?: boolean,
 }

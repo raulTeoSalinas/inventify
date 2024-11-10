@@ -20,7 +20,7 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
             <Container>
                 <Header>
-                    <Text style={{ marginTop: 40 }} bold size="huge">Track your flight</Text>
+                    <Text style={{ marginTop: 40 }} bold size="huge">Fierro ñ your flight</Text>
                     <Text>Keep you informed in real time!</Text>
                 </Header>
 
