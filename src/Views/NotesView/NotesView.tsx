@@ -2,33 +2,24 @@
 // React
 import React from 'react'
 // React Native
-
+import { ScrollView } from "react-native"
 // External Dependencies
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 // Internal Dependencies
 import {
-    Text,
+  Header,
+  ViewLayout
 } from "../../designSystem"
-import { Container, Header } from "./NotesView.styles"
 import { NotesViewProps } from "./NotesView.model"
 
 const NotesView: React.FC<NotesViewProps> = (props) => {
 
-
-    return (
-        <BottomSheetModalProvider>
-
-            <Container>
-                <Header>
-                    <Text style={{ marginTop: 40 }} bold size="huge">Track your flight</Text>
-                    <Text>Keep you informed in real time!</Text>
-                </Header>
-
-
-            </Container>
-        </BottomSheetModalProvider>
-
-    )
+  return (
+    <ViewLayout>
+      <ScrollView>
+        <Header copyIDTitle="NOTE_HEADER_TITLE" copyIDDescription="NOTE_HEADER_DESCRIPTION" />
+      </ScrollView>
+    </ViewLayout>
+  )
 }
 
 export default NotesView;

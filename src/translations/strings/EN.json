@@ -1,3 +1,12 @@
 {
-  "DASH_TITLE": "Summary"
+  "DASH_HEADER_TITLE": "Dashboard",
+  "DASH_HEADER_DESCRIPTION": "Check your daily, weekly, and monthly sales.",
+  "NOTE_HEADER_TITLE": "Notes",
+  "NOTE_HEADER_DESCRIPTION": "Create, view, or print your notes.",
+  "CATA_HEADER_TITLE": "Catalog",
+  "CATA_HEADER_DESCRIPTION": "Manage your products and services.",
+  "INVE_HEADER_TITLE": "Inventories",
+  "INVE_HEADER_DESCRIPTION": "Perform inventories of your catalog.",
+  "SETT_HEADER_TITLE": "Settings",
+  "SETT_HEADER_DESCRIPTION": "Modify the settings of Inventify."
 }

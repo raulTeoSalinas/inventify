@@ -41,5 +41,3 @@ const Toggle: React.FC<ToggleProps> = ({ isActive, onPress }) => {
 }
 
 export default Toggle;
-
-

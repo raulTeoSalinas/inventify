@@ -11,4 +11,5 @@ export interface TextProps {
   copyID?: string;
   children?: React.ReactNode;
   style?: TextStyle | ViewStyle
+  isGradient?: boolean;
 };

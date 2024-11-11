@@ -2,33 +2,26 @@
 // React
 import React from 'react'
 // React Native
-
+import { ScrollView } from "react-native"
 // External Dependencies
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 // Internal Dependencies
 import {
-    Text,
+  Header,
+  ViewLayout
 } from "../../designSystem"
-import { Container, Header } from "./InventoriesView.styles"
 import { InventoriesViewProps } from "./InventoriesView.model"
 
 const InventoriesView: React.FC<InventoriesViewProps> = (props) => {
 
 
-    return (
-        <BottomSheetModalProvider>
+  return (
+    <ViewLayout>
+      <ScrollView>
+        <Header copyIDTitle="INVE_HEADER_TITLE" copyIDDescription="INVE_HEADER_DESCRIPTION" />
+      </ScrollView>
+    </ViewLayout>
 
-            <Container>
-                <Header>
-                    <Text style={{ marginTop: 40 }} bold size="huge">Track your flight</Text>
-                    <Text>Keep you informed in real time!</Text>
-                </Header>
-
-
-            </Container>
-        </BottomSheetModalProvider>
-
-    )
+  )
 }
 
 export default InventoriesView;

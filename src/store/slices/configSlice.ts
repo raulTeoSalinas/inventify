@@ -8,7 +8,7 @@ type configSliceType = {
 
 const initialState: configSliceType = {
   isLoggedIn: false,
-  language: 'EN',
+  language: 'ES',
   theme: 'light',
 };
 

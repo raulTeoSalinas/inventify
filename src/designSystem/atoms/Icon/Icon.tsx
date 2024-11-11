@@ -3,7 +3,7 @@ import React from "react";
 // React Native
 import { ViewStyle } from 'react-native'
 // Internal Dependencies
-import { ThemeType, theme } from "../../../theme/baseTheme";
+import { ThemeType } from "../../../theme/baseTheme";
 // Icons SVG
 
 

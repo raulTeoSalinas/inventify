@@ -28,10 +28,10 @@ const BottomTabNavigation = () => {
       <Tab.Navigator screenOptions={{
         headerShown: false
       }}>
-        <Tab.Screen name="CatalogView" component={CatalogView} />
         <Tab.Screen name="DashBoardView" component={DashBoardView} />
-        <Tab.Screen name="InventoriesView" component={InventoriesView} />
         <Tab.Screen name="NotesView" component={NotesView} />
+        <Tab.Screen name="CatalogView" component={CatalogView} />
+        <Tab.Screen name="InventoriesView" component={InventoriesView} />
         <Tab.Screen name="SettingsView" component={SettingsView} />
       </Tab.Navigator>
     </NavigationContainer>

@@ -1,3 +1,12 @@
 {
-  "DASH_TITLE": "Resumen"
+  "DASH_HEADER_TITLE": "Dashboard",
+  "DASH_HEADER_DESCRIPTION": "Consulta tus ventas diarias, semanales y mensuales.",
+  "NOTE_HEADER_TITLE": "Remisiones",
+  "NOTE_HEADER_DESCRIPTION": "Crea, consulta o imprime tus remisiones.",
+  "CATA_HEADER_TITLE": "Catálogo",
+  "CATA_HEADER_DESCRIPTION": "Administra tus productos y servicios.",
+  "INVE_HEADER_TITLE": "Inventarios",
+  "INVE_HEADER_DESCRIPTION": "Realiza inventarios de tu catálogo.",
+  "SETT_HEADER_TITLE": "Ajustes",
+  "SETT_HEADER_DESCRIPTION": "Modifica los ajustes de Inventify."
 }

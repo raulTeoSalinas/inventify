@@ -2,33 +2,24 @@
 // React
 import React from 'react'
 // React Native
-
+import { ScrollView } from "react-native"
 // External Dependencies
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 // Internal Dependencies
 import {
-    Text,
+  Header,
+  ViewLayout
 } from "../../designSystem"
-import { Container, Header } from "./DashBoardView.styles"
 import { DashBoardViewProps } from "./DashBoardView.model"
 
 const DashBoardView: React.FC<DashBoardViewProps> = (props) => {
 
-
-    return (
-        <BottomSheetModalProvider>
-
-            <Container>
-                <Header>
-                    <Text style={{ marginTop: 40 }} copyID="DASH_TITLE" bold size="huge" />
-                    <Text>Keep you informed in real time!</Text>
-                </Header>
-
-
-            </Container>
-        </BottomSheetModalProvider>
-
-    )
+  return (
+    <ViewLayout>
+      <ScrollView>
+        <Header copyIDTitle="DASH_HEADER_TITLE" copyIDDescription="DASH_HEADER_DESCRIPTION" />
+      </ScrollView>
+    </ViewLayout>
+  )
 }
 
 export default DashBoardView;
