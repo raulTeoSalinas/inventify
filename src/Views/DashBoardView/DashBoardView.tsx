@@ -9,15 +9,16 @@ import {
   Header,
   ViewLayout
 } from "../../designSystem"
+import { ScrollViewStyled } from "./DashBoardView.styles"
 import { DashBoardViewProps } from "./DashBoardView.model"
 
 const DashBoardView: React.FC<DashBoardViewProps> = (props) => {
 
   return (
     <ViewLayout>
-      <ScrollView>
+      <ScrollViewStyled>
         <Header copyIDTitle="DASH_HEADER_TITLE" copyIDDescription="DASH_HEADER_DESCRIPTION" />
-      </ScrollView>
+      </ScrollViewStyled>
     </ViewLayout>
   )
 }

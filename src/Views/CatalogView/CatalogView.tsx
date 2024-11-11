@@ -10,6 +10,7 @@ import {
   Header,
   ViewLayout
 } from "../../designSystem"
+import { ScrollViewStyled } from "./CatalogView.styles"
 import { CatalogViewProps } from "./CatalogView.model"
 
 const CatalogView: React.FC<CatalogViewProps> = (props) => {
@@ -17,9 +18,9 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
   return (
     <ViewLayout>
-      <ScrollView>
+      <ScrollViewStyled>
         <Header copyIDTitle="CATA_HEADER_TITLE" copyIDDescription="CATA_HEADER_DESCRIPTION" />
-      </ScrollView>
+      </ScrollViewStyled>
     </ViewLayout>
   )
 }
