@@ -1,44 +1,24 @@
 // React
 import React from "react";
 // React Native
-import { ViewStyle } from 'react-native'
+
+// External Dependencies
+import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 // Internal Dependencies
-import { ThemeType } from "../../../theme/baseTheme";
-// Icons SVG
-
-
-// Type Definition
-type IconProps = {
-    name: string;
-    color?: keyof ThemeType['colors'];
-    width: number;
-    height: number;
-    style?: ViewStyle
-}
+import { IconProps, FontAwesome6Name, IoniconsName } from "./Icon.model";
+import useThemeProvider from "../../../theme/ThemeProvider.controller";
 
 // Component Definition
-const Icon: React.FC<IconProps> = ({ name, color = "primary", width = 15, height = 15, style }) => {
+const Icon: React.FC<IconProps> = ({ name, provider = "Ionicons", color = "primary", size = 24, style }) => {
+  const theme = useThemeProvider();
 
-    switch (name) {
-        // case "calendar":
-        //     return <Calendar style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "arrowLeft":
-        //     return <ArrowLeft style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "arrowLeft2":
-        //     return <ArrowLeft2 style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "arrowRight":
-        //     return <ArrowRight style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "arrowRight2":
-        //     return <ArrowRight2 style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "planeArrival":
-        //     return <PlaneArrival style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "planeDeparture":
-        //     return <PlaneDeparture style={style} color={theme.colors[color]} width={width} height={height} />;
-        // case "planeStatus":
-        //     return <PlaneStatus style={style} color={theme.colors[color]} width={width} height={height} />;
-        default:
-            return null;
-    }
+  if (provider === "FontAwesome") {
+    return <FontAwesome6 name={name as FontAwesome6Name} color={theme.colors[color]} size={size} style={style} />
+  }
+
+  return (
+    <Ionicons name={name as IoniconsName} color={theme.colors[color]} size={size} style={style} />
+  )
 }
 
 export default Icon;

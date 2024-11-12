@@ -1,8 +1,11 @@
+// React
+import React from "react";
 // Internal Dependencies
 import { ContainerTitle, ContainerDescription } from "./Header.styles";
 import Text from "../../atoms/Text/Text";
+import { HeaderProps } from "./Header.controller";
 
-const Header = ({ copyIDTitle, copyIDDescription, ...props }) => {
+const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, ...props }) => {
 
 
   return (
