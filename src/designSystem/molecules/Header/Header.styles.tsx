@@ -6,7 +6,7 @@ export const ContainerDescription = styled.View.attrs((props) => ({
   display: flex;
   padding-left: 12px;
   padding-right: 12px;
-  padding-top: 4px;
+  padding-top: 12px;
 `;
 
 export const ContainerTitle = styled.View.attrs((props) => ({

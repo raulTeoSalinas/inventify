@@ -1,0 +1,51 @@
+// React
+import { useEffect } from "react";
+// React Native
+import { useColorScheme } from 'react-native';
+// External Dependencies
+import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react';
+// Internal Dependencies
+import ThemeProvider from "./src/theme/ThemeProvider";
+import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
+import { store, persistor } from "./src/store/store";
+import { useAppSelector } from "./src/store/hooks";
+
+SplashScreen.preventAutoHideAsync();
+
+
+
+const AppInitializer = () => {
+
+  const currentTheme = useAppSelector((state) => state.config.theme);
+  const systemTheme = useColorScheme();
+
+  const statusBarColor = (() => {
+    if (currentTheme === 'auto') {
+      // Si el tema es 'auto', usamos el sistema como referencia
+      return systemTheme === 'dark' ? 'light' : 'dark';
+    }
+
+    if (currentTheme === 'dark') {
+      return 'light'; // Si es 'dark', lo cambiamos a 'light'
+    }
+
+    if (currentTheme === 'light') {
+      return 'dark'; // Si es 'light', lo cambiamos a 'dark'
+    }
+
+    return currentTheme; // Por si hay algún valor inesperado
+  })();
+
+  return (
+    <>
+      <StatusBar style={statusBarColor} />
+    </>
+  );
+};
+
+export default AppInitializer;

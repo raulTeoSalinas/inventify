@@ -1,5 +1,5 @@
 {
-  "DASH_HEADER_TITLE": "Dashboard",
+  "DASH_HEADER_TITLE": "Tablero",
   "DASH_HEADER_DESCRIPTION": "Consulta tus ventas diarias, semanales y mensuales.",
   "NOTE_HEADER_TITLE": "Remisiones",
   "NOTE_HEADER_DESCRIPTION": "Crea, consulta o imprime tus remisiones.",
@@ -8,5 +8,10 @@
   "INVE_HEADER_TITLE": "Inventarios",
   "INVE_HEADER_DESCRIPTION": "Realiza inventarios de tu catálogo.",
   "SETT_HEADER_TITLE": "Ajustes",
-  "SETT_HEADER_DESCRIPTION": "Modifica los ajustes de Inventify."
+  "SETT_HEADER_DESCRIPTION": "Modifica los ajustes de Inventify.",
+  "SETT_VIEW_LANGUAGE": "IDIOMA",
+  "SETT_VIEW_THEME": "MODO DE VISUALIZACIÓN",
+  "SETT_VIEW_THEME_LIGHT": "Claro",
+  "SETT_VIEW_THEME_DARK": "Oscuro",
+  "SETT_VIEW_THEME_AUTO": "Usar la configuración del dispositivo"
 }

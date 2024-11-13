@@ -1,7 +1,7 @@
 export const light = {
   primary: "#0080f6",
-  secondary: "#00b2eb",
-  disabled: "#b9b9b9",
+  secondary: "#00d4bf",
+  shadow: "#b9b9b9",
   background: "#fbfcfc",
   backgroundContrast: "#ffffff",
   border: "#f4f4f4",

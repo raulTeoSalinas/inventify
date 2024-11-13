@@ -28,3 +28,8 @@ export const InnerCircle = styled.View`
   border-radius: 6px;
   position: absolute;
 `;
+
+export const RowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;

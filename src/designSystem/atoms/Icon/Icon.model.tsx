@@ -10,7 +10,7 @@ export type FontAwesome6Name = keyof typeof FontAwesome6.glyphMap;
 
 export type IconProps =
   | {
-    provider?: 'Ionicons';
+    provider?: 'Ionicons' | 'FontAwesome';
     name: IoniconsName;
     color?: keyof ThemeType['colors'];
     size?: number;

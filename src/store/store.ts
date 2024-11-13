@@ -1,26 +1,29 @@
 // External Dependencies
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // Internal Dependencies
-import configReducer from './slices/configSlice';
+import configSlice from './slices/configSlice';
 
 const persistConfig = {
-  key: 'root',
+  key: 'rootState',
   storage: AsyncStorage,
   whitelist: ['config'],
 };
 
-const configPersisted = persistReducer(persistConfig, configReducer);
+
+const reducers = combineReducers({
+  config: configSlice
+})
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-  reducer: {
-    config: configPersisted,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });

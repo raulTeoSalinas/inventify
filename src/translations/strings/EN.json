@@ -8,5 +8,10 @@
   "INVE_HEADER_TITLE": "Inventories",
   "INVE_HEADER_DESCRIPTION": "Perform inventories of your catalog.",
   "SETT_HEADER_TITLE": "Settings",
-  "SETT_HEADER_DESCRIPTION": "Modify the settings of Inventify."
+  "SETT_HEADER_DESCRIPTION": "Modify the settings of Inventify.",
+  "SETT_VIEW_LANGUAGE": "LANGUAGE",
+  "SETT_VIEW_THEME": "DISPLAY MODE",
+  "SETT_VIEW_THEME_LIGHT": "Light",
+  "SETT_VIEW_THEME_DARK": "Dark",
+  "SETT_VIEW_THEME_AUTO": "Use device settings"
 }

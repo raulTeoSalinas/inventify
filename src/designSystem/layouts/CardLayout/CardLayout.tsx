@@ -20,7 +20,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({ children, labelCopyID, style })
         )
       }
       <Container style={{
-        shadowColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: {
           width: 0,
           height: 12,

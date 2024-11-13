@@ -1,26 +1,28 @@
 {
   "expo": {
-    "name": "PruebaApp",
-    "slug": "PruebaApp",
+    "name": "Inventify",
+    "slug": "Inventify",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/app/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/images/app/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "userInterfaceStyle": "automatic",
       "supportsTablet": true,
-      "bundleIdentifier": "com.lesnooy.pruebaApp"
+      "bundleIdentifier": "com.lesnoy.Inventify"
     },
     "android": {
+      "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/app/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.lesnooy.pruebaApp"
+      "package": "com.lesnoy.Inventify"
     },
     "web": {
       "favicon": "./src/assets/images/app/favicon.png"

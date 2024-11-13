@@ -1,3 +1,5 @@
+import { IoniconsName } from "../Icon/Icon.model";
+
 export type OuterCircleProps = {
   isActive: boolean;
 }
@@ -5,5 +7,6 @@ export type OuterCircleProps = {
 export type RadioButtonProps = {
   isActive: boolean,
   labelCopyID: string,
-  onPress: () => void
+  onPress: () => void,
+  iconName?: IoniconsName
 }

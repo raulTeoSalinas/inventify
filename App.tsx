@@ -11,7 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import ThemeProvider from "./src/theme/ThemeProvider";
 import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
 import { store, persistor } from "./src/store/store";
-
+import AppInitializer from "./AppInitializer";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,12 +34,14 @@ const App = () => {
     return null;
   }
 
+
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider>
           <GestureHandlerRootView>
-            <StatusBar style="auto" />
+            <AppInitializer />
             <BottomTabNavigation />
           </GestureHandlerRootView>
         </ThemeProvider >

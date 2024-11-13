@@ -7,17 +7,27 @@ import {
   StyledTouchableOpacity,
   CirclesContainer,
   OuterCircle,
-  InnerCircle
+  InnerCircle,
+  RowContainer
 } from "./RadioButton.styles";
+import { View } from "react-native";
+import Icon from "../Icon/Icon";
 
-const RadioButton: React.FC<RadioButtonProps> = ({ isActive, labelCopyID, onPress }) => {
+const RadioButton: React.FC<RadioButtonProps> = ({ isActive, labelCopyID, onPress, iconName }) => {
   return (
     <StyledTouchableOpacity onPress={onPress}>
       <CirclesContainer>
         <OuterCircle isActive={isActive} />
         {isActive && <InnerCircle />}
       </CirclesContainer>
-      <Text copyID={labelCopyID} />
+      <RowContainer>
+        <Text copyID={labelCopyID} />
+        {
+          iconName && (
+            <Icon name={iconName} color="secondary" provider="Ionicons" size={20} style={{ marginLeft: 4 }} />
+          )
+        }
+      </RowContainer>
     </StyledTouchableOpacity>
   );
 };

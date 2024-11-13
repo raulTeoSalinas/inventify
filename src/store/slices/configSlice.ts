@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type configSliceType = {
   isLoggedIn: boolean;
   language: 'EN' | 'ES';
-  theme: 'light' | 'dark';
+  theme: 'light' | 'dark' | 'auto';
 };
 
 const initialState: configSliceType = {
   isLoggedIn: false,
   language: 'ES',
-  theme: 'light',
+  theme: 'auto',
 };
 
 const configSlice = createSlice({
@@ -19,7 +19,7 @@ const configSlice = createSlice({
     setLanguage: (state, action: PayloadAction<'EN' | 'ES'>) => {
       state.language = action.payload;
     },
-    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
+    setTheme: (state, action: PayloadAction<'light' | 'dark' | 'auto'>) => {
       state.theme = action.payload;
     },
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
