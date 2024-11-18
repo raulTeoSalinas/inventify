@@ -3,6 +3,7 @@
   "DASH_HEADER_DESCRIPTION": "Check your daily, weekly, and monthly sales.",
   "NOTE_HEADER_TITLE": "Notes",
   "NOTE_HEADER_DESCRIPTION": "Create, view, or print your notes.",
+  "NOTE_SEARCH_PLACEHOLDER": "Search by ID or customer name.",
   "CATA_HEADER_TITLE": "Catalog",
   "CATA_HEADER_DESCRIPTION": "Manage your products and services.",
   "INVE_HEADER_TITLE": "Inventories",

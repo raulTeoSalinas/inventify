@@ -9,6 +9,6 @@ export const dark = {
   textLight: "#fbfcfcbd",
   error: "#ae2727ff",
   erroLight: "#ae2727c7",
-  succes: "#1e7737",
+  succes: "#15b041",
   successLight: "#b2d2bc"
 }

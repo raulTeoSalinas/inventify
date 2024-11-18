@@ -4,12 +4,12 @@ export const light = {
   shadow: "#b9b9b9",
   background: "#fbfcfc",
   backgroundContrast: "#ffffff",
-  border: "#f4f4f4",
+  border: "#e8e8e8",
   text: "#06172a",
   textLight: "#06172a9b",
   error: "#ae2727ff",
   erroLight: "#ae2727c7",
-  succes: "#1e7737",
+  succes: "#15b041",
   successLight: "#b2d2bc"
 }
 

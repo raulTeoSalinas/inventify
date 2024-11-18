@@ -3,6 +3,7 @@
   "DASH_HEADER_DESCRIPTION": "Consulta tus ventas diarias, semanales y mensuales.",
   "NOTE_HEADER_TITLE": "Remisiones",
   "NOTE_HEADER_DESCRIPTION": "Crea, consulta o imprime tus remisiones.",
+  "NOTE_SEARCH_PLACEHOLDER": "Busca por ID o por nombre de cliente.",
   "CATA_HEADER_TITLE": "Catálogo",
   "CATA_HEADER_DESCRIPTION": "Administra tus productos y servicios.",
   "INVE_HEADER_TITLE": "Inventarios",

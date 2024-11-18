@@ -7,7 +7,8 @@ import styled from "styled-components/native";
 // Internal Dependencies
 import { ThemeType } from "../../../theme/baseTheme";
 import Text from "../Text/Text";
-
+import Icon from "../Icon/Icon";
+import { IoniconsName } from "../Icon/Icon.model";
 
 const StyledTouchableOpacity = styled(TouchableOpacity) <StyledTouchableOpacityProps>`
     background-color: ${(props) => props.theme.colors[props.backgroundColor]};
@@ -16,13 +17,18 @@ const StyledTouchableOpacity = styled(TouchableOpacity) <StyledTouchableOpacityP
     max-width: ${(props) => getWidth(props.size)};
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    border-width: 1px;
+    border-color: ${(props) => props.theme.colors.text};;
   `;
 
 interface PillButtonProps extends TouchableOpacityProps {
+    copyID: string;
     textColor?: keyof ThemeType["colors"];
     backgroundColor?: keyof ThemeType["colors"];
-    size: "regular" | "large";
+    size?: "regular" | "large";
     textSize?: keyof ThemeType["fontSizes"];
+    iconName?: IoniconsName
 }
 
 interface StyledTouchableOpacityProps extends TouchableOpacityProps {
@@ -31,10 +37,11 @@ interface StyledTouchableOpacityProps extends TouchableOpacityProps {
 }
 
 const PillButton: React.FC<PillButtonProps> = ({
-    children,
-    textColor = "background", // Default value
+    copyID,
+    iconName,
+    textColor = "text", // Default value
     backgroundColor = "primary", // Default value
-    size,
+    size = "large",
     textSize = "medium", // Default value
     ...restProps
 }) => {
@@ -45,9 +52,10 @@ const PillButton: React.FC<PillButtonProps> = ({
             activeOpacity={0.8}
             size={size}
         >
-            <Text bold color={textColor} size={textSize}>
-                {children}
-            </Text>
+            <Text copyID={copyID} bold color={textColor} size={textSize} />
+            {
+                iconName && <Icon style={{ marginLeft: 4 }} color={textColor} size={22} name={iconName} />
+            }
         </StyledTouchableOpacity>
     );
 };
@@ -59,7 +67,7 @@ const getPadding = (size: PillButtonProps["size"]) => {
         case "regular":
             return "7px 15px";
         case "large":
-            return "18px 24px";
+            return "8px 8px";
         default:
             return "7px 15px"; // Default value
     }
@@ -70,7 +78,7 @@ const getBorderRadius = (size: PillButtonProps["size"]) => {
         case "regular":
             return "4px";
         case "large":
-            return "8px";
+            return "24px";
         default:
             return "4px"; // Default value
     }

@@ -3,15 +3,18 @@ import React from "react";
 // Internal Dependencies
 import { ContainerTitle, ContainerDescription } from "./Header.styles";
 import Text from "../../atoms/Text/Text";
-import { HeaderProps } from "./Header.controller";
+import { HeaderProps } from "./Header.model";
 
-const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, ...props }) => {
+const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, rightComponent, ...props }) => {
 
 
   return (
     <>
       <ContainerTitle>
-        <Text isGradient copyID={copyIDTitle} bold size="extraHuge" />
+        <Text textAlign="center" isGradient copyID={copyIDTitle} bold size="huge" />
+        {
+          rightComponent && rightComponent
+        }
       </ContainerTitle>
       <ContainerDescription>
         <Text copyID={copyIDDescription} color="textLight" />

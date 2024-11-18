@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 // External Dependencies
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,7 +35,16 @@ const BottomTabNavigation = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: theme.colors.backgroundContrast
+          backgroundColor: theme.colors.backgroundContrast,
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          height: 70,
+          borderWidth: 1,
+          borderColor: theme.colors.border,
+          paddingBottom: Platform.OS === "ios" ? 24 : 8,
+          position: 'absolute',
+          justifyContent: "center",
+          alignItems: "center"
         }
       }}>
         <Tab.Screen
