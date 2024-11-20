@@ -6,6 +6,7 @@ export const dark = {
   backgroundContrast: "#020b14",
   border: "#818181bd",
   text: "#fbfcfc",
+  white: "#fbfcfc",
   textLight: "#fbfcfcbd",
   error: "#ae2727ff",
   erroLight: "#ae2727c7",

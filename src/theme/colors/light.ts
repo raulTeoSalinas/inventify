@@ -6,6 +6,7 @@ export const light = {
   backgroundContrast: "#ffffff",
   border: "#e8e8e8",
   text: "#06172a",
+  white: "#fbfcfc",
   textLight: "#06172a9b",
   error: "#ae2727ff",
   erroLight: "#ae2727c7",

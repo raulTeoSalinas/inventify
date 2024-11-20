@@ -6,6 +6,7 @@ import { ThemeType } from "../../../theme/baseTheme";
 export interface TextProps {
   size?: keyof ThemeType['fontSizes'];
   color?: keyof ThemeType['colors'];
+  copyVariables?: { [key: string]: (string | number) };
   bold?: boolean;
   textAlign?: 'left' | 'right' | 'center' | 'justify';
   copyID: string;

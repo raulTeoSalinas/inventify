@@ -10,6 +10,7 @@ export { default as InputDate } from "./molecules/InputDate/InputDate"
 export { default as TabBarItem } from "./molecules/TabBarItem/TabBarItem"
 export { default as Header } from "./molecules/Header/Header"
 export { default as Searcher } from "./molecules/Searcher/Searcher"
+export { default as SegmentedControl } from "./molecules/SegmentedControl/SegmentedControl"
 
 export { default as ViewLayout } from "./layouts/ViewLayout/ViewLayout"
 export { default as ScrollView } from "./layouts/ScrollView/ScrollView"

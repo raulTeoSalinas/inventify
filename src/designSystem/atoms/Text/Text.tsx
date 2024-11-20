@@ -8,9 +8,9 @@ import { StyledText } from "./Text.styled";
 import useThemeProvider from "../../../theme/ThemeProvider.controller";
 
 
-const Text: React.FC<TextProps> = ({ copyID, size, color, bold, textAlign, style, isGradient, ...props }) => {
+const Text: React.FC<TextProps> = ({ copyID, copyVariables, size, color, bold, textAlign, style, isGradient, ...props }) => {
   const translate = useTranslations();
-  const translatedText = translate(copyID);
+  const translatedText = translate(copyID, copyVariables);
 
   const theme = useThemeProvider();
 

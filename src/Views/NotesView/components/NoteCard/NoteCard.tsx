@@ -18,7 +18,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ id, date, customer, totalAmount, is
         <Container>
           <ContentContainer>
             <Row>
-              <Text copyID={`Remisión ${id}`} bold />
+              <Text copyID="NOTE_NOTECARD_TITLE" copyVariables={{ id: id }} bold />
               <Text copyID={date} size="extraSmall" />
             </Row>
             <Separator />
@@ -33,7 +33,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ id, date, customer, totalAmount, is
               </InfoRow>
             </Row>
 
-            <Text size="extraSmall" bold color="textLight" copyID={`Emitida por ${issuedBy}`} />
+            <Text size="extraSmall" bold color="textLight" copyID="NOTE_NOTECARD_ISSUED" copyVariables={{ employee: issuedBy }} />
           </ContentContainer>
           <Icon name="chevron-forward-outline" color="text" style={{ marginLeft: 4 }} />
         </Container>
