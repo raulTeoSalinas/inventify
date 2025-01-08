@@ -5,6 +5,6 @@ import { ViewStyle } from "react-native";
 
 export type ScrollViewProps = {
   children: React.ReactNode,
-  syles?: ViewStyle
+  style?: ViewStyle
 }
 

@@ -28,7 +28,8 @@ interface PillButtonProps extends TouchableOpacityProps {
     backgroundColor?: keyof ThemeType["colors"];
     size?: "regular" | "large";
     textSize?: keyof ThemeType["fontSizes"];
-    iconName?: IoniconsName
+    iconName?: IoniconsName;
+    iconSize?: number;
 }
 
 interface StyledTouchableOpacityProps extends TouchableOpacityProps {
@@ -39,6 +40,7 @@ interface StyledTouchableOpacityProps extends TouchableOpacityProps {
 const PillButton: React.FC<PillButtonProps> = ({
     copyID,
     iconName,
+    iconSize = 22,
     textColor = "text", // Default value
     backgroundColor = "primary", // Default value
     size = "large",
@@ -54,7 +56,7 @@ const PillButton: React.FC<PillButtonProps> = ({
         >
             <Text copyID={copyID} bold color={textColor} size={textSize} />
             {
-                iconName && <Icon style={{ marginLeft: 4 }} color={textColor} size={22} name={iconName} />
+                iconName && <Icon style={{ marginLeft: 4 }} color={textColor} size={iconSize} name={iconName} />
             }
         </StyledTouchableOpacity>
     );
