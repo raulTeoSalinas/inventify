@@ -4,6 +4,7 @@ export const TabButtonContainer = styled.View`
   justify-content: space-around;
   align-items: center;
   height: 100%;
+  width: 80px;
 `;
 
 export const Indicator = styled.View<{ focused: boolean }>`

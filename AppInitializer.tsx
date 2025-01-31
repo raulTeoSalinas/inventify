@@ -1,5 +1,5 @@
 // React
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 // React Native
 import { useColorScheme } from 'react-native';
 // External Dependencies
@@ -14,7 +14,7 @@ import ThemeProvider from "./src/theme/ThemeProvider";
 import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
 import { store, persistor } from "./src/store/store";
 import { useAppSelector } from "./src/store/hooks";
-
+import { LoginView } from "./src/Views";
 SplashScreen.preventAutoHideAsync();
 
 
@@ -23,6 +23,7 @@ const AppInitializer = () => {
 
   const currentTheme = useAppSelector((state) => state.config.theme);
   const systemTheme = useColorScheme();
+  const token = useAppSelector((state) => state.auth.access_token);
 
   const statusBarColor = (() => {
     if (currentTheme === 'auto') {
@@ -44,6 +45,10 @@ const AppInitializer = () => {
   return (
     <>
       <StatusBar style={statusBarColor} />
+      {token ?
+        <BottomTabNavigation />
+        : <LoginView />
+      }
     </>
   );
 };

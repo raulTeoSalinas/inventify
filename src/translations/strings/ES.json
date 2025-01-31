@@ -19,5 +19,20 @@
   "SETT_VIEW_THEME": "MODO DE VISUALIZACIÓN",
   "SETT_VIEW_THEME_LIGHT": "Claro",
   "SETT_VIEW_THEME_DARK": "Oscuro",
-  "SETT_VIEW_THEME_AUTO": "Usar la configuración del dispositivo"
+  "SETT_VIEW_THEME_AUTO": "Usar la configuración del dispositivo",
+  "SETT_VIEW_CLOSE_SESSION": "Cerrar Sesión",
+  "LOGG_VIEW_SLOGAN": "Toma el control",
+  "LOGG_VIEW_WELCOME": "Bienvenido de vuelta",
+  "LOGG_VIEW_EMAIL": "Correo electrónico",
+  "LOGG_VIEW_PASSWORD": "Contraseña",
+  "LOGG_VIEW_LOGIN": "Iniciar sesión",
+  "LOGG_VIEW_ISSUE": "Si tiene problemas de inicio de sesión, favor de comunicarse con su asesor.",
+  "LOGG_VIEW_MADE": "Hecho con ♡, por ",
+  "LOGG_VIEW_SELECT_THEME_TITLE": "Seleccione el tema de su preferencia.",
+  "LOGG_VIEW_SELECT_LANGUAGE_TITLE": "Seleccione el idioma de su preferencia.",
+  "GENERAL_ACCEPT": "Aceptar",
+  "GENERAL_CANCEL": "Cancelar",
+  "GENERAL_BANNER_MESSAGE": "Ocurrio un error inesperado. Por favor vuelve a intentarlo.",
+  "LOGG_VIEW_ERROR_TITLE": "Error al Iniciar Sesión",
+  "LOGG_VIEW_ERROR_VERIFY": "Verifica tu usuario o contraseña."
 }

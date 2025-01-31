@@ -4,10 +4,15 @@ import { Platform } from "react-native";
 import styled from "styled-components/native";
 
 
-export const Container = styled.View`
+interface ContainerProps {
+  isBottomTab?: boolean;
+}
+
+export const Container = styled.View<ContainerProps>`
   flex: 1;
   justify-content: start;
   background-color: ${props => props.theme.colors.background};
+  padding-bottom: ${props => props.isBottomTab ? '80px' : '0px'};
 `;
 
 export const SafeAreaStyled = styled.SafeAreaView`

@@ -19,5 +19,20 @@
   "SETT_VIEW_THEME": "DISPLAY MODE",
   "SETT_VIEW_THEME_LIGHT": "Light",
   "SETT_VIEW_THEME_DARK": "Dark",
-  "SETT_VIEW_THEME_AUTO": "Use device settings"
+  "SETT_VIEW_THEME_AUTO": "Use device settings",
+  "SETT_VIEW_CLOSE_SESSION": "Logout",
+  "LOGG_VIEW_SLOGAN": "Take the control",
+  "LOGG_VIEW_WELCOME": "Welcome back",
+  "LOGG_VIEW_EMAIL": "E-mail",
+  "LOGG_VIEW_PASSWORD": "Password",
+  "LOGG_VIEW_LOGIN": "Login",
+  "LOGG_VIEW_ISSUE": "If you experience login issues, please contact your advisor.",
+  "LOGG_VIEW_MADE": "Made with ♡, by ",
+  "LOGG_VIEW_SELECT_THEME_TITLE": "Select your preferred theme.",
+  "LOGG_VIEW_SELECT_LANGUAGE_TITLE": "Select your preferred language.",
+  "GENERAL_ACCEPT": "Accept",
+  "GENERAL_CANCEL": "Cancel",
+  "GENERAL_BANNER_MESSAGE": "An unexpected error occurred. Please try again.",
+  "LOGG_VIEW_ERROR_TITLE": "Login Error",
+  "LOGG_VIEW_ERROR_VERIFY": "Verify your username or password."
 }

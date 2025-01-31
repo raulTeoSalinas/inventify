@@ -1,7 +1,7 @@
 // React
 import { useEffect } from "react";
 // External Dependencies
-import { StatusBar } from 'expo-status-bar';
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -9,13 +9,17 @@ import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 // Internal Dependencies
 import ThemeProvider from "./src/theme/ThemeProvider";
-import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
 import { store, persistor } from "./src/store/store";
 import AppInitializer from "./AppInitializer";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./src/graphql/directusConfig";
+import { ToastProvider } from "./src/hooks/useToast/useToast";
+import { useAppSelector } from "./src/store/hooks";
 
 SplashScreen.preventAutoHideAsync();
 
-
+import { LoginView } from "./src/Views";
 
 const App = () => {
 
@@ -36,17 +40,29 @@ const App = () => {
 
 
 
+
+
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider>
-          <GestureHandlerRootView>
-            <AppInitializer />
-            <BottomTabNavigation />
-          </GestureHandlerRootView>
-        </ThemeProvider >
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ApolloProvider client={client}>
+            <ThemeProvider>
+
+              <GestureHandlerRootView>
+                <BottomSheetModalProvider>
+                  <ToastProvider>
+                    <AppInitializer />
+                  </ToastProvider>
+                </BottomSheetModalProvider>
+              </GestureHandlerRootView>
+
+            </ThemeProvider >
+          </ApolloProvider>
+        </PersistGate>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
 

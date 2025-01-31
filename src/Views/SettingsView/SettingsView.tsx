@@ -12,19 +12,21 @@ import {
   Text,
   CardLayout,
   Separator,
-  RadioButton
+  RadioButton,
+  Icon,
+  TextButton
 } from "../../designSystem"
 
 import { SettingsViewProps } from "./SettingsView.model"
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { setLanguage, setTheme } from "../../store/slices/configSlice"
-import useThemeProvider from "../../theme/ThemeProvider.controller"
+import { clearTokens } from "../../store/slices/authSlice"
+
 
 
 const SettingsView: React.FC<SettingsViewProps> = (props) => {
 
-  const theme = useThemeProvider();
   const dispatch = useAppDispatch();
 
   const handleChangeLanguage = (language: "ES" | "EN") => {
@@ -35,11 +37,16 @@ const SettingsView: React.FC<SettingsViewProps> = (props) => {
     dispatch(setTheme(color))
   }
 
+  const handleCloseSession = () => {
+    dispatch(clearTokens())
+  }
+
   const configState = useAppSelector((state) => state.config);
 
   return (
-    <ViewLayout>
+    <ViewLayout isBottomTab>
       <ScrollView>
+
         <Header copyIDTitle="SETT_HEADER_TITLE" copyIDDescription="SETT_HEADER_DESCRIPTION" />
 
         <CardLayout labelCopyID="SETT_VIEW_LANGUAGE" style={{ marginHorizontal: 12, marginTop: 12 }}>
@@ -55,8 +62,12 @@ const SettingsView: React.FC<SettingsViewProps> = (props) => {
           <RadioButton isActive={configState.theme === "auto"} onPress={() => handleChangeTheme("auto")} labelCopyID="SETT_VIEW_THEME_AUTO" />
         </CardLayout>
 
+        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: "10%" }}>
+          <TextButton onPress={handleCloseSession} textColor="error" iconColor="error" iconName="log-out" copyID="SETT_VIEW_CLOSE_SESSION" />
+        </View>
 
       </ScrollView>
+
     </ViewLayout>
   )
 }

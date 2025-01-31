@@ -18,7 +18,8 @@ export type RootTabParamList = {
   DashBoardView: undefined,
   NotesView: undefined,
   InventoriesView: undefined,
-  SettingsView: undefined
+  SettingsView: undefined,
+  LoginView: undefined,
 };
 
 

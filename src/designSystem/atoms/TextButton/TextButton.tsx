@@ -34,7 +34,7 @@ const TextButton: React.FC<TextButtonProps> = ({
   return (
     <TouchableOpacity
       {...restProps}
-      activeOpacity={0.8}
+      activeOpacity={0.5}
       style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
     >
       <Text copyID={copyID} bold={bold} style={{ textDecorationLine: "underline" }} color={textColor} size={textSize} />

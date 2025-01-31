@@ -13,14 +13,14 @@ import {
 import { View } from "react-native";
 import Icon from "../Icon/Icon";
 
-const RadioButton: React.FC<RadioButtonProps> = ({ isActive, labelCopyID, onPress, iconName }) => {
+const RadioButton: React.FC<RadioButtonProps> = ({ isActive, labelCopyID, onPress, iconName, style }) => {
   return (
     <StyledTouchableOpacity onPress={onPress}>
       <CirclesContainer>
         <OuterCircle isActive={isActive} />
         {isActive && <InnerCircle />}
       </CirclesContainer>
-      <RowContainer>
+      <RowContainer style={style}>
         <Text copyID={labelCopyID} />
         {
           iconName && (

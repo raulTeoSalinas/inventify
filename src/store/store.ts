@@ -4,16 +4,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // Internal Dependencies
 import configSlice from './slices/configSlice';
+import authSlice from './slices/authSlice';
 
 const persistConfig = {
   key: 'rootState',
   storage: AsyncStorage,
-  whitelist: ['config'],
+  whitelist: ['config', 'auth'],
 };
 
 
 const reducers = combineReducers({
-  config: configSlice
+  config: configSlice,
+  auth: authSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, reducers);

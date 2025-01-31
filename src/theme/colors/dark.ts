@@ -4,12 +4,16 @@ export const dark = {
   shadow: "#5e5e5e7a",
   background: "#05101d",
   backgroundContrast: "#020b14",
-  border: "#818181bd",
+  border: "#3a3a3aff",
   text: "#fbfcfc",
   white: "#fbfcfc",
   textLight: "#fbfcfcbd",
   error: "#ae2727ff",
-  erroLight: "#ae2727c7",
-  succes: "#15b041",
-  successLight: "#b2d2bc"
+  errorLight: "#f4b4b4ff",
+  success: "#15b041",
+  successLight: "#8be3ae",
+  warning: "#cfc207",
+  warningLight: "#fffccd",
+  dark: "#05101d",
+  gradientAux: "#112232"
 }
