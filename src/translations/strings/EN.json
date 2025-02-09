@@ -14,6 +14,7 @@
   "CATA_SEGMENT_RAW": "Raw Material",
   "CATA_SEGMENT_FAB": "Fabricated",
   "CATA_SEGMENT_SER": "Services",
+  "CATA_SEARCHER_PLACE": "Search by description.",
   "INVE_HEADER_TITLE": "Inventories",
   "INVE_HEADER_DESCRIPTION": "Perform inventories of your catalog.",
   "SETT_HEADER_TITLE": "Settings",

@@ -14,6 +14,7 @@
   "CATA_SEGMENT_RAW": "Materia Prima",
   "CATA_SEGMENT_FAB": "Fabricados",
   "CATA_SEGMENT_SER": "Servicios",
+  "CATA_SEARCHER_PLACE": "Busca por descripción.",
   "INVE_HEADER_TITLE": "Inventarios",
   "INVE_HEADER_DESCRIPTION": "Realiza inventarios de tu catálogo.",
   "SETT_HEADER_TITLE": "Ajustes",

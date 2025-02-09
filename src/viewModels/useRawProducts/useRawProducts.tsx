@@ -7,28 +7,59 @@ import { useUpdate } from "../../graphql/mutations/useUpdate";
 import { useDelete } from "../../graphql/mutations/useDelete";
 // Internal Dependencies
 
+interface Transaction {
+  quantity: number;
+  description: string;
+  id: string;
+}
+
+export const calculateAvailableUnits = (transactions?: Transaction[]): number => {
+  if (!transactions?.length) return 0;
+  return transactions.reduce((total, transaction) =>
+    total + transaction.quantity, 0);
+};
+
 interface Unit {
   id: string;
   nameEng?: string;
   nameSpa?: string;
 }
 
-interface RawProduct {
+export interface RawProduct {
   id: string;
   description: string;
   retailPrice: number;
   wholesalePrice: number;
   id_units: Unit;
+  transactions: Transaction[];
 }
 
 interface RawProductsData {
   rawProducts: RawProduct[];
 }
 
+export interface RawProductsHook {
+  all: {
+    list: RawProduct[] | undefined;
+    refetch: () => Promise<any>;
+    isLoading: boolean;
+    error?: any;
+  };
+  crud: {
+    crud: {
+      create: (data: Partial<RawProduct>) => Promise<any>;
+      update: (id: string, data: Partial<RawProduct>) => Promise<any>;
+      delete: (id: string) => Promise<any>;
+      isLoading: boolean;
+      error?: any;
+    };
+  };
+}
+
 // Define your GraphQL query
 const GET_PRODUCTS = gql`
   query GetProducts {
-    rawProducts(limit: -1, sort: "description") {
+    rawProducts(limit: -1, sort: "description", filter: {isDeleted: {_eq: false}}) {
       id
       description
       retailPrice
@@ -38,11 +69,16 @@ const GET_PRODUCTS = gql`
         nameEng
         nameSpa
       }
+      transactions {
+        quantity
+        description
+        id
+      }
     }
   }
 `;
 
-const useRawProducts = () => {
+const useRawProducts = (): RawProductsHook => {
 
   const { loading: allLoading, error: allError, data: all, refetch } = useQuery<RawProductsData>(GET_PRODUCTS);
 

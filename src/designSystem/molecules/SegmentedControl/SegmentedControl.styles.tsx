@@ -21,10 +21,13 @@ export const ButtonSegment = styled.TouchableOpacity<ButtonSegmentProps>`
   flex: 1;
   justify-content: center;
   align-items: center;
-  ${({ selectedIndex, i, theme }) => selectedIndex === i && `
+  ${({ itemSelected, item, theme }) => itemSelected === item && `
     background-color: ${theme.colors.primary};
   `}
-  ${({ selectedIndex, i, items, theme }) => selectedIndex !== i && i !== items.length - 1 && i !== selectedIndex - 1 && `
+  ${({ itemSelected, item, i, items, theme }) =>
+    itemSelected !== item &&
+    i !== items.length - 1 &&
+    items[i + 1] !== itemSelected && `
     border-color: ${theme.colors.border};
   `}
 `;

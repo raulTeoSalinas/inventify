@@ -1,13 +1,9 @@
 // React Native
 import { ViewStyle } from "react-native";
-
+import { RawProduct } from "../../../../viewModels/useRawProducts/useRawProducts";
 
 export interface ProductCardProps {
-  product: {
-    description: string;
-    units: number;
-    unit: string;
-  };
+  product: RawProduct;
   onEditPress?: () => void;
   onAddPress?: () => void;
   style?: ViewStyle;

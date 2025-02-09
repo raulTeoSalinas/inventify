@@ -6,8 +6,7 @@ import { StyledTextInput, Container } from "./Searcher.styles";
 import { SearcherProps } from "./Searcher.model";
 import useTranslations from "../../../translations/useTranslations";
 
-const Searcher: React.FC<SearcherProps> = ({ style, placeHolderCopyID }) => {
-  const [text, setText] = useState("");
+const Searcher: React.FC<SearcherProps> = ({ style, placeHolderCopyID, text, setText }) => {
   const translate = useTranslations()
 
   return (

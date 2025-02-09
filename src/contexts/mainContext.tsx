@@ -2,46 +2,36 @@
 import { ReactNode, createContext, useContext } from "react";
 // External Dependencies
 import { gql, useQuery } from "@apollo/client";
-import useRawProducts from "../viewModels/useRawProducts/useRawProducts";
 // Internal Dependencies
+import useRawProducts from "../viewModels/useRawProducts/useRawProducts";
+import { RawProductsHook } from "../viewModels/useRawProducts/useRawProducts";
 
-const MainContext = createContext({
+
+
+// Interfaz para el contexto
+interface MainContextType {
+  rawProducts: RawProductsHook;
+}
+
+const MainContext = createContext<MainContextType>({
   rawProducts: {
     all: {
       list: undefined,
-      refetch: () => { },
+      refetch: async () => { },
       isLoading: false,
-      error: false
+      error: undefined
     },
     crud: {
-      create: () => { },
-      update: () => { },
-      delete: () => { },
-      isLoading: false,
-      error: false
-    }
-  },
-  fabricatedProducts: {
-    all: {
-      list: undefined,
-      refetch: () => { },
-      isLoading: false,
-      error: false
-    },
-    crud: {
-      create: () => { },
-      update: () => { },
-      delete: () => { },
-      isLoading: false,
-      error: false
-    }
-  },
-  units: {
-    all: {
-      list: undefined
+      crud: {
+        create: async () => { },
+        update: async () => { },
+        delete: async () => { },
+        isLoading: false,
+        error: undefined
+      }
     }
   }
-})
+});
 
 export const useMainContext = () => {
   const context = useContext(MainContext)
@@ -59,27 +49,7 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
 
   const value = {
-    rawProducts,
-    fabricatedProducts: {
-      all: {
-        list: undefined,
-        refetch: () => { },
-        isLoading: false,
-        error: false
-      },
-      crud: {
-        create: () => { },
-        update: () => { },
-        delete: () => { },
-        isLoading: false,
-        error: false
-      }
-    },
-    units: {
-      all: {
-        list: undefined
-      }
-    }
+    rawProducts
   }
 
   return (

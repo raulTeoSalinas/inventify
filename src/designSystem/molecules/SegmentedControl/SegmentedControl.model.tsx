@@ -1,8 +1,9 @@
 import { StyleProp, ViewStyle } from "react-native";
 
 export type ButtonSegmentProps = {
-  selectedIndex: number;
+  itemSelected: string;
   i: number;
+  item: string;
   items: string[];
 }
 
@@ -10,7 +11,8 @@ export type ButtonSegmentProps = {
 export type SegmentedControlProps = {
   items: string[];
   style?: StyleProp<ViewStyle>;
-  onItemChange?: (item: string) => void;
+  itemSelected: string;
+  setItemSelected: (item: string) => void;
 }
 
 

@@ -9,7 +9,9 @@ import {
   InfoRow,
 } from "./ProductCard.styles";
 import { ProductCardProps } from "./ProductCard.model";
-
+import { useAppSelector } from "../../../../store/hooks";
+import { RawProduct } from "../../../../viewModels/useRawProducts/useRawProducts";
+import { calculateAvailableUnits } from "../../../../viewModels/useRawProducts/useRawProducts";
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -17,6 +19,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onAddPress,
   style
 }) => {
+
+  const language = useAppSelector((state) => state.config.language);
+
+  const unitsTranslated = language === "EN" ? product.id_units.nameEng : product.id_units.nameSpa;
+
+  const availableUnits = calculateAvailableUnits(product.transactions);
+
   return (
     <CardLayout style={{ marginHorizontal: 12, marginVertical: 4, ...style }}>
       <Row>
@@ -50,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
           <Text
             size="small"
-            copyID={`${product.units} ${product.unit}`}
+            copyID={`${availableUnits} ${unitsTranslated}`}
           />
         </InfoRow>
         <TextButton
