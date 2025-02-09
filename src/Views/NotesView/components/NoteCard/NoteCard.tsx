@@ -28,7 +28,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ id, date, customer, totalAmount, is
                 <Text copyID={customer} size="extraSmall" />
               </InfoRow>
               <InfoRow>
-                <Icon size={22} color="succes" provider="FontAwesome" name="hand-holding-dollar" style={{ marginRight: 4 }} />
+                <Icon size={22} color="success" provider="FontAwesome" name="hand-holding-dollar" style={{ marginRight: 4 }} />
                 <Text copyID={totalAmount} size="extraSmall" />
               </InfoRow>
             </Row>

@@ -15,11 +15,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/graphql/directusConfig";
 import { ToastProvider } from "./src/hooks/useToast/useToast";
-import { useAppSelector } from "./src/store/hooks";
+import MainContextProvider from "./src/contexts/mainContext";
 
 SplashScreen.preventAutoHideAsync();
 
-import { LoginView } from "./src/Views";
+
 
 const App = () => {
 
@@ -49,15 +49,15 @@ const App = () => {
         <PersistGate loading={null} persistor={persistor}>
           <ApolloProvider client={client}>
             <ThemeProvider>
-
-              <GestureHandlerRootView>
-                <BottomSheetModalProvider>
-                  <ToastProvider>
-                    <AppInitializer />
-                  </ToastProvider>
-                </BottomSheetModalProvider>
-              </GestureHandlerRootView>
-
+              <MainContextProvider>
+                <GestureHandlerRootView>
+                  <BottomSheetModalProvider>
+                    <ToastProvider>
+                      <AppInitializer />
+                    </ToastProvider>
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
+              </MainContextProvider>
             </ThemeProvider >
           </ApolloProvider>
         </PersistGate>

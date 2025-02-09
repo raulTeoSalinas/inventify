@@ -15,7 +15,7 @@ import {
   RadioButton
 } from "../../designSystem";
 import { FormContainer } from "./LoginView.styles";
-import Header from "./Header/Header";
+import Header from "./components/Header/Header";
 import { ItemContainer } from "../../designSystem/molecules/SelectInput/SelectInput.styles";
 import { IoniconsName } from "../../designSystem/atoms/Icon/Icon.model";
 import useLoginView from "./LoginView.controller";
@@ -64,7 +64,7 @@ const LoginView = () => {
           iconName="mail"
           inputMode="email"
           isError={!validationStates.email}
-          errorMessage="Introduce un correo válido"
+          errorMessage="LOGG_VIEW_VALIDATOR_MAIL"
         />
         <TextInput
           placeholder="LOGG_VIEW_PASSWORD"
@@ -73,7 +73,7 @@ const LoginView = () => {
           iconName="lock-open"
           secureTextEntry
           isError={!validationStates.password}
-          errorMessage="Introduce una contraseña válida"
+          errorMessage="LOGG_VIEW_VALIDATOR_PASSWORD"
         />
 
         <PillButton isLoading={isLoading} onPress={handleLogin} style={{ width: "50%" }} size="huge" isGradient copyID="LOGG_VIEW_LOGIN" />

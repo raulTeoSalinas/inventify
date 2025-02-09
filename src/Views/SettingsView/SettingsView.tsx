@@ -44,8 +44,8 @@ const SettingsView: React.FC<SettingsViewProps> = (props) => {
   const configState = useAppSelector((state) => state.config);
 
   return (
-    <ViewLayout isBottomTab>
-      <ScrollView>
+    <ViewLayout>
+      <ScrollView isBottomTab>
 
         <Header copyIDTitle="SETT_HEADER_TITLE" copyIDDescription="SETT_HEADER_DESCRIPTION" />
 

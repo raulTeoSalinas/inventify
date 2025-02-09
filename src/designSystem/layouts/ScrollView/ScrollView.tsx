@@ -4,9 +4,9 @@ import React from "react";
 import { ScrollViewProps } from "./ScrollView.model";
 import { StyledScrollView, ContentContainer } from "./ScrollView.styles";
 
-const ScrollView: React.FC<ScrollViewProps> = ({ children, style }) => (
-  <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
-    <ContentContainer style={style}>
+const ScrollView: React.FC<ScrollViewProps> = ({ children, style, isBottomTab }) => (
+  <StyledScrollView contentContainerStyle={{ flexGrow: 1, }}>
+    <ContentContainer style={[isBottomTab && { paddingBottom: 120 }, style]}>
       {children}
     </ContentContainer>
   </StyledScrollView>

@@ -8,83 +8,127 @@ import { setTokens, clearTokens } from "../store/slices/authSlice";
 // Sistema de auto-refresh
 let refreshTimeout;
 
+
+export const setupTokenRefresh = () => {
+  // Verificar si el store está hidratado
+  if (!store.getState()._persist?.rehydrated) {
+    console.log('Esperando hidratación del estado...');
+
+    // Escuchar el evento de hidratación
+    const unsubscribe = store.subscribe(() => {
+      if (store.getState()._persist?.rehydrated) {
+        console.log('Estado hidratado, configurando refresh...');
+        unsubscribe();
+        configureRefresh();
+      }
+    });
+    return;
+  }
+
+  // Si ya está hidratado, configurar directamente
+  configureRefresh();
+};
+
 // Función para configurar el auto-refresh del token
-const setupTokenRefresh = () => {
-  // Limpiamos timeout existente si hay
+const configureRefresh = () => {
+  // Limpiar timeout existente
   if (refreshTimeout) {
     clearTimeout(refreshTimeout);
   }
 
   const state = store.getState();
-  const { expiresAt, refreshTokenExpiresAt } = state.auth;
+  const { expiresAt } = state.auth;
 
   if (!expiresAt) return;
 
   const expirationTime = new Date(expiresAt).getTime();
   const currentTime = new Date().getTime();
+  const timeToExpiration = expirationTime - currentTime;
 
-  // 2 minutos antes de expirar
-  const timeUntilRefresh = expirationTime - currentTime - (2 * 60 * 1000);
+  // Refrescar token 30 segundos antes de que expire
+  const REFRESH_BEFORE_EXPIRATION = 30 * 1000; // 30 segundos
 
-  if (timeUntilRefresh <= 0) {
-    // Si ya estamos en la ventana de 2 minutos, refrescar inmediatamente
-    refreshToken();
-  } else {
-    // Programar el próximo refresh
+  if (timeToExpiration > REFRESH_BEFORE_EXPIRATION) {
+    const refreshAt = timeToExpiration - REFRESH_BEFORE_EXPIRATION;
+
     refreshTimeout = setTimeout(() => {
+      console.log('Ejecutando refresh programado');
       refreshToken();
-    }, timeUntilRefresh);
+    }, refreshAt);
+
+    console.log(`Token refresh programado para ${new Date(currentTime + refreshAt).toISOString()}`);
+  } else {
+    refreshToken()
+    console.log("Token refresh inmediato")
   }
 };
 
 // Función para refrescar el token
-const refreshToken = async () => {
-  // Obtenemos el estado actual
+const refreshToken = async (retryCount = 0) => {
+  const MAX_RETRIES = 5;
+  const RETRY_DELAY = 1000;
+
   const state = store.getState();
   const { refresh_token, refreshTokenExpiresAt } = state.auth;
-
   // Verificamos si el refresh_token ha expirado
   if (!refresh_token || new Date(refreshTokenExpiresAt) <= new Date()) {
     store.dispatch(clearTokens());
     return null;
   }
-  try {
 
-    // Intentamos refrescar el token
+
+  try {
     const response = await fetch(`${ENDPOINT.root}/auth/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        refresh_token: refresh_token,
+        refresh_token,
         mode: 'json'
       })
     });
 
+    // Log completo de la respuesta
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error('Failed to refresh token');
+      const errorMessage = data.errors?.[0]?.message;
+
+      // Si es error de credenciales, no reintentamos
+      if (errorMessage === "Invalid user credentials.") {
+        store.dispatch(clearTokens());
+        throw new Error(errorMessage);
+      }
+
+      // Solo reintentamos si no es error de credenciales
+      if (retryCount < MAX_RETRIES) {
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        return refreshToken(retryCount + 1);
+      }
+
+      throw new Error('Failed to refresh token after maximum retries');
     }
 
-    const data = await response.json();
-    // Actualizamos los tokens en Redux
     store.dispatch(setTokens({
       access_token: data.data.access_token,
       refresh_token: data.data.refresh_token,
       expires: data.data.expires
     }));
 
+    // Programar siguiente refresh
+    setupTokenRefresh();
+
     return data.data.access_token;
   } catch (error) {
-    console.log(error.message)
-    if (error.message === "Invalid user credentials.") {
-      console.log("refresh_token", refresh_token)
-      console.log("refreshTokenExpiresAt", refreshTokenExpiresAt)
-      store.dispatch(clearTokens());
+    console.error('Refresh Error:', {
+      message: error.message,
+      retryCount,
+      refresh_token: refresh_token ? 'present' : 'missing',
+      refreshTokenExpiresAt
+    });
 
-    }
-    console.error('Error refreshing token:', error);
-    return null;
+    throw error;
   }
 };
 
@@ -109,42 +153,42 @@ const authLink = setContext((_, { headers }) => {
 
 // Error Link
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
-  if (graphQLErrors) {
-    for (let err of graphQLErrors) {
-      if (err.extensions?.code === 'TOKEN_EXPIRED') {
-        // Retornamos un nuevo Observable
-        return new Observable(observer => {
-          // Intentamos refrescar el token
-          refreshToken()
-            .then(token => {
-              if (!token) {
-                observer.error(new Error('No token after refresh'));
-                return;
-              }
+  // if (graphQLErrors) {
+  //   for (let err of graphQLErrors) {
+  //     if (err.extensions?.code === 'TOKEN_EXPIRED') {
+  //       // Retornamos un nuevo Observable
+  //       return new Observable(observer => {
+  //         // Intentamos refrescar el token
+  //         // refreshToken()
+  //         //   .then(token => {
+  //         //     if (!token) {
+  //         //       observer.error(new Error('No token after refresh'));
+  //         //       return;
+  //         //     }
 
-              // Actualizamos el contexto de la operación con el nuevo token
-              const oldHeaders = operation.getContext().headers;
-              operation.setContext({
-                headers: {
-                  ...oldHeaders,
-                  authorization: `Bearer ${token}`,
-                },
-              });
+  //         //     // Actualizamos el contexto de la operación con el nuevo token
+  //         //     const oldHeaders = operation.getContext().headers;
+  //         //     operation.setContext({
+  //         //       headers: {
+  //         //         ...oldHeaders,
+  //         //         authorization: `Bearer ${token}`,
+  //         //       },
+  //         //     });
 
-              // Reintentamos la operación
-              forward(operation).subscribe({
-                next: observer.next.bind(observer),
-                error: observer.error.bind(observer),
-                complete: observer.complete.bind(observer),
-              });
-            })
-            .catch(error => {
-              observer.error(error);
-            });
-        });
-      }
-    }
-  }
+  //         //     // Reintentamos la operación
+  //         //     forward(operation).subscribe({
+  //         //       next: observer.next.bind(observer),
+  //         //       error: observer.error.bind(observer),
+  //         //       complete: observer.complete.bind(observer),
+  //         //     });
+  //         //   })
+  //         //   .catch(error => {
+  //         //     observer.error(error);
+  //         //   });
+  //       });
+  //     }
+  //   }
+  // }
   return forward(operation);
 });
 
@@ -170,13 +214,3 @@ export const client = new ApolloClient({
 
 // Inicializar el sistema de auto-refresh
 setupTokenRefresh();
-
-// Suscribirse a cambios en el store para actualizar el auto-refresh
-let lastExpiresAt = null;
-store.subscribe(() => {
-  const state = store.getState();
-  if (state.auth.expiresAt && state.auth.expiresAt !== lastExpiresAt) {
-    lastExpiresAt = state.auth.expiresAt;
-    setupTokenRefresh();
-  }
-});

@@ -10,7 +10,7 @@ export type ButtonSegmentProps = {
 export type SegmentedControlProps = {
   items: string[];
   style?: StyleProp<ViewStyle>;
-  onSelectedIndexChange?: (index: number) => void;
+  onItemChange?: (item: string) => void;
 }
 
 

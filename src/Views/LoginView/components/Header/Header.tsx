@@ -7,14 +7,14 @@ import Svg, { Path } from 'react-native-svg';
 // Internal Dependencies
 import {
   Text,
-} from "../../../designSystem";
+} from "../../../../designSystem";
 
-import useThemeProvider from "../../../theme/ThemeProvider.controller";
-import { SafeAreaStyled } from "../LoginView.styles";
+import useThemeProvider from "../../../../theme/ThemeProvider.controller";
+import { SafeAreaStyled } from "../../LoginView.styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Dimensions } from 'react-native';
-import { dark } from "../../../theme/colors/dark";
+import { dark } from "../../../../theme/colors/dark";
 
 const Header = () => {
 
@@ -35,9 +35,9 @@ const Header = () => {
       end={{ x: 1, y: 1 }}
       style={{ justifyContent: "center", alignItems: "center", backgroundColor: theme.colors.dark, paddingTop: insets.top + 32, zIndex: 0 }}>
       {isDarkTheme ?
-        <Image source={require("../../../assets/images/app/icon.png")} style={{ width: 180, height: 180 }} />
+        <Image source={require("../../../../assets/images/app/icon.png")} style={{ width: 180, height: 180 }} />
         :
-        <Image source={require("../../../assets/images/app/whiteLogo.png")} style={{ width: 180, height: 180 }} />
+        <Image source={require("../../../../assets/images/app/whiteLogo.png")} style={{ width: 180, height: 180 }} />
       }
       <Text
         size="extraSmall"

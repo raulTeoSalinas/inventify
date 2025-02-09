@@ -32,7 +32,7 @@ const NotesView: React.FC<NotesViewProps> = (props) => {
         <Searcher placeHolderCopyID="NOTE_SEARCH_PLACEHOLDER" style={{ marginHorizontal: 12, marginVertical: 12 }} />
       </HeaderWrapper>
       <NoteList onScroll={handleChangeScrollY} />
-      <ButtonWrapper style={{ position: 'absolute', bottom: 80, right: 12 }}>
+      <ButtonWrapper>
         <PillButton backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="Crear" />
       </ButtonWrapper>
     </ViewLayout>

@@ -1,4 +1,7 @@
 {
+  "GENERAL_ACCEPT": "Aceptar",
+  "GENERAL_CANCEL": "Cancelar",
+  "GENERAL_BANNER_MESSAGE": "Ocurrio un error inesperado. Por favor vuelve a intentarlo.",
   "DASH_HEADER_TITLE": "Tablero",
   "DASH_HEADER_DESCRIPTION": "Consulta tus ventas diarias, semanales y mensuales.",
   "NOTE_HEADER_TITLE": "Remisiones",
@@ -30,9 +33,8 @@
   "LOGG_VIEW_MADE": "Hecho con ♡, por ",
   "LOGG_VIEW_SELECT_THEME_TITLE": "Seleccione el tema de su preferencia.",
   "LOGG_VIEW_SELECT_LANGUAGE_TITLE": "Seleccione el idioma de su preferencia.",
-  "GENERAL_ACCEPT": "Aceptar",
-  "GENERAL_CANCEL": "Cancelar",
-  "GENERAL_BANNER_MESSAGE": "Ocurrio un error inesperado. Por favor vuelve a intentarlo.",
   "LOGG_VIEW_ERROR_TITLE": "Error al Iniciar Sesión",
-  "LOGG_VIEW_ERROR_VERIFY": "Verifica tu usuario o contraseña."
+  "LOGG_VIEW_ERROR_VERIFY": "Verifica tu usuario o contraseña.",
+  "LOGG_VIEW_VALIDATOR_MAIL": "Introduce un correo válido",
+  "LOGG_VIEW_VALIDATOR_PASSWORD": "Introduce una contraseña válida"
 }

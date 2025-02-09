@@ -14,6 +14,7 @@ import { useValidator } from "../../hooks/useValidator/useValidator";
 import { ENDPOINT } from "../../constants/endpoints";
 import { setTokens } from "../../store/slices/authSlice";
 import { useToast } from "../../hooks/useToast/useToast";
+import { setupTokenRefresh } from "../../graphql/directusConfig";
 
 const useLoginView = () => {
 
@@ -78,57 +79,69 @@ const useLoginView = () => {
   const { showToast } = useToast();
 
   const handleLogin = async () => {
-
     const isValidated = validateAll();
 
+    if (!isValidated) return;
 
-    if (isValidated) {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${ENDPOINT.root}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          mode: 'json'
+        })
+      });
 
-      try {
+      const loginResponse = await response.json();
 
-        setIsLoading(true)
-        const response = await fetch(`${ENDPOINT.root}/auth/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-            mode: 'json'
-          })
-        });
+      if (!response.ok) {
+        throw new Error(
+          loginResponse.errors?.[0]?.message || 'Error en el inicio de sesión'
+        );
+      }
 
+      dispatch(setTokens({
+        access_token: loginResponse.data?.access_token,
+        refresh_token: loginResponse.data?.refresh_token,
+        expires: loginResponse.data?.expires
+      }));
 
-        const loginResponse = await response.json();
+      setupTokenRefresh();
 
-        if (!response.ok) {
-          if (loginResponse.errors?.[0]?.message === "Invalid user credentials.") {
-
-            showToast({
-              type: 'error',
-              title: 'LOGG_VIEW_ERROR_TITLE',
-              message: 'LOGG_VIEW_ERROR_VERIFY',
-              autoClose: false
-            });
-          }
+    } catch (error: unknown) {
+      // Verificamos que error sea una instancia de Error
+      if (error instanceof Error) {
+        if (error.message === "Invalid user credentials.") {
+          showToast({
+            type: 'error',
+            title: 'LOGG_VIEW_ERROR_TITLE',
+            message: 'LOGG_VIEW_ERROR_VERIFY',
+            autoClose: false
+          });
+        } else {
+          showToast({
+            type: 'error',
+            title: 'LOGG_VIEW_ERROR_TITLE',
+            message: 'GENERAL_BANNER_MESSAGE',
+          });
         }
-        dispatch(setTokens({
-          access_token: loginResponse?.data?.access_token,
-          refresh_token: loginResponse?.data?.refresh_token,
-          expires: loginResponse?.data?.expires
-        }));
-      } catch (error) {
+      } else {
+        // Si no es una instancia de Error, mostramos el mensaje genérico
         showToast({
           type: 'error',
           title: 'LOGG_VIEW_ERROR_TITLE',
-          message: 'LOGG_VIEW_ERROR_VERIFY',
+          message: 'GENERAL_BANNER_MESSAGE',
         });
-      } finally {
-        setIsLoading(false)
       }
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   return {
     theme,

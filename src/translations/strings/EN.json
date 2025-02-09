@@ -1,4 +1,7 @@
 {
+  "GENERAL_ACCEPT": "Accept",
+  "GENERAL_CANCEL": "Cancel",
+  "GENERAL_BANNER_MESSAGE": "An unexpected error occurred. Please try again.",
   "DASH_HEADER_TITLE": "Dashboard",
   "DASH_HEADER_DESCRIPTION": "Check your daily, weekly, and monthly sales.",
   "NOTE_HEADER_TITLE": "Notes",
@@ -30,9 +33,8 @@
   "LOGG_VIEW_MADE": "Made with ♡, by ",
   "LOGG_VIEW_SELECT_THEME_TITLE": "Select your preferred theme.",
   "LOGG_VIEW_SELECT_LANGUAGE_TITLE": "Select your preferred language.",
-  "GENERAL_ACCEPT": "Accept",
-  "GENERAL_CANCEL": "Cancel",
-  "GENERAL_BANNER_MESSAGE": "An unexpected error occurred. Please try again.",
   "LOGG_VIEW_ERROR_TITLE": "Login Error",
-  "LOGG_VIEW_ERROR_VERIFY": "Verify your username or password."
+  "LOGG_VIEW_ERROR_VERIFY": "Verify your username or password.",
+  "LOGG_VIEW_VALIDATOR_MAIL": "Enter a valid email",
+  "LOGG_VIEW_VALIDATOR_PASSWORD": "Enter a valid password"
 }
