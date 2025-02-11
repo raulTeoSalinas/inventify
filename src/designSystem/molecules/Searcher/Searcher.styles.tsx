@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.backgroundContrast};
   flex-direction: row;
+  align-items: center;
   padding-left: 8px;
   padding-top: 4px;
   padding-bottom: 4px;

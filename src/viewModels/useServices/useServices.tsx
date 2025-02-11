@@ -6,66 +6,59 @@ import { useCreate } from "../../graphql/mutations/useCreate";
 import { useUpdate } from "../../graphql/mutations/useUpdate";
 import { useDelete } from "../../graphql/mutations/useDelete";
 // Internal Dependencies
-import { RawProductsHook, RawProductsData, RawProduct } from "./useRawProducts.model";
+import { ServicesHook, ServicesData, Service } from "./useServices.model";
 
 // Define your GraphQL query
-const GET_PRODUCTS = gql`
-  query GetProducts {
-    rawProducts(limit: -1, sort: "description", filter: {isDeleted: {_eq: false}}) {
+const GET_SERVICES = gql`
+  query GetServices {
+    services(
+      limit: -1
+      sort: "description"
+      filter: {isDeleted: {_eq: false}}
+    ) {
       id
       description
-      retailPrice
-      wholesalePrice
-      idUnits {
-        id
-        nameEng
-        nameSpa
-      }
-      transactions {
-        quantity
-        description
-        id
-      }
+      defaultPrice
     }
   }
 `;
 
-const useRawProducts = (): RawProductsHook => {
+const useServices = (): ServicesHook => {
 
-  const { loading: allLoading, error: allError, data: all, refetch } = useQuery<RawProductsData>(GET_PRODUCTS);
+  const { loading: allLoading, error: allError, data: all, refetch } = useQuery<ServicesData>(GET_SERVICES);
 
-  const { create, error: errorCreate, loading: loadingCreate } = useCreate({ collection: "rawProducts" });
-  const { update, error: errorUpdate, loading: loadingUpdate } = useUpdate({ collection: "rawProducts" });
-  const { remove, error: errorDelete, loading: loadingDelete } = useDelete({ collection: "rawProducts" });
+  const { create, error: errorCreate, loading: loadingCreate } = useCreate({ collection: "services" });
+  const { update, error: errorUpdate, loading: loadingUpdate } = useUpdate({ collection: "services" });
+  const { remove, error: errorDelete, loading: loadingDelete } = useDelete({ collection: "services" });
 
 
 
   return {
     all: {
-      list: all?.rawProducts,
+      list: all?.services,
       refetch: refetch,
       isLoading: allLoading,
       error: allError
     },
     crud: {
       crud: {
-        create: async (data: Partial<RawProduct>) => {
+        create: async (data: Partial<Service>) => {
           try {
             const result = await create(data);
             await refetch();
             return result;
           } catch (error) {
-            console.error('Error creating raw product:', error);
+            console.error('Error creating service:', error);
             throw error;
           }
         },
-        update: async (id: string, data: Partial<RawProduct>) => {
+        update: async (id: string, data: Partial<Service>) => {
           try {
             const result = await update(id, data);
             await refetch();
             return result;
           } catch (error) {
-            console.error('Error updating raw product:', error);
+            console.error('Error updating service:', error);
             throw error;
           }
         },
@@ -75,7 +68,7 @@ const useRawProducts = (): RawProductsHook => {
             await refetch();
             return result;
           } catch (error) {
-            console.error('Error deleting raw product:', error);
+            console.error('Error deleting service:', error);
             throw error;
           }
         },
@@ -86,4 +79,4 @@ const useRawProducts = (): RawProductsHook => {
   }
 };
 
-export default useRawProducts;
+export default useServices;

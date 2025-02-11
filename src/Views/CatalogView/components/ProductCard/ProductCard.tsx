@@ -3,15 +3,12 @@ import { View, ViewStyle } from "react-native";
 // Internal Dependencies
 import { CardLayout, Separator, Text, Icon, TextButton } from "../../../../designSystem";
 import {
-  Container,
-  ContentContainer,
   Row,
   InfoRow,
 } from "./ProductCard.styles";
 import { ProductCardProps } from "./ProductCard.model";
 import { useAppSelector } from "../../../../store/hooks";
-import { RawProduct } from "../../../../viewModels/useRawProducts/useRawProducts";
-import { calculateAvailableUnits } from "../../../../viewModels/useRawProducts/useRawProducts";
+import { calculateAvailableUnits } from "../../../../viewModels/useTransactions/useTransactions.model";
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -22,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const language = useAppSelector((state) => state.config.language);
 
-  const unitsTranslated = language === "EN" ? product.id_units.nameEng : product.id_units.nameSpa;
+  const unitsTranslated = language === "EN" ? product.idUnits.nameEng : product.idUnits.nameSpa;
 
   const availableUnits = calculateAvailableUnits(product.transactions);
 

@@ -13,16 +13,19 @@ import {
   SegmentedControl,
   PillButton
 } from "../../designSystem";
-import { CatalogViewProps } from "./CatalogView.model";
+import { CatalogViewProps, CatalogType } from "./CatalogView.model";
 import useThemeProvider from "../../theme/ThemeProvider.controller";
 import ProductList from "./components/ProductList/ProductList";
 import useHideInScroll from "../../hooks/useHideInScroll/useHideInSroll";
 import { HeaderWrapper, ButtonWrapper } from "./CatalogView.styles";
 import { useMainContext } from "../../contexts/mainContext";
-import { RawProduct } from "../../viewModels/useRawProducts/useRawProducts";
+import { RawProduct } from "../../viewModels/useRawProducts/useRawProducts.model";
+import { FabricatedProduct } from "../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
+import { Service } from "../../viewModels/useServices/useServices.model";
 
 const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
+  const { HideView, handleChangeScrollY } = useHideInScroll();
 
   const catalogCategory = [
     'CATA_SEGMENT_RAW',
@@ -32,36 +35,70 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
   const [segmentSelected, setSegmentSelected] = useState(catalogCategory[0]);
 
-  const { HideView, handleChangeScrollY } = useHideInScroll();
+  const createCopyMap = {
+    [catalogCategory[0]]: "CATA_CREATE_RAW",
+    [catalogCategory[1]]: "CATA_CREATE_FAB",
+    [catalogCategory[2]]: "CATA_CREATE_SER"
+  };
+  const createCopyID = createCopyMap[segmentSelected];
 
-  const { rawProducts } = useMainContext()
+
+  const { rawProducts, fabricatedProducts, services } = useMainContext()
 
   const [searchText, setSearchText] = useState("");
 
-  const [displayedProducts, setDisplayedProducts] = useState<RawProduct[]>([]);
+  const [displayedProducts, setDisplayedProducts] = useState<CatalogType[]>([]);
 
 
   useEffect(() => {
+    // Objeto que mapea las categorías con sus respectivas listas de productos
+    const categoryLists: Record<string, CatalogType[] | undefined> = {
+      [catalogCategory[0]]: rawProducts?.all?.list,
+      [catalogCategory[1]]: fabricatedProducts?.all?.list,
+      [catalogCategory[2]]: services?.all?.list
+    };
+
+    // Obtener la lista correspondiente a la categoría seleccionada
+    const currentList = categoryLists[segmentSelected];
+
     // Validar que existe la lista de productos
-    if (!rawProducts?.all?.list) {
+    if (!currentList) {
       setDisplayedProducts([]);
       return;
     }
 
     // Si el texto de búsqueda está vacío, mostrar todos los productos
     if (!searchText.trim()) {
-      setDisplayedProducts(rawProducts.all.list);
+      setDisplayedProducts(currentList);
       return;
     }
 
-    // Realizar la búsqueda
-    const normalizedSearch = searchText.toLowerCase().trim();
-    const filteredProducts = rawProducts.all.list.filter(product =>
-      product.description.toLowerCase().includes(normalizedSearch)
+    // Realizar la búsqueda con texto normalizado
+    const normalizedSearch = searchText
+      .toLowerCase()
+      .trim()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    // Filtrar los productos
+    const filteredProducts = currentList.filter(item =>
+      item.description
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .includes(normalizedSearch)
     );
 
     setDisplayedProducts(filteredProducts);
-  }, [searchText, rawProducts]);
+  }, [
+    searchText,
+    segmentSelected,
+    rawProducts?.all?.list,
+    fabricatedProducts?.all?.list,
+    services?.all?.list
+  ]);
+
+
 
   return (
     <ViewLayout>
@@ -75,7 +112,7 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
       <ProductList products={displayedProducts} onScroll={displayedProducts.length >= 7 ? handleChangeScrollY : () => { }} />
       <ButtonWrapper>
-        <PillButton backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="Crear" />
+        <PillButton backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID={createCopyID} />
       </ButtonWrapper>
     </ViewLayout>
   )
