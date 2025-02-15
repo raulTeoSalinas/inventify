@@ -60,40 +60,40 @@ const useFabricatedProducts = (): FabricatedProductsHook => {
       error: allError
     },
     crud: {
-      crud: {
-        create: async (data: Partial<FabricatedProduct>) => {
-          try {
-            const result = await create(data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error creating raw product:', error);
-            throw error;
-          }
-        },
-        update: async (id: string, data: Partial<FabricatedProduct>) => {
-          try {
-            const result = await update(id, data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error updating fabricated product:', error);
-            throw error;
-          }
-        },
-        delete: async (id: string) => {
-          try {
-            const result = await remove(id);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error deleting fabricated product:', error);
-            throw error;
-          }
-        },
-        isLoading: loadingCreate || loadingUpdate || loadingDelete,
-        error: errorCreate || errorUpdate || errorDelete
-      }
+
+      create: async (data: Partial<FabricatedProduct>) => {
+        try {
+          const result = await create(data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error creating raw product:', error);
+          throw error;
+        }
+      },
+      update: async (id: string, data: Partial<FabricatedProduct>) => {
+        try {
+          const result = await update(id, data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error updating fabricated product:', error);
+          throw error;
+        }
+      },
+      delete: async (id: string) => {
+        try {
+          const result = await remove(id);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error deleting fabricated product:', error);
+          throw error;
+        }
+      },
+      isLoading: loadingCreate || loadingUpdate || loadingDelete,
+      error: errorCreate || errorUpdate || errorDelete
+
     }
   }
 };

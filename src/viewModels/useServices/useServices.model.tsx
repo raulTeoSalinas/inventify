@@ -22,13 +22,13 @@ export interface ServicesHook {
     error?: any;
   };
   crud: {
-    crud: {
-      create: (data: Partial<Service>) => Promise<any>;
-      update: (id: string, data: Partial<Service>) => Promise<any>;
-      delete: (id: string) => Promise<any>;
-      isLoading: boolean;
-      error?: any;
-    };
+
+    create: (data: Partial<Service>) => Promise<any>;
+    update: (id: string, data: Partial<Service>) => Promise<any>;
+    delete: (id: string) => Promise<any>;
+    isLoading: boolean;
+    error?: any;
+
   };
 }
 

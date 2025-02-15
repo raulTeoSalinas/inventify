@@ -11,7 +11,7 @@ import Icon from "../../atoms/Icon/Icon";
 import useTranslations from "../../../translations/useTranslations";
 
 
-const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, ...props }) => {
+const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, style, labelCopyID, ...props }) => {
 
   const theme = useThemeProvider();
 
@@ -21,7 +21,12 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
 
 
   return (
-    <View>
+    <View style={[{ width: "90%" }, style]}>
+      {
+        labelCopyID && (
+          <Text size="small" style={{ marginLeft: "2%", marginBottom: "1%" }} copyID={labelCopyID} />
+        )
+      }
       <View style={{
         shadowColor: "#5e5e5e7a",
         shadowOffset: {
@@ -33,7 +38,6 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
         elevation: 24,
         backgroundColor: theme.colors.background,
         borderRadius: 24,
-        width: "80%"
       }}>
         <Container>
           <StyledTextInput

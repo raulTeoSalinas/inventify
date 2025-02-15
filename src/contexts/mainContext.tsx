@@ -1,5 +1,5 @@
 // React
-import { ReactNode, createContext, useContext } from "react";
+import React, { ReactNode, createContext, useContext } from "react";
 // External Dependencies
 
 // Internal Dependencies
@@ -9,6 +9,8 @@ import { ServicesHook } from "../viewModels/useServices/useServices.model";
 import useRawProducts from "../viewModels/useRawProducts/useRawProducts";
 import useFabricatedProducts from "../viewModels/useFabricatedProducts/useFabricatedProducts";
 import useServices from "../viewModels/useServices/useServices";
+import { UnitsHook } from "../viewModels/useUnits/useUnits.model";
+import useUnits from "../viewModels/useUnits/useUnits";
 
 
 // Interfaz para el contexto
@@ -16,6 +18,7 @@ interface MainContextType {
   rawProducts: RawProductsHook;
   fabricatedProducts: FabricatedProductsHook;
   services: ServicesHook;
+  units: UnitsHook;
 }
 
 const MainContext = createContext<MainContextType>({
@@ -27,13 +30,11 @@ const MainContext = createContext<MainContextType>({
       error: undefined
     },
     crud: {
-      crud: {
-        create: async () => { },
-        update: async () => { },
-        delete: async () => { },
-        isLoading: false,
-        error: undefined
-      }
+      create: async () => { },
+      update: async () => { },
+      delete: async () => { },
+      isLoading: false,
+      error: undefined
     }
   },
   fabricatedProducts: {
@@ -44,13 +45,11 @@ const MainContext = createContext<MainContextType>({
       error: undefined
     },
     crud: {
-      crud: {
-        create: async () => { },
-        update: async () => { },
-        delete: async () => { },
-        isLoading: false,
-        error: undefined
-      }
+      create: async () => { },
+      update: async () => { },
+      delete: async () => { },
+      isLoading: false,
+      error: undefined
     }
   },
   services: {
@@ -61,13 +60,19 @@ const MainContext = createContext<MainContextType>({
       error: undefined
     },
     crud: {
-      crud: {
-        create: async () => { },
-        update: async () => { },
-        delete: async () => { },
-        isLoading: false,
-        error: undefined
-      }
+      create: async () => { },
+      update: async () => { },
+      delete: async () => { },
+      isLoading: false,
+      error: undefined
+    }
+  },
+  units: {
+    all: {
+      list: undefined,
+      refetch: async () => { },
+      isLoading: false,
+      error: undefined
     }
   }
 });
@@ -89,12 +94,13 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const services = useServices();
 
-
+  const units = useUnits();
 
   const value = {
     rawProducts,
     fabricatedProducts,
-    services
+    services,
+    units
   }
 
   return (

@@ -15,7 +15,7 @@ export const Container = styled.View`
 export const StyledTextInput = styled.TextInput`
   background-color: ${({ theme }) => theme.colors.backgroundContrast};
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${({ theme }) => theme.fontSizes.large}px;
+  font-size: ${({ theme }) => theme.fontSizes.medium}px;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 12px;

@@ -48,40 +48,39 @@ const useRawProducts = (): RawProductsHook => {
       error: allError
     },
     crud: {
-      crud: {
-        create: async (data: Partial<RawProduct>) => {
-          try {
-            const result = await create(data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error creating raw product:', error);
-            throw error;
-          }
-        },
-        update: async (id: string, data: Partial<RawProduct>) => {
-          try {
-            const result = await update(id, data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error updating raw product:', error);
-            throw error;
-          }
-        },
-        delete: async (id: string) => {
-          try {
-            const result = await remove(id);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error deleting raw product:', error);
-            throw error;
-          }
-        },
-        isLoading: loadingCreate || loadingUpdate || loadingDelete,
-        error: errorCreate || errorUpdate || errorDelete
-      }
+
+      create: async (data: Partial<RawProduct>) => {
+        try {
+          const result = await create(data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error creating raw product:', error);
+          throw error;
+        }
+      },
+      update: async (id: string, data: Partial<RawProduct>) => {
+        try {
+          const result = await update(id, data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error updating raw product:', error);
+          throw error;
+        }
+      },
+      delete: async (id: string) => {
+        try {
+          const result = await remove(id);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error deleting raw product:', error);
+          throw error;
+        }
+      },
+      isLoading: loadingCreate || loadingUpdate || loadingDelete,
+
     }
   }
 };

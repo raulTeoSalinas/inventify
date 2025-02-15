@@ -11,7 +11,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 // Internal Dependencies
 import ThemeProvider from "./src/theme/ThemeProvider";
-import BottomTabNavigation from "./src/navigation/BottomTabNavigation/BottomTabNavigation";
+import StackNavigation from "./src/navigation/StackNavigation/StackNavigation";
 import { store, persistor } from "./src/store/store";
 import { useAppSelector } from "./src/store/hooks";
 import { LoginView } from "./src/Views";
@@ -46,7 +46,7 @@ const AppInitializer = () => {
     <>
       <StatusBar style={statusBarColor} />
       {token ?
-        <BottomTabNavigation />
+        <StackNavigation />
         : <LoginView />
       }
     </>

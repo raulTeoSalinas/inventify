@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-type ValidationType = 'email' | 'notEmpty';
+type ValidationType = 'email' | 'notEmpty' | 'positiveNumber' | 'notNull';
 
 interface ValidationField {
-  value: string;
+  value: string | null;
   validation: ValidationType;
 }
 
@@ -23,17 +23,43 @@ export const useValidator = (fields: Record<string, ValidationField>) => {
     return re.test(email);
   }
 
+  const validatePositiveNumber = (value: string) => {
+    // Regex explanation:
+    // ^        - start of string
+    // [0-9]*   - zero or more digits
+    // \.?      - optional decimal point
+    // [0-9]+   - one or more digits after decimal point (if exists)
+    // $        - end of string
+    const re = /^[0-9]*\.?[0-9]+$/;
+
+    if (!re.test(value)) {
+      return false;
+    }
+
+    // Convert to number and check if it's >= 0
+    const num = parseFloat(value);
+    return num >= 0;
+  };
+
   const isNotEmpty = (value: string) => {
     // Check if the value is not an empty string
     return value.trim() !== '';
   };
 
-  const validateField = (value: string, type: ValidationType): boolean => {
+  const isNotNull = (value: any) => {
+    return value !== null && value !== undefined;
+  };
+
+  const validateField = (value: string | null, type: ValidationType): boolean => {
     switch (type) {
       case 'email':
-        return validateEmail(value);
+        return validateEmail(value as string);
       case 'notEmpty':
-        return isNotEmpty(value);
+        return isNotEmpty(value as string);
+      case 'positiveNumber':
+        return validatePositiveNumber(value as string)
+      case 'notNull':
+        return isNotNull(value)
       default:
         return true;
     }

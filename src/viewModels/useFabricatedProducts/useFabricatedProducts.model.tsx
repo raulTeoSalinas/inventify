@@ -34,13 +34,13 @@ export interface FabricatedProductsHook {
     error?: any;
   };
   crud: {
-    crud: {
-      create: (data: Partial<FabricatedProduct>) => Promise<any>;
-      update: (id: string, data: Partial<FabricatedProduct>) => Promise<any>;
-      delete: (id: string) => Promise<any>;
-      isLoading: boolean;
-      error?: any;
-    };
+
+    create: (data: Partial<FabricatedProduct>) => Promise<any>;
+    update: (id: string, data: Partial<FabricatedProduct>) => Promise<any>;
+    delete: (id: string) => Promise<any>;
+    isLoading: boolean;
+    error?: any;
+
   };
 }
 

@@ -26,13 +26,13 @@ export interface RawProductsHook {
     error?: any;
   };
   crud: {
-    crud: {
-      create: (data: Partial<RawProduct>) => Promise<any>;
-      update: (id: string, data: Partial<RawProduct>) => Promise<any>;
-      delete: (id: string) => Promise<any>;
-      isLoading: boolean;
-      error?: any;
-    };
+
+    create: (data: Partial<RawProduct>) => Promise<any>;
+    update: (id: string, data: Partial<RawProduct>) => Promise<any>;
+    delete: (id: string) => Promise<any>;
+    isLoading: boolean;
+    error?: any;
+
   };
 }
 

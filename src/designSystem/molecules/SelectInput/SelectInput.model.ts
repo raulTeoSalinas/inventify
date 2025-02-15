@@ -1,4 +1,4 @@
-import { TouchableOpacityProps } from "react-native"
+import { TouchableOpacityProps, StyleProp, ViewStyle } from "react-native"
 
 
 export interface SelectInputProps<T = string> extends TouchableOpacityProps {
@@ -9,5 +9,9 @@ export interface SelectInputProps<T = string> extends TouchableOpacityProps {
   specialRenderItem?: (info: { item: T; index: number }) => React.ReactElement;
   selectedOption: T;
   setSelectedOption: (option: T) => void;
-  handleAccept: () => void
+  handleAccept: () => void;
+  style?: StyleProp<ViewStyle>;
+  labelCopyID?: string;
+  errorMessage?: string;
+  isError?: boolean;
 }

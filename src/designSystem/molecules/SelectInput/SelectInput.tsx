@@ -26,6 +26,10 @@ const SelectInput = <T,>({
   setSelectedOption,
   initialOption,
   handleAccept,
+  style,
+  labelCopyID,
+  errorMessage,
+  isError,
   ...restProps
 }: SelectInputProps<T>) => {
 
@@ -83,14 +87,36 @@ const SelectInput = <T,>({
 
   return (
     <>
-      <StyledButton
-        onPress={() => setIsVisible(true)}
-        activeOpacity={0.8}
-        {...restProps}
-      >
-        {children}
-        <Icon name="chevron-down" />
-      </StyledButton>
+      <View style={style}>
+        {
+          labelCopyID && (
+            <Text size="small" textAlign="left" style={{ marginLeft: "2%", marginBottom: "1%" }} copyID={labelCopyID} />
+          )
+        }
+        <View style={[{
+          shadowColor: "#5e5e5e7a",
+          shadowOffset: {
+            width: 0,
+            height: 12,
+          },
+          shadowOpacity: 0.58,
+          shadowRadius: 16.00,
+          elevation: 24,
+        }]}>
+          <StyledButton
+            onPress={() => setIsVisible(true)}
+            activeOpacity={0.8}
+            {...restProps}
+          >
+            {children}
+            <Icon name="chevron-down" />
+          </StyledButton>
+        </View>
+        {isError && errorMessage &&
+          <Text color="error" size="small" style={{ textAlign: "center" }} copyID={errorMessage} />
+        }
+      </View>
+
       <Modal onDismiss={handleCancel} footerComponent={renderFooter} visible={isVisible} setVisible={setIsVisible}>
 
 

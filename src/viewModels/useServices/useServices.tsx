@@ -41,40 +41,40 @@ const useServices = (): ServicesHook => {
       error: allError
     },
     crud: {
-      crud: {
-        create: async (data: Partial<Service>) => {
-          try {
-            const result = await create(data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error creating service:', error);
-            throw error;
-          }
-        },
-        update: async (id: string, data: Partial<Service>) => {
-          try {
-            const result = await update(id, data);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error updating service:', error);
-            throw error;
-          }
-        },
-        delete: async (id: string) => {
-          try {
-            const result = await remove(id);
-            await refetch();
-            return result;
-          } catch (error) {
-            console.error('Error deleting service:', error);
-            throw error;
-          }
-        },
-        isLoading: loadingCreate || loadingUpdate || loadingDelete,
-        error: errorCreate || errorUpdate || errorDelete
-      }
+
+      create: async (data: Partial<Service>) => {
+        try {
+          const result = await create(data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error creating service:', error);
+          throw error;
+        }
+      },
+      update: async (id: string, data: Partial<Service>) => {
+        try {
+          const result = await update(id, data);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error updating service:', error);
+          throw error;
+        }
+      },
+      delete: async (id: string) => {
+        try {
+          const result = await remove(id);
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error deleting service:', error);
+          throw error;
+        }
+      },
+      isLoading: loadingCreate || loadingUpdate || loadingDelete,
+      error: errorCreate || errorUpdate || errorDelete
+
     }
   }
 };

@@ -5,13 +5,15 @@ export const StyledButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8,
 })`
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 8px;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.backgroundContrast};
   border-radius: 24px;
   border-width: 1px;
   border-color: ${({ theme }) => theme.colors.border};
+  padding-left: 12px;
+  padding-right: 12px;
 `;
 
 export const FooterContainer = styled.View<{ paddingBottom: number }>`

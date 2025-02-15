@@ -1,4 +1,4 @@
-
+import React from "react";
 // React Native
 import { View } from "react-native";
 // External Dependencies
@@ -58,6 +58,7 @@ const LoginView = () => {
       <FormContainer>
         <Text copyID="LOGG_VIEW_WELCOME" size="large" bold />
         <TextInput
+          style={{ width: "80%" }}
           placeholder="LOGG_VIEW_EMAIL"
           value={email}
           setValue={(text) => setEmail(text)}
@@ -67,6 +68,7 @@ const LoginView = () => {
           errorMessage="LOGG_VIEW_VALIDATOR_MAIL"
         />
         <TextInput
+          style={{ width: "80%" }}
           placeholder="LOGG_VIEW_PASSWORD"
           value={password}
           setValue={(text) => setPassword(text)}

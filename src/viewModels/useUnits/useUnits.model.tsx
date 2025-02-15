@@ -9,3 +9,17 @@ export interface Unit {
   nameEng?: string;
   nameSpa?: string;
 }
+
+export interface UnitsData {
+  units: Unit[];
+}
+
+export interface UnitsHook {
+  all: {
+    list: Unit[] | undefined;
+    refetch: () => Promise<any>;
+    isLoading: boolean;
+    error?: any;
+  };
+}
+
