@@ -51,13 +51,13 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={rawProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!rawProduct ? "CURAWPRODUCT_HEADER" : "CURAWPRODUCT_HEADER_EDIT"} />
+      <Header backButton deleteFunc={rawProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!rawProduct ? "CURAWMATERIAL_HEADER" : "CURAWMATERIAL_HEADER_EDIT"} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <TextInput
           autoCapitalize="sentences"
-          errorMessage="CURAWPRODUCT_DESC_ERROR"
-          placeholder="CURAWPRODUCT_DESC_PLACE"
-          labelCopyID="CURAWPRODUCT_DESC_LABEL"
+          errorMessage="CURAWMATERIAL_DESC_ERROR"
+          placeholder="CURAWMATERIAL_DESC_PLACE"
+          labelCopyID="CURAWMATERIAL_DESC_LABEL"
           onBlur={() => validateSingle("description")}
           isError={!validationStates.description}
           value={description}
@@ -66,15 +66,15 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
 
         />
         <SelectInput
-          errorMessage="CURAWPRODUCT_UNITY_ERROR"
-          labelCopyID="CURAWPRODUCT_UNITY_LABEL"
+          errorMessage="CURAWMATERIAL_UNITY_ERROR"
+          labelCopyID="CURAWMATERIAL_UNITY_LABEL"
           handleAccept={handleChangeUnit}
           options={unitsList}
           isError={!validationStates.unit}
           initialOption={unit}
           selectedOption={selectedOptionUnit}
           setSelectedOption={setSelectedOptionUnit}
-          titleCopyID="CURAWPRODUCT_UNITY_PLACE"
+          titleCopyID="CURAWMATERIAL_UNITY_PLACE"
           style={{ width: "90%", marginVertical: "4%" }}
           specialRenderItem={({ item }) => (
             <ItemContainer>
@@ -95,9 +95,9 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
           inputMode="decimal"
           onBlur={() => validateSingle("retailPrice")}
           isError={!validationStates.retailPrice}
-          errorMessage="CURAWPRODUCT_REPRICE_ERROR"
-          placeholder="CURAWPRODUCT_REPRICE_PLACE"
-          labelCopyID="CURAWPRODUCT_REPRICE_LABEL"
+          errorMessage="CURAWMATERIAL_REPRICE_ERROR"
+          placeholder="CURAWMATERIAL_REPRICE_PLACE"
+          labelCopyID="CURAWMATERIAL_REPRICE_LABEL"
           value={retailPrice}
           setValue={setRetailPrice}
           style={{ marginVertical: "4%" }}
@@ -106,9 +106,9 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
           inputMode="decimal"
           onBlur={() => validateSingle("wholesalePrice")}
           isError={!validationStates.wholesalePrice}
-          errorMessage="CURAWPRODUCT_WHPRICE_ERROR"
-          placeholder="CURAWPRODUCT_WHPRICE_PLACE"
-          labelCopyID="CURAWPRODUCT_WHPRICE_LABEL"
+          errorMessage="CURAWMATERIAL_WHPRICE_ERROR"
+          placeholder="CURAWMATERIAL_WHPRICE_PLACE"
+          labelCopyID="CURAWMATERIAL_WHPRICE_LABEL"
           value={wholesalePrice}
           setValue={setWholesalePrice}
           style={{ marginVertical: "4%" }}

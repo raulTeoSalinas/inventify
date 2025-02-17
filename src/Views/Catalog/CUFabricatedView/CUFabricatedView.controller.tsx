@@ -67,13 +67,13 @@ const useCUFabricatedView = () => {
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
-        message: "CURAWPRODUCT_TOAST_CREATE_MSG"
+        message: "CUFABRICATED_TOAST_CREATE_MSG"
       })
       navigation.goBack();
     } catch {
       showToast({
         type: "error",
-        title: "CURAWPRODUCT_TOAST_CREATE_ERROR",
+        title: "CUFABRICATED_TOAST_CREATE_ERROR",
         message: "GENERAL_BANNER_MESSAGE"
       })
     }
@@ -104,15 +104,15 @@ const useCUFabricatedView = () => {
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
-        message: "CURAWPRODUCT_TOAST_DELETE_MSG"
+        message: "CUFABRICATED_TOAST_DELETE_MSG"
       })
       setVisibleDeleteModal(false)
       navigation.goBack()
     } catch {
       showToast({
         type: "error",
-        title: "CURAWPRODUCT_TOAST_EDIT_ERROR",
-        message: "CURAWPRODUCT_TOAST_DELETE_ERROR"
+        title: "CUFABRICATED_TOAST_EDIT_ERROR",
+        message: "CUFABRICATED_TOAST_DELETE_ERROR"
       })
     }
   }
@@ -136,7 +136,7 @@ const useCUFabricatedView = () => {
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
-        message: "CURAWPRODUCT_TOAST_EDIT_MSG"
+        message: "CUFABRICATED_TOAST_EDIT_MSG"
       })
       navigation.goBack()
       return;
@@ -147,13 +147,13 @@ const useCUFabricatedView = () => {
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
-        message: "CURAWPRODUCT_TOAST_EDIT_MSG"
+        message: "CUFABRICATED_TOAST_EDIT_MSG"
       })
       navigation.goBack()
     } catch {
       showToast({
         type: "error",
-        title: "CURAWPRODUCT_TOAST_EDIT_ERROR",
+        title: "CUFABRICATED_TOAST_EDIT_ERROR",
         message: "GENERAL_BANNER_MESSAGE"
       })
     }

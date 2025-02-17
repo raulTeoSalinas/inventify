@@ -51,13 +51,13 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={fabricatedProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!fabricatedProduct ? "CURAWPRODUCT_HEADER" : "CURAWPRODUCT_HEADER_EDIT"} />
+      <Header backButton deleteFunc={fabricatedProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!fabricatedProduct ? "CUFABRICATED_HEADER" : "CUFABRICATED_HEADER_EDIT"} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <TextInput
           autoCapitalize="sentences"
-          errorMessage="CURAWPRODUCT_DESC_ERROR"
-          placeholder="CURAWPRODUCT_DESC_PLACE"
-          labelCopyID="CURAWPRODUCT_DESC_LABEL"
+          errorMessage="CUFABRICATED_DESC_ERROR"
+          placeholder="CUFABRICATED_DESC_PLACE"
+          labelCopyID="CUFABRICATED_DESC_LABEL"
           onBlur={() => validateSingle("description")}
           isError={!validationStates.description}
           value={description}
@@ -66,15 +66,15 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
 
         />
         <SelectInput
-          errorMessage="CURAWPRODUCT_UNITY_ERROR"
-          labelCopyID="CURAWPRODUCT_UNITY_LABEL"
+          errorMessage="CUFABRICATED_UNITY_ERROR"
+          labelCopyID="CUFABRICATED_UNITY_LABEL"
           handleAccept={handleChangeUnit}
           options={unitsList}
           isError={!validationStates.unit}
           initialOption={unit}
           selectedOption={selectedOptionUnit}
           setSelectedOption={setSelectedOptionUnit}
-          titleCopyID="CURAWPRODUCT_UNITY_PLACE"
+          titleCopyID="CUFABRICATED_UNITY_PLACE"
           style={{ width: "90%", marginVertical: "4%" }}
           specialRenderItem={({ item }) => (
             <ItemContainer>
@@ -95,9 +95,9 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
           inputMode="decimal"
           onBlur={() => validateSingle("retailPrice")}
           isError={!validationStates.retailPrice}
-          errorMessage="CURAWPRODUCT_REPRICE_ERROR"
-          placeholder="CURAWPRODUCT_REPRICE_PLACE"
-          labelCopyID="CURAWPRODUCT_REPRICE_LABEL"
+          errorMessage="CUFABRICATED_REPRICE_ERROR"
+          placeholder="CUFABRICATED_REPRICE_PLACE"
+          labelCopyID="CUFABRICATED_REPRICE_LABEL"
           value={retailPrice}
           setValue={setRetailPrice}
           style={{ marginVertical: "4%" }}
@@ -106,9 +106,9 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
           inputMode="decimal"
           onBlur={() => validateSingle("wholesalePrice")}
           isError={!validationStates.wholesalePrice}
-          errorMessage="CURAWPRODUCT_WHPRICE_ERROR"
-          placeholder="CURAWPRODUCT_WHPRICE_PLACE"
-          labelCopyID="CURAWPRODUCT_WHPRICE_LABEL"
+          errorMessage="CUFABRICATED_WHPRICE_ERROR"
+          placeholder="CUFABRICATED_WHPRICE_PLACE"
+          labelCopyID="CUFABRICATED_WHPRICE_LABEL"
           value={wholesalePrice}
           setValue={setWholesalePrice}
           style={{ marginVertical: "4%" }}
