@@ -38,6 +38,7 @@ export interface FabricatedProductsHook {
     create: (data: Partial<FabricatedProduct>) => Promise<any>;
     update: (id: string, data: Partial<FabricatedProduct>) => Promise<any>;
     delete: (id: string) => Promise<any>;
+    softDelete: (id: string) => Promise<any>;
     isLoading: boolean;
     error?: any;
 

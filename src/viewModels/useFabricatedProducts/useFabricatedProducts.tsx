@@ -91,6 +91,16 @@ const useFabricatedProducts = (): FabricatedProductsHook => {
           throw error;
         }
       },
+      softDelete: async (id: string) => {
+        try {
+          const result = await update(id, { isDeleted: true });
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error softdeleted raw product:', error);
+          throw error;
+        }
+      },
       isLoading: loadingCreate || loadingUpdate || loadingDelete,
       error: errorCreate || errorUpdate || errorDelete
 

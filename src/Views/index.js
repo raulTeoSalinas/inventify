@@ -5,4 +5,5 @@ export { default as InventoriesView } from "./Inventories/InventoriesView/Invent
 export { default as DashBoardView } from "./Dashboard/DashBoardView/DashBoardView"
 export { default as LoginView } from "./LoginView/LoginView"
 export { default as CURawMaterialView } from "./Catalog/CURawMaterialView/CURawMaterialView"
+export { default as CUFabricatedView } from "./Catalog/CUFabricatedView/CUFabricatedView"
 

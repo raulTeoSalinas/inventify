@@ -17,15 +17,15 @@ import {
   PillButton,
   ModalDelete
 } from "../../../designSystem";
-import { CURawMaterialViewProps } from "./CURawMaterialView.model";
+import { CUFabricatedViewProps } from "./CUFabricatedView.model";
 import { ItemContainer } from "../../../designSystem/molecules/SelectInput/SelectInput.styles";
-import useCURawMaterialView from "./CURawMaterialView.controller";
+import useCUFabricatedView from "./CUFabricatedView.controller";
 
-const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
+const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
 
   const {
-    rawProducts,
-    rawProduct,
+    fabricatedProducts,
+    fabricatedProduct,
     description,
     setDescription,
     retailPrice,
@@ -46,12 +46,12 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
     visibleDeleteModal,
     setVisibleDeleteModal,
     openDeleteModal
-  } = useCURawMaterialView()
+  } = useCUFabricatedView()
 
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={rawProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!rawProduct ? "CURAWPRODUCT_HEADER" : "CURAWPRODUCT_HEADER_EDIT"} />
+      <Header backButton deleteFunc={fabricatedProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!fabricatedProduct ? "CURAWPRODUCT_HEADER" : "CURAWPRODUCT_HEADER_EDIT"} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <TextInput
           autoCapitalize="sentences"
@@ -114,19 +114,19 @@ const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
           style={{ marginVertical: "4%" }}
         />
         {
-          !rawProduct ? (
+          !fabricatedProduct ? (
 
-            <PillButton onPress={handleCreate} isLoading={rawProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_CREATE" />
+            <PillButton onPress={handleCreate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_CREATE" />
           ) : (
-            <PillButton onPress={handleUpdate} isLoading={rawProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_UPDATE" />
+            <PillButton onPress={handleUpdate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_UPDATE" />
           )
         }
       </KeyboardAwareScrollView>
-      <ModalDelete loading={rawProducts.crud.isLoading} handleDelete={handleDelete} visible={visibleDeleteModal} setVisible={setVisibleDeleteModal} />
+      <ModalDelete loading={fabricatedProducts.crud.isLoading} handleDelete={handleDelete} visible={visibleDeleteModal} setVisible={setVisibleDeleteModal} />
 
     </ViewLayout>
   )
 }
 
-export default CURawMaterialView;
+export default CUFabricatedView;
 

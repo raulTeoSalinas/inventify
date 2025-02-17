@@ -23,8 +23,16 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     if (item.__typename === 'rawProducts') {
       // TypeScript sabrá que dentro de este if, item es de tipo RawProduct
       navigation.navigate('CURawMaterialView', {
-        rawProduct: item
+        rawProduct: item as RawProduct
       });
+      return
+    }
+    if (item.__typename === 'fabricatedProducts') {
+      // TypeScript sabrá que dentro de este if, item es de tipo Fabricated
+      navigation.navigate("CUFabricatedView", {
+        fabricatedProduct: item as FabricatedProduct
+      });
+      return
     }
   }
 
@@ -39,8 +47,8 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
           />
           :
           <ProductCard
-            onEditPress={() => handleEditProduct(item as RawProduct | FabricatedProduct)}
-            product={item as RawProduct | FabricatedProduct}
+            onEditPress={() => handleEditProduct(item as (RawProduct | FabricatedProduct))}
+            product={item as (RawProduct | FabricatedProduct)}
           />
       )}
       keyExtractor={(item) => item.id.toString()}
