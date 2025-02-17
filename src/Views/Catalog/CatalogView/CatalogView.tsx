@@ -47,7 +47,7 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
 
   const handleCreate = () => {
     if (segmentSelected === catalogCategory[0]) {
-      navigation.navigate("CURawProductView");
+      navigation.navigate("CURawMaterialView", {});
     }
   }
 

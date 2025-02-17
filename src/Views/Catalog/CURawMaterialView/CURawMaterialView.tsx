@@ -17,7 +17,7 @@ import {
   PillButton,
   ModalDelete
 } from "../../../designSystem";
-import { CURawProductViewProps } from "./CURawProductView.model";
+import { CURawMaterialViewProps } from "./CURawMaterialView.model";
 import { ItemContainer } from "../../../designSystem/molecules/SelectInput/SelectInput.styles";
 import { useMainContext } from "../../../contexts/mainContext";
 import { useAppSelector } from "../../../store/hooks";
@@ -29,9 +29,9 @@ import useNavigation from "../../../navigation/useNavigation/useNavigation";
 import useRoute from "../../../navigation/useRoute/useRoute";
 import { findObjectDifferences } from "../../../utils/findObjectDifferences";
 
-const CURawProductView: React.FC<CURawProductViewProps> = (props) => {
+const CURawMaterialView: React.FC<CURawMaterialViewProps> = (props) => {
 
-  const route = useRoute({ screenName: "CURawProductView" });
+  const route = useRoute({ screenName: "CURawMaterialView" });
 
   const { rawProduct } = route.params || {};
 
@@ -255,5 +255,5 @@ const CURawProductView: React.FC<CURawProductViewProps> = (props) => {
   )
 }
 
-export default CURawProductView;
+export default CURawMaterialView;
 

@@ -7,7 +7,7 @@ import { RootStackParamList } from "../../../navigation/StackNavigation/StackNav
 
 
 
-export type CURawProductViewProps = NativeStackScreenProps<RootStackParamList, "CURawProductView">;
+export type CURawMaterialViewProps = NativeStackScreenProps<RootStackParamList, "CURawMaterialView">;
 
 
 

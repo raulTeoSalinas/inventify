@@ -4,5 +4,5 @@ export { default as NotesView } from "./Notes/NotesView/NotesView"
 export { default as InventoriesView } from "./Inventories/InventoriesView/InventoriesView"
 export { default as DashBoardView } from "./Dashboard/DashBoardView/DashBoardView"
 export { default as LoginView } from "./LoginView/LoginView"
-export { default as CURawProductView } from "./Catalog/CURawProductView/CURawProductView"
+export { default as CURawMaterialView } from "./Catalog/CURawMaterialView/CURawMaterialView"
 

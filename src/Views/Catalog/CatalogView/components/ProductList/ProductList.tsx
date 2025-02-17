@@ -22,7 +22,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     // Podemos usar la propiedad __typename para verificar el tipo
     if (item.__typename === 'rawProducts') {
       // TypeScript sabrá que dentro de este if, item es de tipo RawProduct
-      navigation.navigate('CURawProductView', {
+      navigation.navigate('CURawMaterialView', {
         rawProduct: item
       });
     }
