@@ -1,5 +1,5 @@
 //React
-import { useRef, useMemo, useCallback, useEffect } from "react";
+import React, { useRef, useMemo, useCallback, useEffect } from "react";
 // External dependencies
 import { BottomSheetModal, BottomSheetModalProps, useBottomSheetModal, BottomSheetBackdrop, BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 // Internal dependencies

@@ -14,6 +14,7 @@ export { default as SegmentedControl } from "./molecules/SegmentedControl/Segmen
 export { default as SelectInput } from "./molecules/SelectInput/SelectInput"
 
 export { default as Modal } from "./organisms/Modal/Modal"
+export { default as ModalDelete } from "./organisms/ModalDelete/ModalDelete"
 
 export { default as ViewLayout } from "./layouts/ViewLayout/ViewLayout"
 export { default as ScrollView } from "./layouts/ScrollView/ScrollView"

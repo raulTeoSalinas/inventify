@@ -8,7 +8,7 @@ import Text from "../../atoms/Text/Text";
 import { Container } from "./CardLayout.styles";
 import { CardLayoutProps } from "./CardLayout.model";
 
-const CardLayout: React.FC<CardLayoutProps> = ({ children, labelCopyID, style }) => {
+const CardLayout: React.FC<CardLayoutProps> = ({ children, labelCopyID, style, cardStyle }) => {
 
   const theme = useThemeProvider();
 
@@ -19,7 +19,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({ children, labelCopyID, style })
           <Text copyID={labelCopyID} bold size="small" color="textLight" style={{ marginLeft: 8 }} />
         )
       }
-      <Container style={{
+      <Container style={[{
         shadowColor: theme.colors.shadow,
         shadowOffset: {
           width: 0,
@@ -28,7 +28,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({ children, labelCopyID, style })
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
         elevation: 24,
-      }}>
+      }, cardStyle]}>
         {children}
       </Container>
     </View>

@@ -33,7 +33,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           textSize="extraSmall"
           bold
           textColor="text"
-          copyID=""
+          copyID="CATA_CREATE_EDIT"
           onPress={onEditPress}
         />
       </Row>

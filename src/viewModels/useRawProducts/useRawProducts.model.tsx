@@ -30,6 +30,7 @@ export interface RawProductsHook {
     create: (data: Partial<RawProduct>) => Promise<any>;
     update: (id: string, data: Partial<RawProduct>) => Promise<any>;
     delete: (id: string) => Promise<any>;
+    softDelete: (id: string) => Promise<any>;
     isLoading: boolean;
     error?: any;
 

@@ -1,6 +1,6 @@
 import React from "react";
 // React Native
-import { View, ViewStyle } from "react-native";
+import { TouchableOpacity, View, ViewStyle } from "react-native";
 // Internal Dependencies
 import { CardLayout, Separator, Text, Icon, TextButton } from "../../../../../designSystem";
 import {
@@ -11,6 +11,7 @@ import { ProductCardProps } from "./ProductCard.model";
 import { useAppSelector } from "../../../../../store/hooks";
 import { calculateAvailableUnits } from "../../../../../viewModels/useTransactions/useTransactions.model";
 
+import useThemeProvider from "../../../../../theme/ThemeProvider.controller";
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onEditPress,
@@ -23,6 +24,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const unitsTranslated = language === "EN" ? product.idUnits.nameEng : product.idUnits.nameSpa;
 
   const availableUnits = calculateAvailableUnits(product.transactions);
+
+  const theme = useThemeProvider()
 
   return (
     <CardLayout style={{ marginHorizontal: 12, marginVertical: 4, ...style }}>
@@ -41,12 +44,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
           textSize="extraSmall"
           bold
           textColor="text"
-          copyID=""
+          copyID="CATA_CREATE_EDIT"
           onPress={onEditPress}
         />
       </Row>
       <Separator />
       <Row>
+        <TextButton
+          iconName="add"
+          iconSize={20}
+          iconColor="secondary"
+          textSize="extraSmall"
+          bold
+          textColor="text"
+          copyID="CATA_CREATE_ENTER"
+          onPress={onAddPress}
+        />
         <InfoRow>
           <Icon
             size={20}
@@ -60,16 +73,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             copyID={`${availableUnits} ${unitsTranslated}`}
           />
         </InfoRow>
-        <TextButton
-          iconName="add"
-          iconSize={20}
-          iconColor="secondary"
-          textSize="extraSmall"
-          bold
-          textColor="text"
-          copyID="Ingresar"
-          onPress={onAddPress}
-        />
       </Row>
     </CardLayout>
   );

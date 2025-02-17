@@ -33,6 +33,7 @@ const MainContext = createContext<MainContextType>({
       create: async () => { },
       update: async () => { },
       delete: async () => { },
+      softDelete: async () => { },
       isLoading: false,
       error: undefined
     }

@@ -6,5 +6,6 @@ import { ViewStyle } from "react-native";
 export type CardLayoutProps = {
   children: React.ReactNode,
   labelCopyID?: string,
-  style?: ViewStyle
+  style?: ViewStyle,
+  cardStyle?: ViewStyle
 }

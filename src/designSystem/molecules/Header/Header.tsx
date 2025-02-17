@@ -8,7 +8,7 @@ import { TouchableOpacity, View } from "react-native";
 import Icon from "../../atoms/Icon/Icon";
 import useNavigation from "../../../navigation/useNavigation/useNavigation";
 
-const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, rightComponent, headerSize = "huge", backButton }) => {
+const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, headerSize = "huge", backButton, deleteFunc }) => {
 
   const navigation = useNavigation();
 
@@ -25,8 +25,13 @@ const Header: React.FC<HeaderProps> = ({ copyIDTitle, copyIDDescription, rightCo
 
         <Text textAlign="center" isGradient copyID={copyIDTitle} bold size={headerSize} />
         {
-          rightComponent && rightComponent
+          deleteFunc && (
+            <TouchableOpacity onPress={deleteFunc} style={{ position: "absolute", right: 6, top: 0, bottom: 0, alignItems: "center", justifyContent: "center" }}>
+              <Icon color="error" size={30} name="trash" />
+            </TouchableOpacity>
+          )
         }
+
       </ContainerTitle>
       {
         copyIDDescription && (

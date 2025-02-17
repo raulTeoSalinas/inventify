@@ -11,10 +11,22 @@ import { Service } from "../../../../../viewModels/useServices/useServices.model
 import { RawProduct } from "../../../../../viewModels/useRawProducts/useRawProducts.model";
 import { FabricatedProduct } from "../../../../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
 import { Text } from "../../../../../designSystem";
+import useNavigation from "../../../../../navigation/useNavigation/useNavigation";
 
 
 const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
 
+  const navigation = useNavigation()
+
+  const handleEditProduct = (item: RawProduct | FabricatedProduct) => {
+    // Podemos usar la propiedad __typename para verificar el tipo
+    if (item.__typename === 'rawProducts') {
+      // TypeScript sabrá que dentro de este if, item es de tipo RawProduct
+      navigation.navigate('CURawProductView', {
+        rawProduct: item
+      });
+    }
+  }
 
   return (
 
@@ -27,6 +39,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
           />
           :
           <ProductCard
+            onEditPress={() => handleEditProduct(item as RawProduct | FabricatedProduct)}
             product={item as RawProduct | FabricatedProduct}
           />
       )}

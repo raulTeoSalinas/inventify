@@ -1,6 +1,6 @@
 
 // React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // React Native
 
 // External Dependencies
@@ -14,7 +14,8 @@ import {
   Text,
   RadioButton,
   Separator,
-  PillButton
+  PillButton,
+  ModalDelete
 } from "../../../designSystem";
 import { CURawProductViewProps } from "./CURawProductView.model";
 import { ItemContainer } from "../../../designSystem/molecules/SelectInput/SelectInput.styles";
@@ -25,8 +26,14 @@ import { useValidator } from "../../../hooks/useValidator/useValidator";
 import { RawProduct } from "../../../viewModels/useRawProducts/useRawProducts.model";
 import { useToast } from "../../../hooks/useToast/useToast";
 import useNavigation from "../../../navigation/useNavigation/useNavigation";
+import useRoute from "../../../navigation/useRoute/useRoute";
+import { findObjectDifferences } from "../../../utils/findObjectDifferences";
 
 const CURawProductView: React.FC<CURawProductViewProps> = (props) => {
+
+  const route = useRoute({ screenName: "CURawProductView" });
+
+  const { rawProduct } = route.params || {};
 
   const [description, setDescription] = useState("");
   const [retailPrice, setRetailPrice] = useState("");
@@ -88,11 +95,90 @@ const CURawProductView: React.FC<CURawProductViewProps> = (props) => {
     }
   }
 
+  // Efecto para inicializar el formulario cuando existe rawProduct
+  useEffect(() => {
+    if (rawProduct) {
+      setDescription(rawProduct.description);
+      // Convertimos los números a string para los inputs
+      setRetailPrice(rawProduct.retailPrice.toString());
+      setWholesalePrice(rawProduct.wholesalePrice.toString());
+      // Si existe la unidad, la establecemos
+      setUnit(rawProduct.idUnits);
+      setSelectedOptionUnit(rawProduct.idUnits)
+    }
+  }, [rawProduct]);
+
+
+  const [visibleDeleteModal, setVisibleDeleteModal] = useState(false)
+  const openDeleteModal = async () => {
+    setVisibleDeleteModal(true)
+  }
+  const handleDelete = async () => {
+    if (!rawProduct) return;
+    try {
+      await rawProducts.crud.softDelete(rawProduct?.id)
+      showToast({
+        type: "success",
+        title: "GENERAL_SUCCESS_TOAST",
+        message: "CURAWPRODUCT_TOAST_DELETE_MSG"
+      })
+      setVisibleDeleteModal(false)
+      navigation.goBack()
+    } catch {
+      showToast({
+        type: "error",
+        title: "CURAWPRODUCT_TOAST_EDIT_ERROR",
+        message: "CURAWPRODUCT_TOAST_DELETE_ERROR"
+      })
+    }
+  }
+
+  const handleUpdate = async () => {
+
+    const isValidated = validateAll();
+
+    if (!isValidated || !rawProduct) return;
+
+    const currentRawProduct: Partial<RawProduct> = {
+      description: description[0].toUpperCase() + description.slice(1),
+      retailPrice: Number(retailPrice),
+      wholesalePrice: Number(wholesalePrice),
+      idUnits: { id: unit.id }
+    }
+
+    const objectDifferences = findObjectDifferences(rawProduct, currentRawProduct);
+
+    if (!objectDifferences) {
+      showToast({
+        type: "success",
+        title: "GENERAL_SUCCESS_TOAST",
+        message: "CURAWPRODUCT_TOAST_EDIT_MSG"
+      })
+      navigation.goBack()
+      return;
+    }
+
+    try {
+      await rawProducts.crud.update(rawProduct?.id, objectDifferences)
+      showToast({
+        type: "success",
+        title: "GENERAL_SUCCESS_TOAST",
+        message: "CURAWPRODUCT_TOAST_EDIT_MSG"
+      })
+      navigation.goBack()
+    } catch {
+      showToast({
+        type: "error",
+        title: "CURAWPRODUCT_TOAST_EDIT_ERROR",
+        message: "GENERAL_BANNER_MESSAGE"
+      })
+    }
+  }
 
   return (
     <ViewLayout>
 
-      <Header backButton headerSize="extraLarge" copyIDTitle="CURAWPRODUCT_HEADER" />
+      <Header backButton deleteFunc={rawProduct && openDeleteModal} headerSize="extraLarge" copyIDTitle={!rawProduct ? "CURAWPRODUCT_HEADER" : "CURAWPRODUCT_HEADER_EDIT"} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <TextInput
           autoCapitalize="sentences"
@@ -154,8 +240,16 @@ const CURawProductView: React.FC<CURawProductViewProps> = (props) => {
           setValue={setWholesalePrice}
           style={{ marginVertical: "4%" }}
         />
-        <PillButton onPress={handleCreate} isLoading={rawProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_CREATE" />
+        {
+          !rawProduct ? (
+
+            <PillButton onPress={handleCreate} isLoading={rawProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_CREATE" />
+          ) : (
+            <PillButton onPress={handleUpdate} isLoading={rawProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_UPDATE" />
+          )
+        }
       </KeyboardAwareScrollView>
+      <ModalDelete loading={rawProducts.crud.isLoading} handleDelete={handleDelete} visible={visibleDeleteModal} setVisible={setVisibleDeleteModal} />
 
     </ViewLayout>
   )

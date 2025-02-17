@@ -111,7 +111,7 @@ const CatalogView: React.FC<CatalogViewProps> = (props) => {
         <Searcher text={searchText} setText={setSearchText} placeHolderCopyID="CATA_SEARCHER_PLACE" style={{ marginHorizontal: 12, marginVertical: 12 }} />
       </HeaderWrapper>
 
-      <ProductList products={displayedProducts} onScroll={displayedProducts.length >= 7 ? handleChangeScrollY : () => { }} />
+      <ProductList products={displayedProducts} onScroll={displayedProducts.length >= 10 ? handleChangeScrollY : () => { }} />
       <ButtonWrapper>
         <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID={createCopyID} />
       </ButtonWrapper>

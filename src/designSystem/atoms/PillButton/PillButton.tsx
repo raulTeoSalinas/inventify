@@ -107,6 +107,7 @@ const PillButton: React.FC<PillButtonProps> = ({
                         backgroundColor={backgroundColor}
                         activeOpacity={0.8}
                         size={size}
+                        disabled={isLoading}
                         style={{ backgroundColor: "transparent" }}
                     >
                         {isLoading && <LottieView style={{ width: 70, height: 70, position: "absolute", marginHorizontal: "auto" }} autoPlay loop source={require("../../../assets/looties/loading.json")} />}
@@ -122,6 +123,7 @@ const PillButton: React.FC<PillButtonProps> = ({
                         onPress={onPress}
                         activeOpacity={0.8}
                         size={size}
+                        disabled={isLoading}
                         style={{ opacity: 0, backgroundColor: "transparent" }}
                     >
                         {isLoading && <LottieView style={{ width: 70, height: 70, position: "absolute", marginHorizontal: "auto" }} autoPlay loop source={require("../../../assets/looties/loading.json")} />}
@@ -140,6 +142,7 @@ const PillButton: React.FC<PillButtonProps> = ({
             activeOpacity={0.8}
             size={size}
             onPress={onPress}
+            disabled={isLoading}
         >
             {isLoading && <LottieView style={{ width: 70, height: 70, position: "absolute", marginHorizontal: "auto" }} autoPlay loop source={require("../../../assets/looties/loading.json")} />}
             <Text style={{ opacity: isLoading ? 0 : 1 }} copyID={copyID} bold color={textColor} size={textSize} />
