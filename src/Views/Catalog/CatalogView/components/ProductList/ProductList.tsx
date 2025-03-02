@@ -36,6 +36,12 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     }
   }
 
+  const handleEditService = (item: Service) => {
+    navigation.navigate("CUServicesView", {
+      service: item
+    })
+  }
+
   return (
 
     <FlatList<ProductItem>
@@ -44,6 +50,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
         item?.__typename === "services" ?
           <ServiceCard
             service={item as Service}
+            onEditPress={() => handleEditService(item as Service)}
           />
           :
           <ProductCard

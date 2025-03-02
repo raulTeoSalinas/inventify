@@ -90,7 +90,7 @@ const useRawProducts = (): RawProductsHook => {
         }
       },
       isLoading: loadingCreate || loadingUpdate || loadingDelete,
-
+      error: errorCreate || errorUpdate || errorDelete
     }
   }
 };

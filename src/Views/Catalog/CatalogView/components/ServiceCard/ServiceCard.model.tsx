@@ -5,6 +5,5 @@ import { Service } from "../../../../../viewModels/useServices/useServices.model
 export interface ServiceCardProps {
   service: Service;
   onEditPress?: () => void;
-  onAddPress?: () => void;
   style?: ViewStyle;
 }

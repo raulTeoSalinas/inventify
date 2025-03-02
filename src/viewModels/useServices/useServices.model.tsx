@@ -28,7 +28,7 @@ export interface ServicesHook {
     delete: (id: string) => Promise<any>;
     isLoading: boolean;
     error?: any;
-
+    softDelete: (id: string) => Promise<any>;
   };
 }
 

@@ -6,4 +6,5 @@ export { default as DashBoardView } from "./Dashboard/DashBoardView/DashBoardVie
 export { default as LoginView } from "./LoginView/LoginView"
 export { default as CURawMaterialView } from "./Catalog/CURawMaterialView/CURawMaterialView"
 export { default as CUFabricatedView } from "./Catalog/CUFabricatedView/CUFabricatedView"
+export { default as CUServicesView } from "./Catalog/CUServicesView/CUServicesView"
 

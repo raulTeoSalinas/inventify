@@ -72,6 +72,16 @@ const useServices = (): ServicesHook => {
           throw error;
         }
       },
+      softDelete: async (id: string) => {
+        try {
+          const result = await update(id, { isDeleted: true });
+          await refetch();
+          return result;
+        } catch (error) {
+          console.error('Error softdeleted service:', error);
+          throw error;
+        }
+      },
       isLoading: loadingCreate || loadingUpdate || loadingDelete,
       error: errorCreate || errorUpdate || errorDelete
 
