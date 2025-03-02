@@ -2,7 +2,7 @@
 // React
 import React from 'react';
 // React Native
-
+import { TouchableOpacity, View } from "react-native";
 // External Dependencies
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 // Internal Dependencies
@@ -15,11 +15,14 @@ import {
   RadioButton,
   Separator,
   PillButton,
-  ModalDelete
+  ModalDelete,
+  Icon
 } from "../../../designSystem";
 import { CUFabricatedViewProps } from "./CUFabricatedView.model";
 import { ItemContainer } from "../../../designSystem/molecules/SelectInput/SelectInput.styles";
 import useCUFabricatedView from "./CUFabricatedView.controller";
+import Button from "../../../designSystem/atoms/Button/Button";
+import { RawProduct } from "../../../viewModels/useRawProducts/useRawProducts.model";
 
 const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
 
@@ -45,7 +48,15 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
     handleUpdate,
     visibleDeleteModal,
     setVisibleDeleteModal,
-    openDeleteModal
+    openDeleteModal,
+    rawProductList,
+    fabricatedRaws,
+    selectedOptions,
+    setSelectedOptions,
+    handleQuantityChange,
+    handleChangeRawProduct,
+    addRowFabricatedRaws,
+    deleteRowFabricatedRaws
   } = useCUFabricatedView()
 
   return (
@@ -113,12 +124,84 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
           setValue={setWholesalePrice}
           style={{ marginVertical: "4%" }}
         />
+
+        <Text size="small" style={{ width: "90%", paddingLeft: "2%" }} textAlign="left" copyID="CUFABRICATED_RAW_MATERIAL_DESC" />
+        <View style={{ width: "90%", flexDirection: "row", alignItems: "center", marginTop: "2%" }}>
+          <Text bold size="extraSmall" textAlign="center" style={{ width: "20%" }} copyID="CUFABRICATED_QUANTITY" />
+          <Text bold size="extraSmall" textAlign="center" style={{ flex: 1 }} copyID="CUFABRICATED_RAW_MATERIAL" />
+        </View>
+        {
+          fabricatedRaws.map((fabricatedRaw, i) => (
+            <View style={{ width: "90%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: "2%" }} key={i}>
+              <TextInput
+                onBlur={() => validateSingle(`fabricatedRaws${i}_quantity`)}
+                isError={!validationStates[`fabricatedRaws${i}_quantity`]}
+                style={{ width: "20%" }}
+                setValue={(newValue) => handleQuantityChange(i, newValue)}
+                placeholder="CUFABRICATED_QUANTITY_PLACEHOLDER"
+                inputMode="decimal"
+                value={
+                  fabricatedRaw?.quantityRaw !== undefined
+                    ? String(fabricatedRaw.quantityRaw)
+                    : ""
+                }
+
+              />
+              <Text copyID={fabricatedRaw?.rawProducts_id?.idUnits ? getTranslatedUnit(fabricatedRaw?.rawProducts_id?.idUnits) ?? "" : ""} />
+              <SelectInput
+                isError={!validationStates[`fabricatedRaws${i}_rawProduct`]}
+                searchKey="description"
+                handleAccept={() => handleChangeRawProduct(i)}
+                options={rawProductList}
+                initialOption={fabricatedRaw?.rawProducts_id as RawProduct}
+                selectedOption={selectedOptions[i] as RawProduct}
+                setSelectedOption={(option: RawProduct) => {
+                  setSelectedOptions(prev => ({
+                    ...prev,
+                    [i]: option
+                  }));
+                }}
+                titleCopyID="CUFABRICATED_RAW_MATERIAL_PLACEHOLDER"
+                style={{ flex: 1, marginLeft: "1%" }}
+                specialRenderItem={({ item }) => (
+                  <ItemContainer>
+                    <RadioButton
+                      onPress={() => {
+                        setSelectedOptions(prev => ({
+                          ...prev,
+                          [i]: item
+                        }));
+                      }}
+                      style={{ width: "100%" }}
+                      isActive={selectedOptions[i]?.id === item.id}
+                      labelCopyID={item.description || ""}
+                    />
+                    <Separator />
+                  </ItemContainer>
+                )}
+              >
+                <Text color={fabricatedRaw?.rawProducts_id?.description ? "text" : "textLight"} size="extraSmall" copyID={fabricatedRaw?.rawProducts_id?.description || "CUFABRICATED_RAW_MATERIAL_PLACEHOLDER"} />
+              </SelectInput>
+              {
+                fabricatedRaws.length > 1 && (
+                  <TouchableOpacity onPress={() => deleteRowFabricatedRaws(i)}>
+                    <Icon color="error" name="trash" />
+                  </TouchableOpacity>
+                )
+              }
+            </View>
+          )
+
+          )
+        }
+        <Button style={{ marginTop: "4%" }} onPress={addRowFabricatedRaws} copyID="CUFABRICATED_ADD_RAW_MATERIAL" />
+
         {
           !fabricatedProduct ? (
 
-            <PillButton onPress={handleCreate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_CREATE" />
+            <PillButton onPress={handleCreate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginVertical: "12%" }} isGradient copyID="GENERAL_CREATE" />
           ) : (
-            <PillButton onPress={handleUpdate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginTop: "12%" }} isGradient copyID="GENERAL_UPDATE" />
+            <PillButton onPress={handleUpdate} isLoading={fabricatedProducts.crud.isLoading} style={{ width: "80%", marginVertical: "12%" }} isGradient copyID="GENERAL_UPDATE" />
           )
         }
       </KeyboardAwareScrollView>

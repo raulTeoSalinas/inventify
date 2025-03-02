@@ -27,7 +27,7 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
           <Text size="small" style={{ marginLeft: "2%", marginBottom: "1%" }} copyID={labelCopyID} />
         )
       }
-      <View style={{
+      <View style={[{
         shadowColor: "#5e5e5e7a",
         shadowOffset: {
           width: 0,
@@ -38,7 +38,10 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
         elevation: 24,
         backgroundColor: theme.colors.background,
         borderRadius: 24,
-      }}>
+      }, isError && {
+        borderWidth: 1,
+        borderColor: theme.colors.error
+      }]}>
         <Container>
           <StyledTextInput
             placeholder={translatedPlaceholder}
@@ -56,8 +59,8 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
 
         </Container>
       </View>
-      {isError &&
-        <Text color="error" size="small" style={{ textAlign: "center" }} copyID={errorMessage} />
+      {isError && errorMessage &&
+        <Text color="error" size="small" style={{ textAlign: "center" }} copyID={errorMessage ?? ""} />
       }
     </View>
   );

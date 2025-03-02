@@ -18,6 +18,3 @@ export const baseTheme = {
 }
 
 export type ThemeType = typeof baseTheme & { colors: ThemeColorsType };
-
-
-

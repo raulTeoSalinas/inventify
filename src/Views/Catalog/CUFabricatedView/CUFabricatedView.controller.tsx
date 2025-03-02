@@ -11,11 +11,16 @@ import { FabricatedProduct } from "../../../viewModels/useFabricatedProducts/use
 import { useToast } from "../../../hooks/useToast/useToast";
 import useNavigation from "../../../navigation/useNavigation/useNavigation";
 import useRoute from "../../../navigation/useRoute/useRoute";
-import { findObjectDifferences } from "../../../utils/findObjectDifferences";
+import { FabricatedProductRaw } from "../../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
+import { RawProduct } from "../../../viewModels/useRawProducts/useRawProducts.model";
+import { removeTypename } from "../../../utils/removeTypename";
+import { ValidationField } from "../../../hooks/useValidator/useValidator";
 
 const useCUFabricatedView = () => {
 
   const route = useRoute({ screenName: "CUFabricatedView" });
+
+  const { units, fabricatedProducts, rawProducts } = useMainContext();
 
   const { fabricatedProduct } = route.params || {};
 
@@ -23,10 +28,16 @@ const useCUFabricatedView = () => {
   const [retailPrice, setRetailPrice] = useState("");
   const [wholesalePrice, setWholesalePrice] = useState("");
 
-  const { units, fabricatedProducts } = useMainContext()
   const unitsList = units?.all?.list ?? [];
   const initialOptionUnit = unitsList[0] ?? null;
   const [unit, setUnit] = useState(initialOptionUnit)
+
+  const rawProductList = rawProducts.all.list ?? [];
+  const initialFabricatedRaw: Partial<FabricatedProductRaw> = {
+    quantityRaw: undefined,
+    rawProducts_id: undefined
+  };
+  const [fabricatedRaws, setFabricatedRaws] = useState<Partial<FabricatedProductRaw>[]>([initialFabricatedRaw])
 
 
   const [selectedOptionUnit, setSelectedOptionUnit] = useState(unit);
@@ -40,12 +51,44 @@ const useCUFabricatedView = () => {
     return language === "EN" ? item.nameEng : item.nameSpa;
   }
 
-  const { validateAll, validationStates, validateSingle } = useValidator({
+  const otherFields: Record<string, ValidationField> = {
     description: { value: description, validation: "notEmpty" },
     retailPrice: { value: retailPrice, validation: "positiveNumber" },
     wholesalePrice: { value: wholesalePrice, validation: "positiveNumber" },
     unit: { value: unit?.id ?? null, validation: "notNull" },
-  });
+  }
+  const [allFields, setAllFields] = useState<Record<string, ValidationField>>(otherFields);
+
+  useEffect(() => {
+
+    const otherFields: Record<string, ValidationField> = {
+      description: { value: description, validation: "notEmpty" },
+      retailPrice: { value: retailPrice, validation: "positiveNumber" },
+      wholesalePrice: { value: wholesalePrice, validation: "positiveNumber" },
+      unit: { value: unit?.id ?? null, validation: "notNull" },
+    }
+
+    const newFields: Record<string, ValidationField> = { ...otherFields };
+
+    // Agregar campos dinámicos para cada elemento en fabricatedRaws
+    fabricatedRaws.forEach((raw, index) => {
+      // Aquí usamos los valores literales directamente, TypeScript infiere el tipo correcto
+      newFields[`fabricatedRaws${index}_quantity`] = {
+        value: raw.quantityRaw as string,
+        validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
+      };
+
+      newFields[`fabricatedRaws${index}_rawProduct`] = {
+        value: raw.rawProducts_id?.id || null,
+        validation: "notNull" // Esto es de tipo ValidationType automáticamente
+      };
+    });
+
+    setAllFields(newFields);
+  }, [fabricatedRaws, description, retailPrice, wholesalePrice, unit]);
+
+
+  const { validateAll, validationStates, validateSingle } = useValidator(allFields);
 
   const { showToast } = useToast();
   const navigation = useNavigation();
@@ -78,19 +121,6 @@ const useCUFabricatedView = () => {
       })
     }
   }
-
-  // Efecto para inicializar el formulario cuando existe fabricatedProduct
-  useEffect(() => {
-    if (fabricatedProduct) {
-      setDescription(fabricatedProduct.description);
-      // Convertimos los números a string para los inputs
-      setRetailPrice(fabricatedProduct.retailPrice.toString());
-      setWholesalePrice(fabricatedProduct.wholesalePrice.toString());
-      // Si existe la unidad, la establecemos
-      setUnit(fabricatedProduct.idUnits);
-      setSelectedOptionUnit(fabricatedProduct.idUnits)
-    }
-  }, [fabricatedProduct]);
 
 
   const [visibleDeleteModal, setVisibleDeleteModal] = useState(false)
@@ -127,23 +157,12 @@ const useCUFabricatedView = () => {
       description: description[0].toUpperCase() + description.slice(1),
       retailPrice: Number(retailPrice),
       wholesalePrice: Number(wholesalePrice),
-      idUnits: { id: unit.id }
-    }
-
-    const objectDifferences = findObjectDifferences(fabricatedProduct, currentFabricatedProduct);
-
-    if (!objectDifferences) {
-      showToast({
-        type: "success",
-        title: "GENERAL_SUCCESS_TOAST",
-        message: "CUFABRICATED_TOAST_EDIT_MSG"
-      })
-      navigation.goBack()
-      return;
+      idUnits: { id: unit.id },
+      rawProducts: removeTypename(fabricatedRaws)
     }
 
     try {
-      await fabricatedProducts.crud.update(fabricatedProduct?.id, objectDifferences)
+      await fabricatedProducts.crud.update(fabricatedProduct?.id, currentFabricatedProduct)
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
@@ -158,6 +177,72 @@ const useCUFabricatedView = () => {
       })
     }
   }
+
+  const handleQuantityChange = (
+    index: number,
+    newValue: string,
+  ) => {
+    // Allow valid numeric inputs including decimal points in progress
+    if (newValue === '' || /^[0-9]*\.?[0-9]*$/.test(newValue)) {
+      const updatedRaws = [...fabricatedRaws];
+
+      // If the input ends with a decimal point, we need special handling
+      const endsWithDecimal = newValue.endsWith('.');
+
+      updatedRaws[index] = {
+        ...updatedRaws[index],
+        // For inputs ending with a decimal, store the string directly temporarily
+        quantityRaw: endsWithDecimal ? newValue : (newValue === '' ? undefined : Number(newValue))
+      };
+
+      setFabricatedRaws(updatedRaws);
+    }
+  };
+
+  const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: Partial<RawProduct> }>({});
+
+  const handleChangeRawProduct = (index: number) => {
+    const newFabricatedRaws = [...fabricatedRaws];
+    newFabricatedRaws[index] = {
+      ...newFabricatedRaws[index],
+      rawProducts_id: selectedOptions[index]
+    };
+    setFabricatedRaws(newFabricatedRaws);
+  };
+
+  const addRowFabricatedRaws = () => {
+    setFabricatedRaws(prevState => [
+      ...prevState,
+      {
+        quantityRaw: undefined,
+        rawProducts_id: undefined
+      }
+    ]);
+  }
+
+  const deleteRowFabricatedRaws = (i: number) => {
+    setFabricatedRaws(prevState => {
+      const newState = [...prevState];
+      newState.splice(i, 1);
+      return newState;
+    });
+  };
+
+
+  // Efecto para inicializar el formulario cuando existe fabricatedProduct
+  useEffect(() => {
+    if (fabricatedProduct) {
+      setDescription(fabricatedProduct.description);
+      // Convertimos los números a string para los inputs
+      setRetailPrice(fabricatedProduct.retailPrice.toString());
+      setWholesalePrice(fabricatedProduct.wholesalePrice.toString());
+      // Si existe la unidad, la establecemos
+      setUnit(fabricatedProduct.idUnits);
+      setSelectedOptionUnit(fabricatedProduct.idUnits)
+      setFabricatedRaws(fabricatedProduct.rawProducts)
+    }
+  }, [fabricatedProduct]);
+
 
   return {
     fabricatedProducts,
@@ -181,7 +266,15 @@ const useCUFabricatedView = () => {
     handleUpdate,
     visibleDeleteModal,
     setVisibleDeleteModal,
-    openDeleteModal
+    openDeleteModal,
+    rawProductList,
+    fabricatedRaws,
+    selectedOptions,
+    setSelectedOptions,
+    handleQuantityChange,
+    handleChangeRawProduct,
+    addRowFabricatedRaws,
+    deleteRowFabricatedRaws
   }
 }
 

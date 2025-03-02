@@ -13,12 +13,12 @@ export interface FabricatedProduct {
   idUnits: Unit;
   __typename: string;
   transactions: Transaction[];
-  rawProducts: FabricatedProductRaw[];
+  rawProducts: Partial<FabricatedProductRaw>[];
 }
 
 export interface FabricatedProductRaw {
   id: string;
-  quantityRaw: number;
+  quantityRaw: number | string;
   rawProducts_id: Partial<RawProduct>;
 }
 

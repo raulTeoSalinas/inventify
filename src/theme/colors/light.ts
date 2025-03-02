@@ -12,7 +12,7 @@ export const light = {
   error: "#ae2727ff",
   errorLight: "#f4b4b4ff",
   success: "#15b041",
-  successLight: "#d1d6d3",
+  successLight: "#8be3ae",
   warning: "#cfc207",
   warningLight: "#fffccd",
   gradientAux: "#8ff9ef"

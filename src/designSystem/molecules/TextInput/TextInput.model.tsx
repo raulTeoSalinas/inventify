@@ -5,7 +5,7 @@ export interface TextInputProps extends Omit<RNTextInputProps, 'onChangeText' | 
   setValue: (value: string) => void;
   iconName?: string;
   isError: boolean;
-  errorMessage: string;
+  errorMessage?: string;
   style?: StyleProp<ViewStyle>;
   labelCopyID?: string;
 }

@@ -30,12 +30,17 @@ const GET_PRODUCTS = gql`
         description
         id
       }
-      rawProducts {
+      rawProducts(filter: {rawProducts_id: {isDeleted: {_eq: false}}}) {
         id
         quantityRaw
         rawProducts_id {
           id
           description
+          idUnits {
+            id
+            nameEng
+            nameSpa
+          }
         }
       }
     }

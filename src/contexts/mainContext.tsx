@@ -1,5 +1,5 @@
 // React
-import React, { ReactNode, createContext, useContext } from "react";
+import React, { ReactNode, createContext, useContext, useEffect } from "react";
 // External Dependencies
 
 // Internal Dependencies
@@ -11,6 +11,7 @@ import useFabricatedProducts from "../viewModels/useFabricatedProducts/useFabric
 import useServices from "../viewModels/useServices/useServices";
 import { UnitsHook } from "../viewModels/useUnits/useUnits.model";
 import useUnits from "../viewModels/useUnits/useUnits";
+import { useAppSelector } from "../store/hooks";
 
 
 // Interfaz para el contexto
@@ -90,6 +91,8 @@ interface MainContextProviderProps {
 
 const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) => {
 
+  const token = useAppSelector((state) => state.auth.access_token);
+
   const rawProducts = useRawProducts();
 
   const fabricatedProducts = useFabricatedProducts();
@@ -98,11 +101,26 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const units = useUnits();
 
+  const refetchAll = async () => {
+    await rawProducts.all.refetch();
+    await fabricatedProducts.all.refetch();
+    await services.all.refetch();
+    await units.all.refetch();
+  }
+
+  // Refetch everything when we log in
+  useEffect(() => {
+    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list)) {
+      refetchAll();
+    }
+  }, [token])
+
   const value = {
     rawProducts,
     fabricatedProducts,
     services,
-    units
+    units,
+    refetchAll
   }
 
   return (

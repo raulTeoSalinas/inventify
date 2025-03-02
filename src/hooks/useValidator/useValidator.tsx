@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type ValidationType = 'email' | 'notEmpty' | 'positiveNumber' | 'notNull';
 
-interface ValidationField {
+export interface ValidationField {
   value: string | null;
   validation: ValidationType;
 }
@@ -16,6 +16,29 @@ export const useValidator = (fields: Record<string, ValidationField>) => {
       [fieldName]: true
     }), {})
   );
+
+  useEffect(() => {
+    // Actualizar los estados de validación cuando fields cambia
+    // Esto mantiene sincronizados validationStates con fields
+    const updatedValidationStates = Object.keys(fields).reduce((acc, fieldName) => ({
+      ...acc,
+      [fieldName]: validationStates[fieldName] !== undefined
+        ? validationStates[fieldName]  // Mantener el estado existente si existe
+        : true                         // Inicializar como válido si es un campo nuevo
+    }), {} as Record<string, boolean>);
+
+    // Solo actualizar si hay cambios en las claves (se agregaron o eliminaron campos)
+    const currentKeys = Object.keys(validationStates);
+    const newKeys = Object.keys(updatedValidationStates);
+    const keysChanged =
+      currentKeys.length !== newKeys.length ||
+      currentKeys.some(key => !newKeys.includes(key)) ||
+      newKeys.some(key => !currentKeys.includes(key));
+
+    if (keysChanged) {
+      setValidationStates(updatedValidationStates);
+    }
+  }, [fields]); // Dependencia: fields
 
   const validateEmail = (email: string) => {
     // string@string@.string

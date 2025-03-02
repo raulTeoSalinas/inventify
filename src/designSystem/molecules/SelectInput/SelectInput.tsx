@@ -1,5 +1,5 @@
 // React
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 // React Native
 import { ScrollView, View } from "react-native"
 // Internal Dependencies
@@ -14,7 +14,8 @@ import Button from "../../atoms/Button/Button"
 import { BottomSheetFooter, BottomSheetFlatList, BottomSheetFooterProps } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { ListRenderItem } from 'react-native';
-
+import Searcher from "../Searcher/Searcher"
+import useThemeProvider from "../../../theme/ThemeProvider.controller"
 
 
 const SelectInput = <T,>({
@@ -30,6 +31,7 @@ const SelectInput = <T,>({
   labelCopyID,
   errorMessage,
   isError,
+  searchKey,
   ...restProps
 }: SelectInputProps<T>) => {
 
@@ -85,6 +87,43 @@ const SelectInput = <T,>({
     [specialRenderItem, selectedOption]
   );
 
+  const [searchText, setSearchText] = useState("")
+
+  const [optionsDisplayed, setOptionsDisplayed] = useState(options)
+
+  useEffect(() => {
+    // Si el texto de búsqueda está vacío, mostrar todos los productos
+    if (!searchText.trim()) {
+      setOptionsDisplayed(options);
+      return;
+    }
+
+    // Realizar la búsqueda con texto normalizado
+    const normalizedSearch = searchText
+      .toLowerCase()
+      .trim()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    // Filtrar los productos
+    const filteredProducts = options.filter(item => {
+      if (!item || !searchKey) return false;
+      const value = item[searchKey] as any;
+      if (typeof value !== 'string') return false;
+
+      return value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .includes(normalizedSearch);
+    });
+
+    setOptionsDisplayed(filteredProducts);
+  }, [searchText
+  ]);
+
+  const theme = useThemeProvider();
+
   return (
     <>
       <View style={style}>
@@ -106,6 +145,10 @@ const SelectInput = <T,>({
           <StyledButton
             onPress={() => setIsVisible(true)}
             activeOpacity={0.8}
+            style={isError && {
+              borderWidth: 1,
+              borderColor: theme.colors.error
+            }}
             {...restProps}
           >
             {children}
@@ -121,11 +164,19 @@ const SelectInput = <T,>({
 
 
         <Text bold style={{ marginTop: 10, marginBottom: 8 }} textAlign="center" copyID={titleCopyID} />
+        {
+          searchKey && (
+            <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 8 }}>
+              <Searcher placeHolderCopyID="CATA_SEARCHER_PLACE" text={searchText} setText={setSearchText} style={{ width: "90%" }} />
+
+            </View>
+          )
+        }
+
         <BottomSheetFlatList
-          data={options}
+          data={optionsDisplayed}
           keyExtractor={(_, index) => index.toString()}
           renderItem={renderItem}
-
           contentContainerStyle={{ paddingHorizontal: 26, paddingBottom: 100 }}
         />
 

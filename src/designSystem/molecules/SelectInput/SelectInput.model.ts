@@ -14,4 +14,5 @@ export interface SelectInputProps<T = string> extends TouchableOpacityProps {
   labelCopyID?: string;
   errorMessage?: string;
   isError?: boolean;
+  searchKey?: string;
 }
