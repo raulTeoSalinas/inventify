@@ -103,7 +103,8 @@ const useCUFabricatedView = () => {
       description: description[0].toUpperCase() + description.slice(1),
       retailPrice: Number(retailPrice),
       wholesalePrice: Number(wholesalePrice),
-      idUnits: { id: unit.id }
+      idUnits: { id: unit.id },
+      rawProducts: removeTypename(fabricatedRaws)
     }
     try {
       await fabricatedProducts.crud.create(fabricatedProduct)

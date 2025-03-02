@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
           <Text
             size="small"
-            copyID={`${availableUnits} ${unitsTranslated}`}
+            copyID={`${Number.isInteger(availableUnits) ? availableUnits : availableUnits.toFixed(2)} ${unitsTranslated}`}
           />
         </InfoRow>
       </Row>

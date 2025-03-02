@@ -2,11 +2,12 @@
 
 // External Dependencies
 import { gql, useQuery } from "@apollo/client";
+
+// Internal Dependencies
+import { ServicesHook, ServicesData, Service } from "./useServices.model";
 import { useCreate } from "../../graphql/mutations/useCreate";
 import { useUpdate } from "../../graphql/mutations/useUpdate";
 import { useDelete } from "../../graphql/mutations/useDelete";
-// Internal Dependencies
-import { ServicesHook, ServicesData, Service } from "./useServices.model";
 
 // Define your GraphQL query
 const GET_SERVICES = gql`

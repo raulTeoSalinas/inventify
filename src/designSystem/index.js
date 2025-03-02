@@ -5,6 +5,7 @@ export { default as TextButton } from "./atoms/TextButton/TextButton"
 export { default as Toggle } from "./atoms/Toggle/Toggle"
 export { default as Separator } from "./atoms/Separator/Separator"
 export { default as RadioButton } from "./atoms/RadioButton/RadioButton"
+export { default as Button } from "./atoms/Button/Button"
 
 export { default as TextInput } from "./molecules/TextInput/TextInput"
 export { default as TabBarItem } from "./molecules/TabBarItem/TabBarItem"

@@ -9,7 +9,7 @@ const Container = styled(TouchableOpacity) <{ isActive: boolean }>`
   background-color: ${(props) =>
     props.isActive
       ? props.theme.colors.primary
-      : props.theme.colors.knobUnactive};
+      : props.theme.colors.shadow};
   justify-content: center;
   align-items: ${(props) =>
     props.isActive
@@ -21,7 +21,7 @@ const Container = styled(TouchableOpacity) <{ isActive: boolean }>`
   padding: 1px;
 `;
 const Circle = styled.View`
- background-color: ${(props) => props.theme.colors.background};
+ background-color: ${(props) => props.theme.colors.white};
   height: 18px;
   width: 18px;
   border-radius: 9px;

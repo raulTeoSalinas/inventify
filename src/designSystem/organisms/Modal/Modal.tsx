@@ -9,12 +9,14 @@ interface ModalProps extends Omit<BottomSheetModalProps, 'ref'> {
   visible: boolean;
   setVisible: (visible: boolean) => void;
   children: React.ReactNode;
+  index?: number
 }
 
 const Modal: React.FC<ModalProps> = ({
   visible,
   children,
   setVisible,
+  index = 0,
   ...restProps
 }) => {
 
@@ -60,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <BottomSheetModal
-      index={0}
+      index={index}
       ref={presentRef}
       snapPoints={snapPoints}
       enableDynamicSizing={false}

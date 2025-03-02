@@ -1,7 +1,7 @@
 // React
 import React from "react";
 // React Native
-import { View, TextInput as TextInputRN } from "react-native";
+import { View } from "react-native";
 // Internal Dependencies
 import { Container, StyledTextInput } from "./TextInput.styles";
 import Text from "../../atoms/Text/Text";
@@ -48,7 +48,7 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
             autoCapitalize={autoCapitalize}
             placeholderTextColor="#888888"
             value={value}
-            onChangeText={(text) => setValue(text)}
+            onChangeText={(text: string) => setValue(text)}
             inputMode={inputMode}
             secureTextEntry={secureTextEntry}
             {...props}

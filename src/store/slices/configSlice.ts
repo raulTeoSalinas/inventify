@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type configSliceType = {
-  isLoggedIn: boolean;
   language: 'EN' | 'ES';
   theme: 'light' | 'dark' | 'auto';
+  discountRaw: boolean;
 };
 
 const initialState: configSliceType = {
-  isLoggedIn: false,
+  discountRaw: false,
   language: 'ES',
   theme: 'auto',
 };
@@ -22,11 +22,11 @@ const configSlice = createSlice({
     setTheme: (state, action: PayloadAction<'light' | 'dark' | 'auto'>) => {
       state.theme = action.payload;
     },
-    setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
-      state.isLoggedIn = action.payload;
+    setDiscountRaw: (state, action: PayloadAction<boolean>) => {
+      state.discountRaw = action.payload;
     },
   },
 });
 
-export const { setLanguage, setTheme, setIsLoggedIn } = configSlice.actions;
+export const { setLanguage, setTheme, setDiscountRaw } = configSlice.actions;
 export default configSlice.reducer;

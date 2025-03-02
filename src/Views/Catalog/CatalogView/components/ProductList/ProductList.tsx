@@ -1,8 +1,11 @@
 
 // React
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 // React Native
-import { FlatList } from "react-native";
+import { FlatList, View, TextInput as RNTextInput } from "react-native";
+// External Dependencies
+import { BottomSheetFooter, BottomSheetFooterProps } from '@gorhom/bottom-sheet';// Internal dependencies
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // Internal Dependencies
 import ProductCard from "../ProductCard/ProductCard";
 import { ProductListProps, ProductItem } from "./ProductList.model";
@@ -10,13 +13,23 @@ import ServiceCard from "../ServiceCard/ServiceCard";
 import { Service } from "../../../../../viewModels/useServices/useServices.model";
 import { RawProduct } from "../../../../../viewModels/useRawProducts/useRawProducts.model";
 import { FabricatedProduct } from "../../../../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
-import { Text } from "../../../../../designSystem";
+import { Text, Modal, Icon, Button, TextInput, Toggle } from "../../../../../designSystem";
 import useNavigation from "../../../../../navigation/useNavigation/useNavigation";
-
+import { FooterContainer } from "../../../../../designSystem/molecules/SelectInput/SelectInput.styles";
+import { useValidator } from "../../../../../hooks/useValidator/useValidator";
+import { useAppSelector, useAppDispatch } from "../../../../../store/hooks";
+import { Unit } from "../../../../../viewModels/useUnits/useUnits.model";
+import useTransactions from "../../../../../viewModels/useTransactions/useTransactions";
+import { useMainContext } from "../../../../../contexts/mainContext";
+import { useToast } from "../../../../../hooks/useToast/useToast";
+import { setDiscountRaw } from "../../../../../store/slices/configSlice";
+import { Transaction } from "../../../../../viewModels/useTransactions/useTransactions.model";
 
 const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
 
   const navigation = useNavigation()
+
+  const discountRaw = useAppSelector((state) => state.config.discountRaw);
 
   const handleEditProduct = (item: RawProduct | FabricatedProduct) => {
     // Podemos usar la propiedad __typename para verificar el tipo
@@ -42,28 +55,221 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     })
   }
 
+  const { rawProducts, fabricatedProducts } = useMainContext()
+  const [addModalVisible, setAddModalVisible] = useState(false)
+
+  const insets = useSafeAreaInsets()
+
+  const paddingBottom = insets.bottom === 0 ? 20 : insets.bottom;
+
+  const handleCancel = () => {
+    setQuantityToAdd("")
+    setAddModalVisible(false)
+  }
+
+  const [quantityToAdd, setQuantityToAdd] = useState("")
+  const [productSelectedToAdd, setProductSelectedToAdd] = useState<FabricatedProduct | RawProduct | null>(null)
+
+  const { validateAll, validateSingle, validationStates } = useValidator({
+    quantityToAdd: { value: quantityToAdd, validation: "positiveNumber" }
+  })
+
+  const transactions = useTransactions();
+
+  const { showToast } = useToast();
+
+  const handleAdd = async () => {
+
+    const isValidated = validateAll()
+
+    if (!isValidated) return;
+
+    if (productSelectedToAdd?.__typename === "rawProducts") {
+
+      try {
+        await transactions.crud.create({
+          description: 'Added',
+          idRawProducts: { id: productSelectedToAdd?.id },
+          quantity: Number(quantityToAdd)
+        })
+        showToast({
+          type: "success",
+          title: "GENERAL_SUCCESS_TOAST",
+          message: "Se ha realizado el ingreso con éxito."
+        })
+      } catch {
+        showToast({
+          type: "error",
+          title: "Error al ingresar",
+          message: "GENERAL_BANNER_MESSAGE"
+        })
+      }
+      setAddModalVisible(false)
+
+      setQuantityToAdd("");
+      await rawProducts.all.refetch();
+
+      return;
+    }
+
+    if (productSelectedToAdd?.__typename === "fabricatedProducts") {
+      console.log(JSON.stringify(productSelectedToAdd, null, 2))
+      try {
+        if (!discountRaw) {
+
+          await transactions.crud.create({
+            description: 'Added',
+            idFabricatedProducts: { id: productSelectedToAdd?.id },
+            quantity: Number(quantityToAdd)
+          })
+        } else {
+
+          const transactionsToCreate: Partial<Transaction>[] = [{
+            description: 'Added',
+            idFabricatedProducts: { id: productSelectedToAdd?.id },
+            quantity: Number(quantityToAdd)
+          }];
+
+          if ('rawProducts' in productSelectedToAdd && productSelectedToAdd?.rawProducts && productSelectedToAdd?.rawProducts.length > 0) {
+            for (let i = 0; i < productSelectedToAdd?.rawProducts.length; i++) {
+              const rawProduct = productSelectedToAdd?.rawProducts[i];
+
+              // Calculate how many raw products are used based on quantity added
+              // Each fabricated product requires quantityRaw units of each raw material
+              const quantityUsed = Number(rawProduct.quantityRaw) * Number(quantityToAdd);
+
+              // Add transaction for the raw product
+              transactionsToCreate.push({
+                quantity: -quantityUsed, // Negative because it's being used/consumed
+                description: "Discounted By Fabricated",
+                idRawProducts: { id: rawProduct?.rawProducts_id?.id }
+              });
+            }
+          }
+
+          await transactions.crud.createMultiple(transactionsToCreate)
+          showToast({
+            type: "success",
+            title: "GENERAL_SUCCESS_TOAST",
+            message: "Se ha realizado el ingreso con éxito."
+          })
+        }
+
+        await rawProducts.all.refetch();
+        await fabricatedProducts.all.refetch();
+        setAddModalVisible(false)
+      } catch {
+        showToast({
+          type: "error",
+          title: "Error al ingresar",
+          message: "GENERAL_BANNER_MESSAGE"
+        })
+      }
+
+      return
+    }
+  }
+
+  const handleAddProduct = (item: RawProduct | FabricatedProduct) => {
+    setAddModalVisible(true)
+    setProductSelectedToAdd(item);
+  }
+
+  const renderFooter = useCallback(
+    (props: BottomSheetFooterProps) => (
+      <BottomSheetFooter {...props} bottomInset={0}>
+        <FooterContainer paddingBottom={paddingBottom}>
+          <Button onPress={handleCancel} backgroundColor="white" style={{ flex: 1 }} size="large" copyID="GENERAL_CANCEL" />
+          <Button loading={transactions.crud.isLoading} onPress={handleAdd} style={{ flex: 1 }} size="large" copyID="Ingresar" />
+        </FooterContainer>
+      </BottomSheetFooter>
+    ),
+    [handleAdd, paddingBottom, handleCancel]
+  );
+
+  const language = useAppSelector((state) => state.config.language);
+
+  const getTranslatedUnit = (item: Unit) => {
+    return language === "EN" ? item.nameEng : item.nameSpa;
+  }
+
+  const dispatch = useAppDispatch();
+  const changeDiscount = (value: boolean) => {
+    dispatch(setDiscountRaw(value));
+  }
+
+  const onDismissModal = () => {
+    setQuantityToAdd("");
+    setAddModalVisible(false)
+  }
+
   return (
+    <>
+      <Modal onDismiss={onDismissModal} footerComponent={renderFooter} index={1} visible={addModalVisible} setVisible={setAddModalVisible}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Icon provider="FontAwesome" color="secondary" size={80} name="boxes-packing" />
+          <Text bold size="huge" copyID="Ingresar" />
+          <Text style={{ marginTop: "4%" }} copyID={`Se ingresarán unidades al producto:`} />
+          <Text bold style={{ marginTop: "2%" }} copyID={`• ${productSelectedToAdd?.description}`} />
 
-    <FlatList<ProductItem>
-      data={products}
-      renderItem={({ item }) => (
-        item?.__typename === "services" ?
-          <ServiceCard
-            service={item as Service}
-            onEditPress={() => handleEditService(item as Service)}
-          />
-          :
-          <ProductCard
-            onEditPress={() => handleEditProduct(item as (RawProduct | FabricatedProduct))}
-            product={item as (RawProduct | FabricatedProduct)}
-          />
-      )}
-      keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={{ paddingBottom: 120 }}
-      onScroll={onScroll}
-      ListEmptyComponent={<Text textAlign="center" copyID="CATA_SEARCHER_EMPTY" />}
-    />
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <TextInput
+              setValue={setQuantityToAdd}
+              onBlur={() => validateSingle("quantityToAdd")}
+              isError={!validationStates.quantityToAdd}
+              errorMessage="Ingresa sólo números"
+              labelCopyID="Ingresar cantidad"
+              placeholder="Ej. 20"
+              style={{ marginTop: "4%", width: "80%" }}
+            />
+            <Text style={{ marginTop: "9%", marginLeft: "1%" }} copyID={productSelectedToAdd ? getTranslatedUnit(productSelectedToAdd?.idUnits) ?? "" : ""} />
+          </View>
 
+          {
+            productSelectedToAdd?.__typename === "fabricatedProducts" && (
+              <>
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", width: "100%", marginLeft: "12%", marginTop: "4%", marginBottom: "2%" }}>
+                  <Toggle isActive={discountRaw} onPress={() => changeDiscount(!discountRaw)} />
+                  <Text size="small" style={{ marginLeft: "1%" }} copyID="Descontar la Materia Prima proporcional" />
+                </View>
+              </>
+            )
+          }
+
+          {
+            productSelectedToAdd && 'rawProducts' in productSelectedToAdd && discountRaw
+            && productSelectedToAdd.rawProducts.map((rawProduct, i) => (
+              <View style={{ width: "90%", marginVertical: "1%" }} key={i}>
+                <Text size="small" copyID={`- ${Number(Number(quantityToAdd) * Number(rawProduct.quantityRaw)).toFixed(2)} ${rawProduct.rawProducts_id?.idUnits ? getTranslatedUnit(rawProduct.rawProducts_id.idUnits) : ""} de ${rawProduct.rawProducts_id?.description}`} />
+              </View>
+            ))
+          }
+
+        </View>
+
+
+      </Modal >
+      <FlatList<ProductItem>
+        data={products}
+        renderItem={({ item }) => (
+          item?.__typename === "services" ?
+            <ServiceCard
+              service={item as Service}
+              onEditPress={() => handleEditService(item as Service)}
+            />
+            :
+            <ProductCard
+              onEditPress={() => handleEditProduct(item as (RawProduct | FabricatedProduct))}
+              product={item as (RawProduct | FabricatedProduct)}
+              onAddPress={() => handleAddProduct(item as (RawProduct | FabricatedProduct))}
+            />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ paddingBottom: 120 }}
+        onScroll={onScroll}
+        ListEmptyComponent={<Text textAlign="center" copyID="CATA_SEARCHER_EMPTY" />}
+      />
+    </>
   )
 }
 
