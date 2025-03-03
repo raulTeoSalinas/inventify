@@ -8,4 +8,5 @@ export interface ProductCardProps {
   onEditPress?: () => void;
   onAddPress?: () => void;
   style?: ViewStyle;
+  onViewTransactionsPress?: () => void;
 }

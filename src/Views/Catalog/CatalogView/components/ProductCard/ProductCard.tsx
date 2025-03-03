@@ -16,6 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onEditPress,
   onAddPress,
+  onViewTransactionsPress,
   style
 }) => {
 
@@ -70,9 +71,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
           <Text
             size="small"
+            // copyID={`${Number.isInteger(availableUnits) ? availableUnits : availableUnits.toFixed(2)} ${unitsTranslated}`}
             copyID={`${Number.isInteger(availableUnits) ? availableUnits : availableUnits.toFixed(2)} ${unitsTranslated}`}
           />
         </InfoRow>
+      </Row>
+      <Row style={{ justifyContent: "flex-end" }}>
+        <TextButton
+          iconName="eye-outline"
+          iconSize={20}
+          iconColor="primary"
+          textSize="extraSmall"
+          bold
+          textColor="text"
+          copyID="Ver transacciones"
+          onPress={onViewTransactionsPress}
+        />
       </Row>
     </CardLayout>
   );

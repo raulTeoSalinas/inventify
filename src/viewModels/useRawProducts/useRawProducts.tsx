@@ -21,7 +21,8 @@ const GET_PRODUCTS = gql`
         nameEng
         nameSpa
       }
-      transactions {
+      transactions(sort: "-date_created") {
+        date_created
         quantity
         description
         id

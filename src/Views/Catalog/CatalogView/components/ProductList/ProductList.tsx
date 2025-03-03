@@ -95,12 +95,12 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
         showToast({
           type: "success",
           title: "GENERAL_SUCCESS_TOAST",
-          message: "Se ha realizado el ingreso con éxito."
+          message: "CATE_ENTER_TOAST_SUCCESS"
         })
       } catch {
         showToast({
           type: "error",
-          title: "Error al ingresar",
+          title: "CATE_ENTER_TOAST_ERROR",
           message: "GENERAL_BANNER_MESSAGE"
         })
       }
@@ -113,7 +113,6 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     }
 
     if (productSelectedToAdd?.__typename === "fabricatedProducts") {
-      console.log(JSON.stringify(productSelectedToAdd, null, 2))
       try {
         if (!discountRaw) {
 
@@ -151,7 +150,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
           showToast({
             type: "success",
             title: "GENERAL_SUCCESS_TOAST",
-            message: "Se ha realizado el ingreso con éxito."
+            message: "CATE_ENTER_TOAST_SUCCESS"
           })
         }
 
@@ -161,7 +160,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
       } catch {
         showToast({
           type: "error",
-          title: "Error al ingresar",
+          title: "CATE_ENTER_TOAST_ERROR",
           message: "GENERAL_BANNER_MESSAGE"
         })
       }
@@ -180,7 +179,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
       <BottomSheetFooter {...props} bottomInset={0}>
         <FooterContainer paddingBottom={paddingBottom}>
           <Button onPress={handleCancel} backgroundColor="white" style={{ flex: 1 }} size="large" copyID="GENERAL_CANCEL" />
-          <Button loading={transactions.crud.isLoading} onPress={handleAdd} style={{ flex: 1 }} size="large" copyID="Ingresar" />
+          <Button loading={transactions.crud.isLoading} onPress={handleAdd} style={{ flex: 1 }} size="large" copyID="CATA_CREATE_ENTER" />
         </FooterContainer>
       </BottomSheetFooter>
     ),
@@ -203,13 +202,34 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
     setAddModalVisible(false)
   }
 
+  const getQuantityRaw = (rawProduct) => {
+
+    const result = Number(quantityToAdd) * Number(rawProduct.quantityRaw);
+
+    if (Number.isInteger(result)) {
+      return String(result)
+    }
+
+    return `${Number(result).toFixed(4)}`
+  }
+
+  const getUnitsRaw = (rawProduct) => {
+    return rawProduct.rawProducts_id?.idUnits ? getTranslatedUnit(rawProduct.rawProducts_id.idUnits) ?? "" : ""
+  }
+
+  const handleOpenViewTransactions = (item: RawProduct | FabricatedProduct) => {
+    navigation.navigate('TransactionsView', {
+      product: item
+    });
+  }
+
   return (
     <>
       <Modal onDismiss={onDismissModal} footerComponent={renderFooter} index={1} visible={addModalVisible} setVisible={setAddModalVisible}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Icon provider="FontAwesome" color="secondary" size={80} name="boxes-packing" />
-          <Text bold size="huge" copyID="Ingresar" />
-          <Text style={{ marginTop: "4%" }} copyID={`Se ingresarán unidades al producto:`} />
+          <Text bold size="huge" copyID="CATA_CREATE_ENTER" />
+          <Text style={{ marginTop: "4%" }} copyID="CATE_ENTER_TEXT" />
           <Text bold style={{ marginTop: "2%" }} copyID={`• ${productSelectedToAdd?.description}`} />
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -217,9 +237,9 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
               setValue={setQuantityToAdd}
               onBlur={() => validateSingle("quantityToAdd")}
               isError={!validationStates.quantityToAdd}
-              errorMessage="Ingresa sólo números"
-              labelCopyID="Ingresar cantidad"
-              placeholder="Ej. 20"
+              errorMessage="CURAWMATERIAL_REPRICE_ERROR"
+              labelCopyID="CATE_ENTER_LABEL"
+              placeholder="CATE_ENTER_PLACEHOLDER"
               style={{ marginTop: "4%", width: "80%" }}
             />
             <Text style={{ marginTop: "9%", marginLeft: "1%" }} copyID={productSelectedToAdd ? getTranslatedUnit(productSelectedToAdd?.idUnits) ?? "" : ""} />
@@ -230,7 +250,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
               <>
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", width: "100%", marginLeft: "12%", marginTop: "4%", marginBottom: "2%" }}>
                   <Toggle isActive={discountRaw} onPress={() => changeDiscount(!discountRaw)} />
-                  <Text size="small" style={{ marginLeft: "1%" }} copyID="Descontar la Materia Prima proporcional" />
+                  <Text size="small" style={{ marginLeft: "1%" }} copyID="CATE_ENTER_DISCOUNT" />
                 </View>
               </>
             )
@@ -240,7 +260,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
             productSelectedToAdd && 'rawProducts' in productSelectedToAdd && discountRaw
             && productSelectedToAdd.rawProducts.map((rawProduct, i) => (
               <View style={{ width: "90%", marginVertical: "1%" }} key={i}>
-                <Text size="small" copyID={`- ${Number(Number(quantityToAdd) * Number(rawProduct.quantityRaw)).toFixed(2)} ${rawProduct.rawProducts_id?.idUnits ? getTranslatedUnit(rawProduct.rawProducts_id.idUnits) : ""} de ${rawProduct.rawProducts_id?.description}`} />
+                <Text size="small" copyID="CATE_ENTER_RAW_MATERIAL" copyVariables={{ quantity: getQuantityRaw(rawProduct), unit: getUnitsRaw(rawProduct), product: rawProduct?.rawProducts_id?.description ?? "" }} />
               </View>
             ))
           }
@@ -262,6 +282,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
               onEditPress={() => handleEditProduct(item as (RawProduct | FabricatedProduct))}
               product={item as (RawProduct | FabricatedProduct)}
               onAddPress={() => handleAddProduct(item as (RawProduct | FabricatedProduct))}
+              onViewTransactionsPress={() => handleOpenViewTransactions(item as (RawProduct | FabricatedProduct))}
             />
         )}
         keyExtractor={(item) => item.id.toString()}

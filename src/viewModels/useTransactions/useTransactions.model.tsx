@@ -8,8 +8,9 @@ import { RawProduct } from "../useRawProducts/useRawProducts.model";
 // Internal Dependencies
 export interface Transaction {
   quantity: number;
-  description: string;
+  description: 'Added' | 'Discounted By Fabricated';
   id: string;
+  date_created?: string;
   idFabricatedProducts?: Partial<FabricatedProduct>
   idRawProducts?: Partial<RawProduct>
 }
