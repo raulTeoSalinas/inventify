@@ -6,6 +6,8 @@ import { FlatList } from "react-native";
 // Internal Dependencies
 import NoteCard from "../NoteCard/NoteCard";
 import { NoteListProps } from "./NoteList.model";
+import { Note } from "../../../../../viewModels/useNotes/useNotes.model";
+import { useMainContext } from "../../../../../contexts/mainContext";
 
 
 
@@ -26,18 +28,15 @@ const remisiones = [
 const NoteList: React.FC<NoteListProps> = ({ onScroll }) => {
 
 
+  const { notes } = useMainContext();
+
   return (
 
     <FlatList
-      data={remisiones}
+      data={notes.all.list}
       renderItem={({ item }) => (
         <NoteCard
-          key={item.id}
-          id={item.id}
-          date={item.date}
-          customer={item.customerName}
-          issuedBy="Gerardo González"
-          totalAmount={item.totalAmount}
+          note={item as Note}
           onPress={() => { }}
         />
       )}

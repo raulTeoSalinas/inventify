@@ -10,6 +10,7 @@ export interface Transaction {
   quantity: number;
   description: 'Added' | 'Discounted By Fabricated';
   id: string;
+  price?: number;
   date_created?: string;
   idFabricatedProducts?: Partial<FabricatedProduct>
   idRawProducts?: Partial<RawProduct>

@@ -12,6 +12,8 @@ import useServices from "../viewModels/useServices/useServices";
 import { UnitsHook } from "../viewModels/useUnits/useUnits.model";
 import useUnits from "../viewModels/useUnits/useUnits";
 import { useAppSelector } from "../store/hooks";
+import { NotesHook } from "../viewModels/useNotes/useNotes.model";
+import useNotes from "../viewModels/useNotes/useNotes";
 
 
 // Interfaz para el contexto
@@ -20,6 +22,7 @@ interface MainContextType {
   fabricatedProducts: FabricatedProductsHook;
   services: ServicesHook;
   units: UnitsHook;
+  notes: NotesHook
 }
 
 const MainContext = createContext<MainContextType>({
@@ -78,6 +81,22 @@ const MainContext = createContext<MainContextType>({
       isLoading: false,
       error: undefined
     }
+  },
+  notes: {
+    all: {
+      list: undefined,
+      refetch: async () => { },
+      isLoading: false,
+      error: undefined
+    },
+    crud: {
+      create: async () => { },
+      update: async () => { },
+      delete: async () => { },
+      softDelete: async () => { },
+      isLoading: false,
+      error: undefined
+    }
   }
 });
 
@@ -102,16 +121,19 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const units = useUnits();
 
+  const notes = useNotes();
+
   const refetchAll = async () => {
     await rawProducts.all.refetch();
     await fabricatedProducts.all.refetch();
     await services.all.refetch();
     await units.all.refetch();
+    await notes.all.refetch();
   }
 
   // Refetch everything when we log in
   useEffect(() => {
-    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list)) {
+    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list)) {
       refetchAll();
     }
   }, [token])
@@ -121,7 +143,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     fabricatedProducts,
     services,
     units,
-    refetchAll
+    refetchAll,
+    notes
   }
 
   return (

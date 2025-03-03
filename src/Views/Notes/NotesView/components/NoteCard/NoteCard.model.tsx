@@ -1,8 +1,6 @@
+import { Note } from "../../../../../viewModels/useNotes/useNotes.model";
+
 export type NoteCardProps = {
-  id: number;
-  date: string;
-  customer: string;
-  totalAmount: string;
-  issuedBy: string;
+  note: Note
   onPress: () => void;
 }
