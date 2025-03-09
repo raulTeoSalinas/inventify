@@ -7,7 +7,7 @@ export const StyledButton = styled.TouchableOpacity.attrs({
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  background-color: ${({ theme }) => theme.colors.backgroundContrast};
+  background-color: ${({ theme, backgroundLight }) => backgroundLight ? theme.colors.background : theme.colors.backgroundContrast};
   border-radius: 24px;
   border-width: 1px;
   border-color: ${({ theme }) => theme.colors.border};

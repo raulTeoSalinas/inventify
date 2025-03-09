@@ -234,6 +234,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <TextInput
+              inputMode='decimal'
               setValue={setQuantityToAdd}
               onBlur={() => validateSingle("quantityToAdd")}
               isError={!validationStates.quantityToAdd}

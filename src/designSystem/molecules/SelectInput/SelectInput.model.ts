@@ -1,9 +1,8 @@
 import { TouchableOpacityProps, StyleProp, ViewStyle } from "react-native"
 
-
 export interface SelectInputProps<T = string> extends TouchableOpacityProps {
   children: React.ReactNode;
-  options: T[];
+  options: T[] | T[][];
   titleCopyID: string;
   initialOption: T;
   specialRenderItem?: (info: { item: T; index: number }) => React.ReactElement;
@@ -16,4 +15,6 @@ export interface SelectInputProps<T = string> extends TouchableOpacityProps {
   isError?: boolean;
   searchKey?: string;
   placeHolderSearch?: string;
+  segmentOptions?: string[];
+  backgroundLight?: boolean;
 }

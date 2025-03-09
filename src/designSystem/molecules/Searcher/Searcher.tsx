@@ -1,5 +1,5 @@
 // React
-import { useState } from "react";
+import React, { useState } from "react";
 // Internal Dependencies
 import Icon from "../../atoms/Icon/Icon";
 import { StyledTextInput, Container } from "./Searcher.styles";

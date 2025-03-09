@@ -11,7 +11,7 @@ import Icon from "../../atoms/Icon/Icon";
 import useTranslations from "../../../translations/useTranslations";
 
 
-const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, style, labelCopyID, ...props }) => {
+const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, style, labelCopyID, backgroundLight, ...props }) => {
 
   const theme = useThemeProvider();
 
@@ -28,6 +28,10 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
         )
       }
       <View style={[{
+        backgroundColor: backgroundLight ? theme.colors.backgroundContrast : theme.colors.background,
+        borderRadius: 24
+      },
+      !backgroundLight && {
         shadowColor: "#5e5e5e7a",
         shadowOffset: {
           width: 0,
@@ -36,14 +40,14 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
         elevation: 24,
-        backgroundColor: theme.colors.background,
-        borderRadius: 24,
+
       }, isError && {
         borderWidth: 1,
         borderColor: theme.colors.error
       }]}>
         <Container>
           <StyledTextInput
+            backgroundLight={backgroundLight}
             placeholder={translatedPlaceholder}
             autoCapitalize={autoCapitalize}
             placeholderTextColor="#888888"

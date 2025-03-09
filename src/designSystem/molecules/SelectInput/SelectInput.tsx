@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { ListRenderItem } from 'react-native';
 import Searcher from "../Searcher/Searcher"
 import useThemeProvider from "../../../theme/ThemeProvider.controller"
+import SegmentedControl from "../SegmentedControl/SegmentedControl"
 
 
 const SelectInput = <T,>({
@@ -33,11 +34,14 @@ const SelectInput = <T,>({
   isError,
   searchKey,
   placeHolderSearch,
+  segmentOptions,
+  backgroundLight,
   ...restProps
 }: SelectInputProps<T>) => {
 
   const [isVisible, setIsVisible] = useState(false);
 
+  const [optionsIndex, setOptionsIndex] = useState(0);
 
   const insets = useSafeAreaInsets()
 
@@ -90,12 +94,15 @@ const SelectInput = <T,>({
 
   const [searchText, setSearchText] = useState("")
 
-  const [optionsDisplayed, setOptionsDisplayed] = useState(options)
+
+
+  const [optionsDisplayed, setOptionsDisplayed] = useState<T[]>(options as T[])
 
   useEffect(() => {
+    const optionsInternal: T[] = Array.isArray(options[0]) ? options[optionsIndex] as T[] : options as T[];
     // Si el texto de búsqueda está vacío, mostrar todos los productos
     if (!searchText.trim()) {
-      setOptionsDisplayed(options);
+      setOptionsDisplayed(optionsInternal);
       return;
     }
 
@@ -107,7 +114,7 @@ const SelectInput = <T,>({
       .replace(/[\u0300-\u036f]/g, '');
 
     // Filtrar los productos
-    const filteredProducts = options.filter(item => {
+    const filteredProducts = optionsInternal.filter(item => {
       if (!item || !searchKey) return false;
       const value = item[searchKey] as any;
       if (typeof value !== 'string') return false;
@@ -119,11 +126,23 @@ const SelectInput = <T,>({
         .includes(normalizedSearch);
     });
 
-    setOptionsDisplayed(filteredProducts);
-  }, [searchText
+    setOptionsDisplayed(filteredProducts as T[]);
+  }, [searchText, optionsIndex
   ]);
 
   const theme = useThemeProvider();
+
+  const [sectionSelected, setSectionSelected] = useState(segmentOptions ? segmentOptions[0] : "");
+  const handleChangeSection = (section: string) => {
+    // find index of section in segmentOptions and set it to optionsIndex
+    const index = segmentOptions?.findIndex((item) => item === section);
+
+    if (index !== undefined) {
+      setOptionsIndex(index);
+
+    }
+    setSectionSelected(section);
+  }
 
   return (
     <>
@@ -133,7 +152,7 @@ const SelectInput = <T,>({
             <Text size="small" textAlign="left" style={{ marginLeft: "2%", marginBottom: "1%" }} copyID={labelCopyID} />
           )
         }
-        <View style={[{
+        <View style={[!backgroundLight && {
           shadowColor: "#5e5e5e7a",
           shadowOffset: {
             width: 0,
@@ -144,6 +163,7 @@ const SelectInput = <T,>({
           elevation: 24,
         }]}>
           <StyledButton
+            backgroundLight={backgroundLight}
             onPress={() => setIsVisible(true)}
             activeOpacity={0.8}
             style={isError && {
@@ -168,9 +188,18 @@ const SelectInput = <T,>({
         {
           searchKey && (
             <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 8 }}>
-              <Searcher placeHolderCopyID={placeHolderSearch ? placeHolderSearch : "CATA_SEARCHER_PLACE"} text={searchText} setText={setSearchText} style={{ width: "90%" }} />
+              <Searcher placeHolderCopyID={placeHolderSearch ? placeHolderSearch : "CATA_SEARCHER_PLACE"} setText={setSearchText} style={{ width: "90%" }} />
 
             </View>
+          )
+        }
+
+        {
+          segmentOptions && (
+            <SegmentedControl items={segmentOptions}
+              itemSelected={sectionSelected}
+              setItemSelected={handleChangeSection}
+              style={{ marginHorizontal: 20, marginBottom: 8 }} />
           )
         }
 

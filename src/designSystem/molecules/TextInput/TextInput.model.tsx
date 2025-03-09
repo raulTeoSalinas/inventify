@@ -8,4 +8,5 @@ export interface TextInputProps extends Omit<RNTextInputProps, 'onChangeText' | 
   errorMessage?: string;
   style?: StyleProp<ViewStyle>;
   labelCopyID?: string;
+  backgroundLight?: boolean;
 }
