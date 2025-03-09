@@ -95,7 +95,7 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      update: async (id: string, data: Partial<Note>) => {
+      update: async (id: number, data: Partial<Note>) => {
         try {
           const result = await update(id, data);
           await refetch();
@@ -105,7 +105,7 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      delete: async (id: string) => {
+      delete: async (id: number) => {
         try {
           const result = await remove(id);
           await refetch();
@@ -115,7 +115,7 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      softDelete: async (id: string) => {
+      softDelete: async (id: number) => {
         try {
           const result = await update(id, { isDeleted: true });
           await refetch();

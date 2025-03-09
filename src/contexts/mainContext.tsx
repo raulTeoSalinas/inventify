@@ -14,7 +14,8 @@ import useUnits from "../viewModels/useUnits/useUnits";
 import { useAppSelector } from "../store/hooks";
 import { NotesHook } from "../viewModels/useNotes/useNotes.model";
 import useNotes from "../viewModels/useNotes/useNotes";
-
+import useCustomers from "../viewModels/useCustomers/useCustomers";
+import { CustomersHook } from "../viewModels/useCustomers/useCustomers.model";
 
 // Interfaz para el contexto
 interface MainContextType {
@@ -22,83 +23,11 @@ interface MainContextType {
   fabricatedProducts: FabricatedProductsHook;
   services: ServicesHook;
   units: UnitsHook;
-  notes: NotesHook
+  notes: NotesHook;
+  customers: CustomersHook;
 }
 
-const MainContext = createContext<MainContextType>({
-  rawProducts: {
-    all: {
-      list: undefined,
-      refetch: async () => { },
-      isLoading: false,
-      error: undefined
-    },
-    crud: {
-      create: async () => { },
-      update: async () => { },
-      delete: async () => { },
-      softDelete: async () => { },
-      isLoading: false,
-      error: undefined
-    }
-  },
-  fabricatedProducts: {
-    all: {
-      list: undefined,
-      refetch: async () => { },
-      isLoading: false,
-      error: undefined
-    },
-    crud: {
-      create: async () => { },
-      update: async () => { },
-      delete: async () => { },
-      softDelete: async () => { },
-      isLoading: false,
-      error: undefined
-    }
-  },
-  services: {
-    all: {
-      list: undefined,
-      refetch: async () => { },
-      isLoading: false,
-      error: undefined
-    },
-    crud: {
-      create: async () => { },
-      update: async () => { },
-      delete: async () => { },
-      softDelete: async () => { },
-      isLoading: false,
-      error: undefined
-    }
-  },
-  units: {
-    all: {
-      list: undefined,
-      refetch: async () => { },
-      isLoading: false,
-      error: undefined
-    }
-  },
-  notes: {
-    all: {
-      list: undefined,
-      refetch: async () => { },
-      isLoading: false,
-      error: undefined
-    },
-    crud: {
-      create: async () => { },
-      update: async () => { },
-      delete: async () => { },
-      softDelete: async () => { },
-      isLoading: false,
-      error: undefined
-    }
-  }
-});
+const MainContext = createContext<MainContextType>({} as MainContextType);
 
 export const useMainContext = () => {
   const context = useContext(MainContext)
@@ -123,17 +52,20 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const notes = useNotes();
 
+  const customers = useCustomers();
+
   const refetchAll = async () => {
     await rawProducts.all.refetch();
     await fabricatedProducts.all.refetch();
     await services.all.refetch();
     await units.all.refetch();
     await notes.all.refetch();
+    await customers.all.refetch();
   }
 
   // Refetch everything when we log in
   useEffect(() => {
-    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list)) {
+    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list || !customers.all.list)) {
       refetchAll();
     }
   }, [token])
@@ -144,7 +76,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     services,
     units,
     refetchAll,
-    notes
+    notes,
+    customers
   }
 
   return (

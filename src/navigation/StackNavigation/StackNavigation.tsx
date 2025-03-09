@@ -1,11 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { CURawMaterialView, CUFabricatedView, CUServicesView, TransactionsView } from "../../Views";
+import { CURawMaterialView, CUFabricatedView, CUServicesView, TransactionsView, CUNotesView } from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { RawProduct } from "../../viewModels/useRawProducts/useRawProducts.model";
 import { FabricatedProduct } from "../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
 import { Service } from "../../viewModels/useServices/useServices.model";
+import { Note } from "../../viewModels/useNotes/useNotes.model";
 
 // Define the stack parameter list type
 export type RootStackParamList = {
@@ -21,6 +22,9 @@ export type RootStackParamList = {
   },
   TransactionsView: {
     product: RawProduct | FabricatedProduct
+  },
+  CUNotesView: {
+    note?: Note
   }
 };
 
@@ -54,6 +58,10 @@ const StackNavigation = () => {
         <Stack.Screen
           name="TransactionsView"
           component={TransactionsView}
+        />
+        <Stack.Screen
+          name="CUNotesView"
+          component={CUNotesView}
         />
       </Stack.Navigator>
     </NavigationContainer>

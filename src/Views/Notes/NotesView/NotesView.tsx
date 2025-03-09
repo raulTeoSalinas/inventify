@@ -16,11 +16,18 @@ import { NotesViewProps } from "./NotesView.model";
 import NoteList from "./components/NoteList/NoteList";
 import useHideInScroll from "../../../hooks/useHideInScroll/useHideInSroll";
 import { HeaderWrapper, ButtonWrapper } from "./NotesView.styles";
+import useNavigation from "../../../navigation/useNavigation/useNavigation";
 
 const NotesView: React.FC<NotesViewProps> = (props) => {
 
 
   const { HideView, handleChangeScrollY } = useHideInScroll();
+
+  const navigation = useNavigation();
+
+  const handleCreate = () => {
+    navigation.navigate("CUNotesView", {})
+  }
 
   return (
     <ViewLayout>
@@ -32,7 +39,7 @@ const NotesView: React.FC<NotesViewProps> = (props) => {
       </HeaderWrapper>
       <NoteList onScroll={handleChangeScrollY} />
       <ButtonWrapper>
-        <PillButton backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="Crear" />
+        <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="Crear" />
       </ButtonWrapper>
     </ViewLayout>
   )

@@ -1,9 +1,11 @@
 // React
 import React from 'react'
 // React Native
-import { TouchableOpacity } from "react-native"
+import { TouchableOpacity, ViewStyle } from "react-native"
 // External Depencencies
 import styled from "styled-components/native"
+// Internal Dependencies
+import Text from "../Text/Text"
 
 const Container = styled(TouchableOpacity) <{ isActive: boolean }>`
   background-color: ${(props) =>
@@ -27,12 +29,32 @@ const Circle = styled.View`
   border-radius: 9px;
 `
 
+const ToggleWrapper = styled(TouchableOpacity)`
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 type ToggleProps = {
   isActive: boolean,
-  onPress: () => void
+  onPress: () => void,
+  copyID?: string,
+  style?: ViewStyle
 }
 
-const Toggle: React.FC<ToggleProps> = ({ isActive, onPress }) => {
+const Toggle: React.FC<ToggleProps> = ({ isActive, onPress, copyID, style }) => {
+
+  if (copyID) {
+    return (
+      <ToggleWrapper style={style} onPress={onPress}>
+        <Container onPress={onPress} isActive={isActive}>
+          <Circle />
+        </Container>
+        <Text style={{ marginLeft: 4 }} copyID={copyID} />
+      </ToggleWrapper>
+    )
+  }
+
   return (
     <Container onPress={onPress} isActive={isActive}>
       <Circle />

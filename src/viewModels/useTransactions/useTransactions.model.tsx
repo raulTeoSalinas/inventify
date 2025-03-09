@@ -2,7 +2,8 @@
 
 import { FabricatedProduct } from "../useFabricatedProducts/useFabricatedProducts.model";
 import { RawProduct } from "../useRawProducts/useRawProducts.model";
-
+import { Note } from "../useNotes/useNotes.model";
+import { Service } from "../useServices/useServices.model";
 // External Dependencies
 
 // Internal Dependencies
@@ -11,6 +12,8 @@ export interface Transaction {
   description: 'Added' | 'Discounted By Fabricated';
   id: string;
   price?: number;
+  idNotes?: Note;
+  idServices?: Partial<Service>;
   date_created?: string;
   idFabricatedProducts?: Partial<FabricatedProduct>
   idRawProducts?: Partial<RawProduct>

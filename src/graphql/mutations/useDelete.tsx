@@ -22,7 +22,7 @@ export const useDelete = ({ collection }: UseDeleteProps) => {
 
   const [mutate, { loading, error }] = useMutation<DeleteResponse>(DELETE_MUTATION);
 
-  const remove = async (id: string) => {
+  const remove = async (id: string | number) => {
     try {
       const response = await mutate({
         variables: { id }

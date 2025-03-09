@@ -1,8 +1,9 @@
+import React from "react";
 import { StyledSeparator } from "./Separator.styled";
 
-const Separator = () => {
+const Separator = ({ style = {} }) => {
 
-  return <StyledSeparator />;
+  return <StyledSeparator style={style} />;
 }
 
 export default Separator;

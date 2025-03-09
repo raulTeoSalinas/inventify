@@ -32,6 +32,7 @@ const SelectInput = <T,>({
   errorMessage,
   isError,
   searchKey,
+  placeHolderSearch,
   ...restProps
 }: SelectInputProps<T>) => {
 
@@ -167,7 +168,7 @@ const SelectInput = <T,>({
         {
           searchKey && (
             <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 8 }}>
-              <Searcher placeHolderCopyID="CATA_SEARCHER_PLACE" text={searchText} setText={setSearchText} style={{ width: "90%" }} />
+              <Searcher placeHolderCopyID={placeHolderSearch ? placeHolderSearch : "CATA_SEARCHER_PLACE"} text={searchText} setText={setSearchText} style={{ width: "90%" }} />
 
             </View>
           )

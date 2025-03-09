@@ -104,7 +104,7 @@ const useCUFabricatedView = () => {
       retailPrice: Number(retailPrice),
       wholesalePrice: Number(wholesalePrice),
       idUnits: { id: unit.id },
-      rawProducts: removeTypename(fabricatedRaws)
+      rawProducts: removeTypename(fabricatedRaws) // NOTE: REMOVE ALSO THE TRANSACTIONS FROM RAW PRODUCTS
     }
     try {
       await fabricatedProducts.crud.create(fabricatedProduct)
@@ -241,6 +241,12 @@ const useCUFabricatedView = () => {
       setUnit(fabricatedProduct.idUnits);
       setSelectedOptionUnit(fabricatedProduct.idUnits)
       setFabricatedRaws(fabricatedProduct.rawProducts)
+      setSelectedOptions(fabricatedProduct.rawProducts.reduce((acc, raw, index) => {
+        if (raw?.rawProducts_id) {
+          acc[index] = raw.rawProducts_id;
+        }
+        return acc;
+      }, {}));
     }
   }, [fabricatedProduct]);
 

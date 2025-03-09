@@ -15,4 +15,5 @@ export interface SelectInputProps<T = string> extends TouchableOpacityProps {
   errorMessage?: string;
   isError?: boolean;
   searchKey?: string;
+  placeHolderSearch?: string;
 }

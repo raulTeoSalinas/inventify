@@ -22,7 +22,7 @@ export const useUpdate = ({ collection }: UseUpdateProps) => {
 
   const [mutate, { loading, error }] = useMutation<UpdateResponse>(UPDATE_MUTATION);
 
-  const update = async (id: string, data: any) => {
+  const update = async (id: string | number, data: any) => {
     try {
       const response = await mutate({
         variables: { id, data }
