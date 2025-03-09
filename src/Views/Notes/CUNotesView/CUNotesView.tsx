@@ -23,7 +23,8 @@ import {
   Button,
   CardLayout,
   Icon,
-  Modal
+  Modal,
+  DateInput
 } from "../../../designSystem";
 
 import { StyledButton } from "./CUNotesView.styles";
@@ -157,7 +158,6 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
 
   const handleChangeProduct = (index: number) => {
     const newTrans = [...transactions];
-    console.log(selectedOptions[index].__typename)
     if (selectedOptions[index].__typename === 'fabricatedProducts') {
       newTrans[index] = {
         ...newTrans[index],
@@ -248,6 +248,54 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     ),
     [paddingBottom, handlePriceChange, onDismissModal]
   );
+
+
+  const addRowPayments = () => {
+    setPayments(prevState => [
+      ...prevState,
+      {
+        quantity: "",
+        dateMade: "",
+      }
+    ]);
+  }
+
+  const handleAmountChange = (
+    index: number,
+    newValue: string,
+  ) => {
+    // Allow valid numeric inputs including decimal points in progress
+    if (newValue === '' || /^[0-9]*\.?[0-9]*$/.test(newValue)) {
+      const updatedPayments = [...payments];
+
+      // If the input ends with a decimal point, we need special handling
+      const endsWithDecimal = newValue.endsWith('.');
+
+      updatedPayments[index] = {
+        ...updatedPayments[index],
+        // For inputs ending with a decimal, store the string directly temporarily
+        amount: endsWithDecimal ? newValue : (newValue === '' ? '' : Number(newValue))
+      };
+
+      setPayments(updatedPayments);
+    }
+  };
+  const handleDateChange = (index: number, date: string) => {
+    const updatedPayments = [...payments];
+    updatedPayments[index] = {
+      ...updatedPayments[index],
+      dateMade: date
+    };
+    setPayments(updatedPayments);
+  };
+
+  const deleteRowPayments = (i: number) => {
+    setPayments(prevState => {
+      const newState = [...prevState];
+      newState.splice(i, 1);
+      return newState;
+    });
+  };
 
   return (
     <ViewLayout>
@@ -412,6 +460,31 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
           ))
         }
         <Button style={{ marginTop: "4%" }} onPress={addRowTransactions} copyID="Añadir" />
+        <SectionHeader copyID="Pagos" />
+        {
+          payments.map((payment, i) => (
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8 }} key={i}>
+              <TextInput
+                placeholder="Ej. 1000.00"
+                inputMode="decimal"
+                labelCopyID="Cantidad"
+                style={{ flex: 0.8, marginTop: "4%" }}
+                setValue={(newValue) => handleAmountChange(i, newValue)}
+                value={payment?.amount ? String(payment.amount) : ""}
+              />
+              <DateInput
+                labelCopyID="Fecha"
+                style={{ flex: 1, marginTop: "4%" }}
+                date={payment.dateMade ?? ""}
+                setDate={(date) => handleDateChange(i, date ?? "")}
+              />
+              <TouchableOpacity style={{ marginTop: 30 }} onPress={() => deleteRowPayments(i)}>
+                <Icon color="error" name="trash" />
+              </TouchableOpacity>
+            </View>
+          ))
+        }
+        <Button style={{ marginTop: "4%" }} onPress={addRowPayments} copyID="Añadir" />
         {
           !note ? (
 

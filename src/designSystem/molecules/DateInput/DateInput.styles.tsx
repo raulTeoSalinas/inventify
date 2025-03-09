@@ -21,3 +21,17 @@ export const Container = styled.TouchableOpacity.attrs({
     border: 2px solid ${(props) => props.theme.colors.primary};
 `;
 
+export const StyledButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8,
+})`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: ${({ theme, backgroundLight }) => backgroundLight ? theme.colors.background : theme.colors.backgroundContrast};
+  border-radius: 24px;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.colors.border};
+  padding-left: 12px;
+  padding-right: 12px;
+`;

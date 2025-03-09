@@ -14,6 +14,7 @@ export { default as Header } from "./molecules/Header/Header"
 export { default as Searcher } from "./molecules/Searcher/Searcher"
 export { default as SegmentedControl } from "./molecules/SegmentedControl/SegmentedControl"
 export { default as SelectInput } from "./molecules/SelectInput/SelectInput"
+export { default as DateInput } from "./molecules/DateInput/DateInput"
 
 export { default as Modal } from "./organisms/Modal/Modal"
 export { default as ModalDelete } from "./organisms/ModalDelete/ModalDelete"

@@ -30,7 +30,7 @@ const GET_NOTES = gql`
         date_updated
         date_created
         dateMade
-        quantity
+        amount
         user_created {
           last_name
           first_name

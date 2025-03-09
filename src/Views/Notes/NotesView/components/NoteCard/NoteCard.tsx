@@ -21,11 +21,11 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
   const date = formatLongDate(note.dateMade, language)
   const customer = note.idCustomers.name;
 
-  const calculateTotalAmount = (transactions: Transaction[]) => {
+  const calculateTotalAmount = (transactions: Transaction[]): number => {
     return transactions.reduce((total, transaction) => {
-      // Verificar que precio y cantidad no sean undefined
-      const price = transaction.price || 0;
-      const quantity = Math.abs(transaction.quantity || 0);
+      // Verificar que precio y cantidad no sean undefined y convertirlos a números
+      const price = Number(transaction.price) || 0;
+      const quantity = Math.abs(Number(transaction.quantity) || 0);
 
       return total + (price * quantity);
     }, 0);

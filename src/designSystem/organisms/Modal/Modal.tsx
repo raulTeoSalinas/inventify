@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({
   const presentRef = useRef<BottomSheetModal>(null);
 
   // Memoized snap points for Present modal
-  const snapPoints = useMemo(() => ["50%", '70%', "90%"], []);
+  const snapPoints = useMemo(() => ["50%", "60%", '70%', "90%"], []);
 
   // Function to close the Present modal.
   const handleCloseModal = () => presentRef.current?.close();
