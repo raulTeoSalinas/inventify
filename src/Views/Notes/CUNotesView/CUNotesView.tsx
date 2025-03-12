@@ -1,5 +1,5 @@
 // React
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 // React Native
 import { View, TouchableOpacity } from "react-native";
 // External Dependencies
@@ -47,72 +47,218 @@ import { Customer } from "../../../viewModels/useCustomers/useCustomers.model";
 import { Transaction } from "../../../viewModels/useTransactions/useTransactions.model";
 import { Payment } from "../../../viewModels/usePayments/usePayments";
 import useThemeProvider from "../../../theme/ThemeProvider.controller";
+import { getISODate } from "../../../utils/formatDates";
+import { formatCurrency } from "../../../utils/formatCurrency";
+import { cleanObject } from "../../../utils/cleanObject";
+import { setQuantityToNegative, setQuantityToPositive } from "../../../utils/setQuantity";
+import { useValidator, ValidationField } from "../../../hooks/useValidator/useValidator";
 
 const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
 
+  // Get note from route params when editing
+  const route = useRoute({ screenName: "CUNotesView" });
+  const { note } = route.params || {};
+  // Extract the view models from the context
   const { notes, customers, rawProducts, fabricatedProducts, services } = useMainContext()
 
-
-  const route = useRoute({ screenName: "CUNotesView" });
-
-  const { note } = route.params || {};
-
-  const [visibleDeleteModal, setVisibleDeleteModal] = useState(false)
-  const openDeleteModal = async () => {
-    setVisibleDeleteModal(true)
-  }
-
+  // Internal hooks
   const { showToast } = useToast()
   const navigation = useNavigation();
+  const theme = useThemeProvider()
 
-  const handleDelete = async () => {
-    if (!note) return;
-    try {
-      await notes.crud.softDelete(note?.id)
-      showToast({
-        type: "success",
-        title: "GENERAL_SUCCESS_TOAST",
-        message: "Note borrado"
-      })
-      setVisibleDeleteModal(false)
-      navigation.goBack()
-    } catch {
-      showToast({
-        type: "error",
-        title: "HOLA",
-        message: "HOLA"
-      })
-    }
-  }
+  // State for the delete modal when editing
+  const [visibleDeleteModal, setVisibleDeleteModal] = useState(false)
 
-
+  // States for customer data when new customer
   const [nameCustomer, setNameCustomer] = useState("");
   const [phoneCustomer, setPhoneCustomer] = useState("");
   const [emailCustomer, setEmailCustomer] = useState("");
+  // State for customer data when selecting an existing customer
   const [isNewCustomer, setIsNewCustomer] = useState(false);
-
-
-
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [selectedOptionCustomer, setSelectedOptionCustomer] = useState(customer);
-  const handleChangeCustomer = () => {
-    setCustomer(selectedOptionCustomer)
-  };
 
+  // Date of the note
+  const [date, setDate] = useState(getISODate(new Date()));
 
+  // Data in relation to the note
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [payments, setPayments] = useState<Payment[]>([])
 
-  const handleCreate = () => {
+  // State for the selected services or products in the select inputs
+  const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: Partial<RawProduct | FabricatedProduct | Service> }>({});
+
+  // State for the price modal
+  const [selectedIndexTransactionPrice, setSelectedIndexTransactionPrice] = useState<number>(0);
+  const [priceModalVisible, setPriceModalVisible] = useState(false);
+  const [price, setPrice] = useState("");
+
+  // Insets for footer modal
+  const insets = useSafeAreaInsets()
+  const paddingBottom = insets.bottom === 0 ? 20 : insets.bottom;
+
+  // State for the customer payment in one
+  const [customerPaymentInOne, setCustomerPaymentInOne] = useState(true);
+
+  // State for the total and remaining
+  const [total, setTotal] = useState(0);
+  const [remaining, setRemaining] = useState(0);
+
+  // Validation for the fields
+  const otherFields: Record<string, ValidationField> = {
+    date: { value: date, validation: "notEmpty" }
+  }
+  const [allFields, setAllFields] = useState<Record<string, ValidationField>>(otherFields);
+
+  useEffect(() => {
+
+    const otherFields: Record<string, ValidationField> = {
+      date: { value: date, validation: "notEmpty" }
+    }
+
+    const newFields: Record<string, ValidationField> = { ...otherFields };
+
+    // Agregar campos dinámicos para cada elemento en transactions
+    transactions.forEach((transaction, index) => {
+      // Aquí usamos los valores literales directamente, TypeScript infiere el tipo correcto
+      newFields[`transactions${index}_quantity`] = {
+        value: transaction.quantity as string,
+        validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
+      };
+
+      newFields[`transactions${index}_price`] = {
+        value: transaction.price as string,
+        validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
+      };
+
+      newFields[`transactions${index}_product`] = {
+        value: transaction.idServices?.id || transaction.idFabricatedProducts?.id || transaction.idRawProducts?.id || null,
+        validation: "notNull" // Esto es de tipo ValidationType automáticamente
+      };
+    });
+
+    // Agregar campos dinámicos para cada elemento en payments
+    payments.forEach((payment, index) => {
+      // Aquí usamos los valores literales directamente, TypeScript infiere el tipo correcto
+      newFields[`payments${index}_quantity`] = {
+        value: payment.amount as string,
+        validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
+      };
+
+      newFields[`payments${index}_date`] = {
+        value: payment.dateMade as string,
+        validation: "notEmpty" // Esto es de tipo ValidationType automáticamente
+      };
+    });
+
+    if (isNewCustomer) {
+      newFields["nameCustomer"] = {
+        value: nameCustomer,
+        validation: "notEmpty"
+      };
+    } else {
+      newFields["customer"] = {
+        value: customer?.id || null,
+        validation: "notNull"
+      };
+    }
+
+    setAllFields(newFields);
+
+  }, [transactions, payments, customer, nameCustomer, date, isNewCustomer]);
+
+  const { validateAll, validationStates } = useValidator(allFields);
+
+  // Language for choosing the unit
+  const language = useAppSelector((state) => state.config.language);
+  const getTranslatedUnit = (item: Transaction | undefined) => {
+    if (!item) return "";
+
+    const unit = item.idFabricatedProducts?.idUnits ?? item.idRawProducts?.idUnits ?? null;
+
+    return language === "EN" ? unit?.nameEng : unit?.nameSpa ?? "";
+  }
+
+
+  // Create or update notes
+  const handleCreate = async () => {
+    if (isNewCustomer) {
+      await notes.crud.create({
+        dateMade: date,
+        idCustomers: {
+          name: nameCustomer,
+          email: emailCustomer || null,
+          phoneNumber: phoneCustomer || null
+        },
+        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+        payments: cleanObject(payments) as Payment[]
+      })
+    } else {
+      await notes.crud.create({
+        dateMade: date,
+        idCustomers: { id: customer?.id ?? '' },
+        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+        payments: cleanObject(payments) as Payment[]
+      })
+    }
+    await fabricatedProducts.all.refetch()
+    await rawProducts.all.refetch()
+    await customers.all.refetch()
 
   }
 
   const handleUpdate = () => {
 
   }
-  const theme = useThemeProvider()
+
+  const [typeDelete, setTypeDelete] = useState<'NOTE' | 'TRANSACTION' | 'PAYMENT'>('NOTE')
+  const [indexToDelete, setIndexToDelete] = useState<number>(0)
+  // Delete notes
+  const openDeleteModal = async (type: 'NOTE' | 'TRANSACTION' | 'PAYMENT', index: number) => {
+    setVisibleDeleteModal(true)
+    setTypeDelete(type)
+    setIndexToDelete(index)
+  }
+  const handleDelete = async () => {
+    if (!note) return;
+
+    if (typeDelete === 'NOTE') {
+      try {
+        await notes.crud.softDelete(note?.id)
+        showToast({
+          type: "success",
+          title: "GENERAL_SUCCESS_TOAST",
+          message: "Note borrado"
+        })
+        setVisibleDeleteModal(false)
+        navigation.goBack()
+      } catch {
+        showToast({
+          type: "error",
+          title: "HOLA",
+          message: "HOLA"
+        })
+      }
+    }
+
+    if (typeDelete === 'TRANSACTION') {
+      deleteRowTransactions(indexToDelete)
+      setVisibleDeleteModal(false)
+    };
+
+    if (typeDelete === 'PAYMENT') {
+      deleteRowPayments(indexToDelete)
+      setVisibleDeleteModal(false)
+    }
 
 
+  }
+
+  // Set to an existing customer
+  const handleChangeCustomer = () => {
+    setCustomer(selectedOptionCustomer)
+  };
+  // Transactions functions
   const handleQuantityChange = (
     index: number,
     newValue: string,
@@ -121,13 +267,13 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     if (newValue === '' || /^[0-9]*\.?[0-9]*$/.test(newValue)) {
       const updatedTrans = [...transactions];
 
-      // If the input ends with a decimal point, we need special handling
-      const endsWithDecimal = newValue.endsWith('.');
+      // Detecta si está en proceso de edición decimal (termina con punto o tiene punto seguido de dígitos)
+      const isEditingDecimal = newValue.endsWith('.') || newValue.includes('.');
 
       updatedTrans[index] = {
         ...updatedTrans[index],
-        // For inputs ending with a decimal, store the string directly temporarily
-        quantity: endsWithDecimal ? newValue : (newValue === '' ? '' : Number(newValue))
+        // Mantén como string mientras está en edición decimal
+        quantity: isEditingDecimal ? newValue : (newValue === '' ? '' : Number(newValue))
       };
 
       setTransactions(updatedTrans);
@@ -153,8 +299,6 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
       setTransactions(updatedTrans);
     }
   };
-
-  const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: Partial<RawProduct | FabricatedProduct | Service> }>({});
 
   const handleChangeProduct = (index: number) => {
     const newTrans = [...transactions];
@@ -204,24 +348,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     });
   };
 
-
-  const language = useAppSelector((state) => state.config.language);
-
-  const getTranslatedUnit = (item: Transaction | undefined) => {
-    if (!item) return "";
-
-    const unit = item.idFabricatedProducts?.idUnits ?? item.idRawProducts?.idUnits ?? null;
-
-    return language === "EN" ? unit?.nameEng : unit?.nameSpa ?? "";
-  }
-
-  const [selectedIndexTransactionPrice, setSelectedIndexTransactionPrice] = useState<number>(0);
-  const [priceModalVisible, setPriceModalVisible] = useState(false);
-  const [price, setPrice] = useState("");
-  const insets = useSafeAreaInsets()
-
-  const paddingBottom = insets.bottom === 0 ? 20 : insets.bottom;
-
+  // Price modal functions and logic
   const handlePressPrice = (i: number) => {
     setPriceModalVisible(true)
     setPrice(transactions
@@ -233,9 +360,6 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     setPrice("");
     setPriceModalVisible(false)
   }
-
-
-
 
   const renderFooter = useCallback(
     (props: BottomSheetFooterProps) => (
@@ -249,13 +373,13 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     [paddingBottom, handlePriceChange, onDismissModal]
   );
 
-
+  // Payments functions
   const addRowPayments = () => {
     setPayments(prevState => [
       ...prevState,
       {
         quantity: "",
-        dateMade: "",
+        dateMade: getISODate(new Date())
       }
     ]);
   }
@@ -264,17 +388,17 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     index: number,
     newValue: string,
   ) => {
-    // Allow valid numeric inputs including decimal points in progress
+    // Mejorada la expresión regular para permitir decimales en proceso de edición
     if (newValue === '' || /^[0-9]*\.?[0-9]*$/.test(newValue)) {
       const updatedPayments = [...payments];
 
-      // If the input ends with a decimal point, we need special handling
-      const endsWithDecimal = newValue.endsWith('.');
+      // Detecta si está en proceso de edición (termina con punto o tiene punto seguido de dígitos)
+      const isEditingDecimal = newValue.endsWith('.') || newValue.includes('.');
 
       updatedPayments[index] = {
         ...updatedPayments[index],
-        // For inputs ending with a decimal, store the string directly temporarily
-        amount: endsWithDecimal ? newValue : (newValue === '' ? '' : Number(newValue))
+        // Mantén como string mientras está en edición, convierte a número solo cuando la edición está completa
+        amount: isEditingDecimal ? newValue : (newValue === '' ? '' : Number(newValue))
       };
 
       setPayments(updatedPayments);
@@ -297,17 +421,98 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     });
   };
 
+  const pressToggleCustomerPaymentInOne = () => {
+    setCustomerPaymentInOne(!customerPaymentInOne);
+    if (!customerPaymentInOne) {
+      setPayments([{
+        amount: total,
+        dateMade: getISODate(new Date())
+      }])
+    } else {
+      setPayments([])
+    }
+  }
+  // useEffect to calculate the total
+  useEffect(() => {
+    let total = 0;
+    transactions.forEach((transaction) => {
+      if (transaction.idServices) {
+        total += (Number(transaction?.price) ?? 0);
+      } else {
+        total += (Number(transaction?.price) ?? 0) * (Number(transaction.quantity) ?? 0);
+      }
+    });
+    setTotal(total);
+    if (customerPaymentInOne && !note) {
+      setPayments([{
+        amount: total,
+        dateMade: getISODate(new Date())
+      }])
+    }
+  }, [transactions]);
+
+  // useEffect to calculate the remaining
+  useEffect(() => {
+    let remaining = 0;
+
+    payments.forEach((payment) => {
+      const amount = payment.amount;
+      const numericAmount = !isNaN(Number(amount)) ? Number(amount) : 0;
+      remaining += numericAmount;
+    });
+    setRemaining(remaining - total);
+  }, [payments, total]);
+
+  // useEffect to set the note data when editing
+  useEffect(() => {
+    if (note) {
+      setDate(note.dateMade)
+      setCustomer(note.idCustomers as Customer)
+      setSelectedOptionCustomer(note.idCustomers as Customer)
+      setIsNewCustomer(false);
+      setTransactions(setQuantityToPositive(note.transactions as Transaction[]))
+      setPayments(note.payments)
+      setSelectedOptions(note.transactions?.map((transaction) => {
+        if (transaction.idServices) {
+          return transaction.idServices
+        }
+        if (transaction.idFabricatedProducts) {
+          return transaction.idFabricatedProducts
+        }
+        if (transaction.idRawProducts) {
+          return transaction.idRawProducts
+        }
+        return {}
+      }) as { [key: number]: Partial<RawProduct | FabricatedProduct | Service> })
+
+      if (note) {
+        setCustomerPaymentInOne(false)
+      }
+
+    }
+  }, [note])
+
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={note && openDeleteModal} headerSize="extraLarge" copyIDTitle={!note ? "Crear Remisión" : "Ediat Remisión"} />
+      <Header backButton deleteFunc={note && (() => openDeleteModal('NOTE', 0))} headerSize="extraLarge" copyIDTitle={!note ? "Crear Remisión" : "Ediat Remisión"} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
+        <SectionHeader copyID="Datos generales" />
+        <DateInput
+          labelCopyID="Fecha de remisión"
+          style={{ width: "90%", marginVertical: 4 }}
+          date={date}
+          setDate={setDate}
+        />
+
         <SectionHeader copyID="Datos del cliente" />
         <Toggle isActive={isNewCustomer} onPress={() => setIsNewCustomer(!isNewCustomer)} style={{ width: "90%", marginTop: "2%" }} copyID="Cliente nuevo" />
         {
           isNewCustomer ? (
             <>
               <TextInput
+                isError={!validationStates.nameCustomer}
+                errorMessage="Introduce un nombre válido"
                 autoCapitalize="sentences"
                 placeholder="Ej. Carlos Pérez"
                 labelCopyID="Nombre cliente*"
@@ -316,6 +521,8 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                 style={{ marginVertical: 4 }}
               />
               <TextInput
+                isError={false}
+                autoCapitalize="none"
                 inputMode="email"
                 placeholder="Ej. carlos.perez@gmail.com"
                 labelCopyID="Correo cliente"
@@ -324,6 +531,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                 style={{ marginVertical: 4 }}
               />
               <TextInput
+                isError={false}
                 inputMode="tel"
                 placeholder="Ej. 55 1234 5678"
                 labelCopyID="Teléfono cliente"
@@ -334,7 +542,9 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
             </>
           ) : (
             <SelectInput
-              labelCopyID="Seleccione el cliente"
+              isError={!validationStates.customer}
+              errorMessage="Selecciona un cliente"
+              labelCopyID="Seleccionar cliente"
               handleAccept={handleChangeCustomer}
               options={customers.all.list ?? []}
               initialOption={customer}
@@ -356,7 +566,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                 </ItemContainer>
               )}
             >
-              <Text copyID={customer ? customer?.name : "Seleccione el cliente"} />
+              <Text copyID={customer ? customer?.name : "Seleccionar"} />
             </SelectInput>
           )
         }
@@ -452,7 +662,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
 
               </CardLayout>
 
-              <TouchableOpacity onPress={() => deleteRowTransactions(i)}>
+              <TouchableOpacity onPress={!note ? () => deleteRowTransactions(i) : () => openDeleteModal('TRANSACTION', i)}>
                 <Icon color="error" name="trash" />
               </TouchableOpacity>
 
@@ -461,6 +671,9 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
         }
         <Button style={{ marginTop: "4%" }} onPress={addRowTransactions} copyID="Añadir" />
         <SectionHeader copyID="Pagos" />
+        {!note &&
+          <Toggle isActive={customerPaymentInOne} onPress={pressToggleCustomerPaymentInOne} style={{ width: "90%", marginTop: "2%" }} copyID="Cliente pagará en una sóla exhibición" />
+        }
         {
           payments.map((payment, i) => (
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8 }} key={i}>
@@ -470,21 +683,65 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                 labelCopyID="Cantidad"
                 style={{ flex: 0.8, marginTop: "4%" }}
                 setValue={(newValue) => handleAmountChange(i, newValue)}
-                value={payment?.amount ? String(payment.amount) : ""}
+                value={payment?.amount !== undefined ? String(payment.amount) : ""}
               />
               <DateInput
-                labelCopyID="Fecha"
+                labelCopyID="Fecha de pago"
                 style={{ flex: 1, marginTop: "4%" }}
                 date={payment.dateMade ?? ""}
                 setDate={(date) => handleDateChange(i, date ?? "")}
               />
-              <TouchableOpacity style={{ marginTop: 30 }} onPress={() => deleteRowPayments(i)}>
-                <Icon color="error" name="trash" />
-              </TouchableOpacity>
+              {
+                !customerPaymentInOne && (
+                  <TouchableOpacity style={{ marginTop: 30 }} onPress={!note ? () => deleteRowPayments(i) : () => openDeleteModal('PAYMENT', i)}>
+                    <Icon color="error" name="trash" />
+                  </TouchableOpacity>
+                )
+              }
+
+
+
             </View>
           ))
         }
-        <Button style={{ marginTop: "4%" }} onPress={addRowPayments} copyID="Añadir" />
+        {
+          !customerPaymentInOne && (
+            <Button style={{ marginTop: "4%" }} onPress={addRowPayments} copyID="Añadir" />
+          )
+        }
+        <View style={{ flexDirection: "row", alignItems: "center", width: "90%", gap: 8, marginLeft: 8, marginTop: "2%" }}>
+          <Text copyID="Restante" />
+          <Text
+            color={
+              remaining === 0
+                ? "success"
+                : remaining > 0
+                  ? "warning"
+                  : "error"
+            }
+            bold
+            copyID={formatCurrency(remaining)} />
+
+        </View>
+
+        {
+          remaining > 0 && (
+            <View style={{ alignItems: "center", width: "90%", gap: 8, marginLeft: 8, marginTop: "2%", backgroundColor: theme.colors.warningLight, padding: 8, borderRadius: 8, borderColor: theme.colors.warning, borderWidth: 2 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 8, width: "100%" }}>
+                <Icon name="warning" color="dark" />
+                <Text color="dark" size="small" bold copyID="Atención:" />
+              </View>
+
+              <Text color="dark" size="small" copyID="Los pagos están excediento el monto total de la remisión." />
+            </View>
+          )
+        }
+        <SectionHeader copyID="Total" />
+        <View style={{ flexDirection: "row", alignItems: "center", width: "90%", gap: 8, marginLeft: 8, marginTop: "2%" }}>
+          <Text copyID="Total" />
+          <Text bold copyID={new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(Number(total))} />
+        </View>
+
         {
           !note ? (
 

@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, StyleProp, ViewStyle } from "react-native";
 import Modal from "../../organisms/Modal/Modal";
 import { BottomSheetFooterProps, BottomSheetFooter } from '@gorhom/bottom-sheet';
-import { Calendar } from "react-native-calendars";
+import { Calendar, LocaleConfig } from "react-native-calendars";
 import Text from "../../atoms/Text/Text";
 import Icon from "../../atoms/Icon/Icon";
 import Button from "../../atoms/Button/Button";
@@ -23,6 +23,7 @@ type InputDateProps = {
 }
 
 const formatDateForCalendar = (dateString: string | undefined): string => {
+
   if (!dateString) return "";
 
   // Si ya es formato YYYY-MM-DD, devolver tal cual
@@ -31,7 +32,16 @@ const formatDateForCalendar = (dateString: string | undefined): string => {
   }
 
   try {
-    // Convertir fecha ISO a objeto Date
+    // Extraer directamente la parte YYYY-MM-DD de la cadena ISO
+    // Esto evita problemas con zonas horarias
+    const datePart = dateString.split('T')[0];
+
+    // Verificar que sea una fecha válida en formato YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+      return datePart;
+    }
+
+    // Si no se puede extraer de la forma simple, usar Date
     const date = new Date(dateString);
 
     // Verificar si es fecha válida
@@ -39,12 +49,33 @@ const formatDateForCalendar = (dateString: string | undefined): string => {
       return "";
     }
 
-    // Formatear como YYYY-MM-DD
-    return date.toISOString().split('T')[0];
+    // Usar getFullYear, getMonth y getDate para evitar problemas de zona horaria
+    const year = date.getFullYear();
+    // getMonth() es base 0 (enero = 0), por lo que necesitamos añadir 1
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   } catch (error) {
     console.error("Error al formatear fecha:", error);
     return "";
   }
+};
+
+LocaleConfig.locales['ES'] = {
+  monthNames: [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ],
+  monthNamesShort: [
+    'Ene.', 'Feb.', 'Mar.', 'Abr.', 'May.', 'Jun.',
+    'Jul.', 'Ago.', 'Sep.', 'Oct.', 'Nov.', 'Dic.'
+  ],
+  dayNames: [
+    'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'
+  ],
+  dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.'],
+  today: 'Hoy'
 };
 
 // Component definition
@@ -58,6 +89,13 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
 
   const language = useAppSelector((state) => state.config.language)
 
+  useEffect(() => {
+    if (language === "ES") {
+      LocaleConfig.defaultLocale = "ES"
+    } else {
+      LocaleConfig.defaultLocale = "";
+    }
+  }, [language]);
 
   const getMarkedDates = () => {
     const marked = {};
@@ -149,6 +187,7 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
       >
         <Text copyID="Selecciona la fecha" bold textAlign="center" />
         <Calendar
+          current={selectedDate}
           style={{ marginTop: 20 }}
           enableSwipeMonths
           markedDates={getMarkedDates()}

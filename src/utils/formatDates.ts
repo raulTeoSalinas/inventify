@@ -29,3 +29,8 @@ export const formatLongDate = (dateString?: string, language?: "EN" | "ES"): str
   }
 };
 
+export const getISODate = (date: Date) => {
+  date.setHours(12, 0, 0, 0); // Establecer a las 12:00:00
+  return date.toISOString().split('.')[0]; // Eliminar milisegundos y zona horaria
+};
+

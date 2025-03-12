@@ -21,7 +21,10 @@ const GET_PRODUCTS = gql`
         nameEng
         nameSpa
       }
-      transactions(sort: "-date_created") {
+      transactions(
+        sort: "-date_created"
+        filter: {_or: [{idNotes: {id: {_eq: null}}}, {idNotes: {isDeleted: {_neq: true}}}]}
+      ) {
         date_created
         quantity
         description

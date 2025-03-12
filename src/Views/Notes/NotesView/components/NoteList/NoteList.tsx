@@ -8,7 +8,7 @@ import NoteCard from "../NoteCard/NoteCard";
 import { NoteListProps } from "./NoteList.model";
 import { Note } from "../../../../../viewModels/useNotes/useNotes.model";
 import { useMainContext } from "../../../../../contexts/mainContext";
-
+import useNavigation from "../../../../../navigation/useNavigation/useNavigation";
 
 
 const NoteList: React.FC<NoteListProps> = ({ onScroll }) => {
@@ -16,7 +16,11 @@ const NoteList: React.FC<NoteListProps> = ({ onScroll }) => {
 
   const { notes } = useMainContext();
 
-  console.log(notes.all.list)
+  const navigation = useNavigation();
+
+  const handlePress = (note: Note) => {
+    navigation.navigate('CUNotesView', { note });
+  }
 
   return (
 
@@ -25,7 +29,7 @@ const NoteList: React.FC<NoteListProps> = ({ onScroll }) => {
       renderItem={({ item }) => (
         <NoteCard
           note={item as Note}
-          onPress={() => { }}
+          onPress={() => handlePress(item)}
         />
       )}
       keyExtractor={(item) => item.id.toString()}

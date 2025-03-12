@@ -3,8 +3,8 @@
 export interface Customer {
   id: string;
   name: string;
-  phoneNumber: string;
-  email: string;
+  phoneNumber: string | null;
+  email: string | null;
 }
 
 export interface CustomersData {

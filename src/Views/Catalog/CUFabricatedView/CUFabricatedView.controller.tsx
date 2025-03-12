@@ -15,6 +15,7 @@ import { FabricatedProductRaw } from "../../../viewModels/useFabricatedProducts/
 import { RawProduct } from "../../../viewModels/useRawProducts/useRawProducts.model";
 import { removeTypename } from "../../../utils/removeTypename";
 import { ValidationField } from "../../../hooks/useValidator/useValidator";
+import { cleanObject } from "../../../utils/cleanObject";
 
 const useCUFabricatedView = () => {
 
@@ -104,7 +105,7 @@ const useCUFabricatedView = () => {
       retailPrice: Number(retailPrice),
       wholesalePrice: Number(wholesalePrice),
       idUnits: { id: unit.id },
-      rawProducts: removeTypename(fabricatedRaws) // NOTE: REMOVE ALSO THE TRANSACTIONS FROM RAW PRODUCTS
+      rawProducts: cleanObject(fabricatedRaws) as FabricatedProductRaw[]
     }
     try {
       await fabricatedProducts.crud.create(fabricatedProduct)
@@ -159,7 +160,7 @@ const useCUFabricatedView = () => {
       retailPrice: Number(retailPrice),
       wholesalePrice: Number(wholesalePrice),
       idUnits: { id: unit.id },
-      rawProducts: removeTypename(fabricatedRaws)
+      rawProducts: cleanObject(fabricatedRaws) as FabricatedProductRaw[]
     }
 
     try {
@@ -187,13 +188,15 @@ const useCUFabricatedView = () => {
     if (newValue === '' || /^[0-9]*\.?[0-9]*$/.test(newValue)) {
       const updatedRaws = [...fabricatedRaws];
 
-      // If the input ends with a decimal point, we need special handling
-      const endsWithDecimal = newValue.endsWith('.');
+      // Detecta si está en proceso de edición decimal
+      const isEditingDecimal = newValue.endsWith('.') || newValue.includes('.');
 
       updatedRaws[index] = {
         ...updatedRaws[index],
-        // For inputs ending with a decimal, store the string directly temporarily
-        quantityRaw: endsWithDecimal ? newValue : (newValue === '' ? undefined : Number(newValue))
+        // Mantén como string mientras está en edición decimal
+        quantityRaw: isEditingDecimal
+          ? newValue
+          : (newValue === '' ? undefined : Number(newValue))
       };
 
       setFabricatedRaws(updatedRaws);

@@ -10,9 +10,9 @@ export interface Note {
   id: number;
   dateMade: string;
   user_created: Partial<User>;
-  idCustomers: Customer;
-  payments: Payment[];
-  transactions: Transaction[];
+  idCustomers: Partial<Customer>;
+  payments: Partial<Payment>[];
+  transactions: Partial<Transaction>[];
 }
 
 export interface NotesData {
