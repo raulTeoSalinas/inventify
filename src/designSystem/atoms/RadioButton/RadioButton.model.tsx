@@ -12,4 +12,5 @@ export type RadioButtonProps = {
   onPress: () => void,
   iconName?: IoniconsName,
   style?: StyleProp<ViewStyle>
+  copyVariables?: { [key: string]: (string | number) };
 }
