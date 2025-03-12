@@ -143,8 +143,8 @@ const useCUFabricatedView = () => {
     } catch {
       showToast({
         type: "error",
-        title: "CUFABRICATED_TOAST_EDIT_ERROR",
-        message: "CUFABRICATED_TOAST_DELETE_ERROR"
+        title: "CUFABRICATED_TOAST_DELETE_ERROR",
+        message: "GENERAL_BANNER_MESSAGE"
       })
     }
   }

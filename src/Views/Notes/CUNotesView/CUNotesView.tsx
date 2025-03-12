@@ -104,6 +104,9 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
   const [total, setTotal] = useState(0);
   const [remaining, setRemaining] = useState(0);
 
+  // State for the error message when there are no products
+  const [errorProduct, setErrorProduct] = useState(false);
+
   // Validation for the fields
   const otherFields: Record<string, ValidationField> = {
     date: { value: date, validation: "notEmpty" }
@@ -140,7 +143,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     // Agregar campos dinámicos para cada elemento en payments
     payments.forEach((payment, index) => {
       // Aquí usamos los valores literales directamente, TypeScript infiere el tipo correcto
-      newFields[`payments${index}_quantity`] = {
+      newFields[`payments${index}_amount`] = {
         value: payment.amount as string,
         validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
       };
@@ -182,33 +185,94 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
 
   // Create or update notes
   const handleCreate = async () => {
-    if (isNewCustomer) {
-      await notes.crud.create({
-        dateMade: date,
-        idCustomers: {
-          name: nameCustomer,
-          email: emailCustomer || null,
-          phoneNumber: phoneCustomer || null
-        },
-        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-        payments: cleanObject(payments) as Payment[]
-      })
-    } else {
-      await notes.crud.create({
-        dateMade: date,
-        idCustomers: { id: customer?.id ?? '' },
-        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-        payments: cleanObject(payments) as Payment[]
-      })
+
+    const isValidated = validateAll();
+
+    // Check if there are transactions and payments
+    if (transactions.length === 0) {
+      setErrorProduct(true)
+    } else { setErrorProduct(false) }
+
+    if (!isValidated || errorProduct
+    ) return;
+
+    try {
+      if (isNewCustomer) {
+        await notes.crud.create({
+          dateMade: date,
+          idCustomers: {
+            name: nameCustomer,
+            email: emailCustomer || null,
+            phoneNumber: phoneCustomer || null
+          },
+          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+          payments: cleanObject(payments) as Payment[]
+        })
+      } else {
+        await notes.crud.create({
+          dateMade: date,
+          idCustomers: { id: customer?.id ?? '' },
+          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+          payments: cleanObject(payments) as Payment[]
+        })
+      }
+
+      showToast({ type: "success", title: "GENERAL_SUCCESS_TOAST", message: "Remisión creada" })
+
+      navigation.goBack()
+
+    } catch {
+      showToast({ type: "error", title: "Error al crear la remisión", message: "GENERAL_BANNER_MESSAGE" })
     }
+
     await fabricatedProducts.all.refetch()
     await rawProducts.all.refetch()
     await customers.all.refetch()
 
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
+    const isValidated = validateAll();
 
+    // Check if there are transactions and payments
+    if (transactions.length === 0) {
+      setErrorProduct(true)
+    } else { setErrorProduct(false) }
+
+    if (!isValidated || errorProduct || !note) return;
+
+    try {
+      if (isNewCustomer) {
+        await notes.crud.update(note?.id, {
+          dateMade: date,
+          idCustomers: {
+            name: nameCustomer,
+            email: emailCustomer || null,
+            phoneNumber: phoneCustomer || null
+          },
+          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+          payments: cleanObject(payments) as Payment[]
+        })
+      } else {
+        await notes.crud.update(note?.id, {
+          dateMade: date,
+          idCustomers: { id: customer?.id ?? '' },
+          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+          payments: cleanObject(payments) as Payment[]
+        })
+      }
+
+      showToast({ type: "success", title: "GENERAL_SUCCESS_TOAST", message: "Remisión actualizada" })
+
+      navigation.goBack()
+
+    } catch {
+      showToast({ type: "error", title: "Error al actualizar la remisión", message: "GENERAL_BANNER_MESSAGE" })
+    }
+
+    await fabricatedProducts.all.refetch()
+    await rawProducts.all.refetch()
+    await customers.all.refetch()
   }
 
   const [typeDelete, setTypeDelete] = useState<'NOTE' | 'TRANSACTION' | 'PAYMENT'>('NOTE')
@@ -228,15 +292,15 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
         showToast({
           type: "success",
           title: "GENERAL_SUCCESS_TOAST",
-          message: "Note borrado"
+          message: "Remisión borrado"
         })
         setVisibleDeleteModal(false)
         navigation.goBack()
       } catch {
         showToast({
           type: "error",
-          title: "HOLA",
-          message: "HOLA"
+          title: "Error al borrar la remisión",
+          message: "GENERAL_BANNER_MESSAGE"
         })
       }
     }
@@ -378,7 +442,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     setPayments(prevState => [
       ...prevState,
       {
-        quantity: "",
+        amount: "",
         dateMade: getISODate(new Date())
       }
     ]);
@@ -577,6 +641,8 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
               <Text copyID={String(i + 1)} />
               <CardLayout style={{ marginTop: "4%", flex: 1 }}>
                 <SelectInput
+                  isError={!validationStates[`transactions${i}_product`]}
+                  errorMessage="Selecciona un producto o servicio"
                   labelCopyID="Producto o servicio"
                   backgroundLight
                   segmentOptions={["Materia Prima", "Fabricados", "Servicios"]}
@@ -621,11 +687,10 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                           backgroundLight
                           onPress={() => handlePressPrice(i)}
                           activeOpacity={0.8}
-                        // style={isError && {
-                        //   borderWidth: 1,
-                        //   borderColor: theme.colors.error
-                        // }}
-
+                          style={!validationStates[`transactions${i}_price`] && {
+                            borderWidth: 1,
+                            borderColor: theme.colors.error
+                          }}
                         >
                           <Text size='extraSmall' color={transaction.price ? "text" : "textLight"} copyID={transaction.price
                             ? new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(Number(transaction.price))
@@ -637,6 +702,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                       {!transaction.idServices && (
                         <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
                           <TextInput
+                            isError={!validationStates[`transactions${i}_quantity`]}
                             labelCopyID="Cantidad"
                             style={{ flex: 1 }}
                             backgroundLight
@@ -670,6 +736,11 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
           ))
         }
         <Button style={{ marginTop: "4%" }} onPress={addRowTransactions} copyID="Añadir" />
+        {
+          errorProduct && (
+            <Text style={{ width: "90%", marginTop: "2%" }} textAlign="center" color="error" copyID="La remisión debe contener al menos un producto o servicio." />
+          )
+        }
         <SectionHeader copyID="Pagos" />
         {!note &&
           <Toggle isActive={customerPaymentInOne} onPress={pressToggleCustomerPaymentInOne} style={{ width: "90%", marginTop: "2%" }} copyID="Cliente pagará en una sóla exhibición" />
@@ -678,6 +749,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
           payments.map((payment, i) => (
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8 }} key={i}>
               <TextInput
+                isError={!validationStates[`payments${i}_amount`]}
                 placeholder="Ej. 1000.00"
                 inputMode="decimal"
                 labelCopyID="Cantidad"
@@ -686,6 +758,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                 value={payment?.amount !== undefined ? String(payment.amount) : ""}
               />
               <DateInput
+                isError={!validationStates[`payments${i}_date`]}
                 labelCopyID="Fecha de pago"
                 style={{ flex: 1, marginTop: "4%" }}
                 date={payment.dateMade ?? ""}
@@ -801,6 +874,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
             Number(price) !== (transactions[selectedIndexTransactionPrice]?.idFabricatedProducts?.wholesalePrice ?? transactions[selectedIndexTransactionPrice]?.idRawProducts?.wholesalePrice) &&
             Number(price) !== (transactions[selectedIndexTransactionPrice]?.idServices?.defaultPrice) && (
               <TextInput
+                isError={!validationStates[`transactions${selectedIndexTransactionPrice}_price`]}
                 defaultValue={price}
                 inputMode="decimal"
                 placeholder="Ej. 10"

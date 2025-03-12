@@ -111,8 +111,8 @@ const useCURawMaterialView = () => {
     } catch {
       showToast({
         type: "error",
-        title: "CURAWMATERIAL_TOAST_EDIT_ERROR",
-        message: "CURAWMATERIAL_TOAST_DELETE_ERROR"
+        title: "CURAWMATERIAL_TOAST_DELETE_ERROR",
+        message: "GENERAL_BANNER_MESSAGE"
       })
     }
   }
