@@ -1,7 +1,7 @@
 // React
 
 // External Dependencies
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 
 // Internal Dependencies
 import { NotesHook, NotesData, Note } from "./useNotes.model";
@@ -61,6 +61,72 @@ const GET_NOTES = gql`
           wholesalePrice
           retailPrice
         }
+        idServices {
+          id
+          description
+          defaultPrice
+        }
+      }
+    }
+  }
+`;
+
+const GET_NOTE = gql`
+  query GetNote($id: ID = "") {
+    notes_by_id(id: $id) {
+      id
+      dateMade
+      user_created {
+        first_name
+        last_name
+      }
+      idCustomers {
+        id
+        name
+        phoneNumber
+        email
+      }
+      payments(sort: "-dateMade") {
+        id
+        date_updated
+        date_created
+        dateMade
+        amount
+        user_created {
+          last_name
+          first_name
+        }
+      }
+      transactions(sort: "date_created") {
+        price
+        quantity
+        idRawProducts {
+          description
+          id
+          idUnits {
+            id
+            nameEng
+            nameSpa
+          }
+          retailPrice
+          wholesalePrice
+        }
+        idFabricatedProducts {
+          id
+          description
+          idUnits {
+            id
+            nameEng
+            nameSpa
+          }
+          wholesalePrice
+          retailPrice
+        }
+        idServices {
+          id
+          description
+          defaultPrice
+        }
       }
     }
   }
@@ -74,7 +140,7 @@ const useNotes = (): NotesHook => {
   const { update, error: errorUpdate, loading: loadingUpdate } = useUpdate({ collection: "notes" });
   const { remove, error: errorDelete, loading: loadingDelete } = useDelete({ collection: "notes" });
 
-
+  const [getById] = useLazyQuery(GET_NOTE);
 
   return {
     all: {
@@ -95,7 +161,7 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      update: async (id: number, data: Partial<Note>) => {
+      update: async (id: string, data: Partial<Note>) => {
         try {
           const result = await update(id, data);
           await refetch();
@@ -105,7 +171,7 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      delete: async (id: number) => {
+      delete: async (id: string) => {
         try {
           const result = await remove(id);
           await refetch();
@@ -115,13 +181,22 @@ const useNotes = (): NotesHook => {
           throw error;
         }
       },
-      softDelete: async (id: number) => {
+      softDelete: async (id: string) => {
         try {
           const result = await update(id, { isDeleted: true });
           await refetch();
           return result;
         } catch (error) {
           console.error('Error softdeleted Note:', error);
+          throw error;
+        }
+      },
+      read: async (id: string) => {
+        try {
+          const result = await getById({ variables: { id } });
+          return result.data.notes_by_id;
+        } catch (error) {
+          console.error('Error reading Note:', error);
           throw error;
         }
       },

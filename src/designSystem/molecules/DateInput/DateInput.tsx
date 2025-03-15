@@ -22,7 +22,7 @@ type InputDateProps = {
   labelCopyID?: string;
 }
 
-const formatDateForCalendar = (dateString: string | undefined): string => {
+export const formatDateForCalendar = (dateString: string | undefined): string => {
 
   if (!dateString) return "";
 

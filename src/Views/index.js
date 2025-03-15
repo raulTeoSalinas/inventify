@@ -9,4 +9,4 @@ export { default as CURawMaterialView } from "./Catalog/CURawMaterialView/CURawM
 export { default as CUFabricatedView } from "./Catalog/CUFabricatedView/CUFabricatedView"
 export { default as CUServicesView } from "./Catalog/CUServicesView/CUServicesView"
 export { default as TransactionsView } from "./Catalog/TransactionsView/TransactionsView"
-
+export { default as DetailNotesView } from "./Notes/DetailNotesView/DetailNotesView"

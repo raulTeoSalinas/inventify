@@ -101,10 +101,12 @@ const useNotesView = () => {
     // Agregar campos dinámicos para cada elemento en transactions
     transactions.forEach((transaction, index) => {
       // Aquí usamos los valores literales directamente, TypeScript infiere el tipo correcto
-      newFields[`transactions${index}_quantity`] = {
-        value: transaction.quantity as string,
-        validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
-      };
+      if (!transaction.idServices) {
+        newFields[`transactions${index}_quantity`] = {
+          value: transaction.quantity as string,
+          validation: "positiveNumber" // Esto es de tipo ValidationType automáticamente
+        };
+      }
 
       newFields[`transactions${index}_price`] = {
         value: transaction.price as string,
@@ -169,13 +171,15 @@ const useNotesView = () => {
     if (transactions.length === 0) {
       setErrorProduct(true)
     } else { setErrorProduct(false) }
-
+    console.log(isValidated, errorProduct)
+    console.log(JSON.stringify(validationStates, null, 2))
     if (!isValidated || errorProduct
     ) return;
 
     try {
+      let response: { id: string } = { id: "-1" }
       if (isNewCustomer) {
-        await notes.crud.create({
+        response = await notes.crud.create({
           dateMade: date,
           idCustomers: {
             name: nameCustomer,
@@ -186,7 +190,7 @@ const useNotesView = () => {
           payments: cleanObject(payments) as Payment[]
         })
       } else {
-        await notes.crud.create({
+        response = await notes.crud.create({
           dateMade: date,
           idCustomers: { id: customer?.id ?? '' },
           transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
@@ -194,9 +198,15 @@ const useNotesView = () => {
         })
       }
 
-      showToast({ type: "success", title: "GENERAL_SUCCESS_TOAST", message: "CUNOTES_SUCCESS_CREATE_NOTE_MESSAGE" })
-
-      navigation.goBack()
+      const note = await notes.crud.read(String(response.id))
+      console.log(note)
+      if (note) {
+        navigation.replace("DetailNotesView", { note })
+      }
+      if (note) {
+        console.log("perra para las perras")
+        navigation.replace("DetailNotesView", { note })
+      }
 
     } catch {
       showToast({ type: "error", title: "CUNOTES_ERROR_CREATE_NOTE_TITLE", message: "GENERAL_BANNER_MESSAGE" })

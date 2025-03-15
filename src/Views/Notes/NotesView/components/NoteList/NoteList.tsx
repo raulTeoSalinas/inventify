@@ -11,21 +11,20 @@ import { useMainContext } from "../../../../../contexts/mainContext";
 import useNavigation from "../../../../../navigation/useNavigation/useNavigation";
 
 
-const NoteList: React.FC<NoteListProps> = ({ onScroll }) => {
+const NoteList: React.FC<NoteListProps> = ({ onScroll, notes }) => {
 
 
-  const { notes } = useMainContext();
 
   const navigation = useNavigation();
 
   const handlePress = (note: Note) => {
-    navigation.navigate('CUNotesView', { note });
+    navigation.navigate('DetailNotesView', { note });
   }
 
   return (
 
     <FlatList
-      data={notes.all.list}
+      data={notes}
       renderItem={({ item }) => (
         <NoteCard
           note={item as Note}

@@ -1,6 +1,13 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { CURawMaterialView, CUFabricatedView, CUServicesView, TransactionsView, CUNotesView } from "../../Views";
+import {
+  CURawMaterialView,
+  CUFabricatedView,
+  CUServicesView,
+  TransactionsView,
+  CUNotesView,
+  DetailNotesView
+} from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { RawProduct } from "../../viewModels/useRawProducts/useRawProducts.model";
@@ -25,6 +32,9 @@ export type RootStackParamList = {
   },
   CUNotesView: {
     note?: Note
+  },
+  DetailNotesView: {
+    note: Note
   }
 };
 
@@ -62,6 +72,10 @@ const StackNavigation = () => {
         <Stack.Screen
           name="CUNotesView"
           component={CUNotesView}
+        />
+        <Stack.Screen
+          name="DetailNotesView"
+          component={DetailNotesView}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -7,7 +7,7 @@ import { Payment } from "../usePayments/usePayments";
 import { Transaction } from "../useTransactions/useTransactions.model";
 
 export interface Note {
-  id: number;
+  id: string;
   dateMade: string;
   user_created: Partial<User>;
   idCustomers: Partial<Customer>;
@@ -29,11 +29,12 @@ export interface NotesHook {
   crud: {
 
     create: (data: Partial<Note>) => Promise<any>;
-    update: (id: number, data: Partial<Note>) => Promise<any>;
-    delete: (id: number) => Promise<any>;
+    update: (id: string, data: Partial<Note>) => Promise<any>;
+    delete: (id: string) => Promise<any>;
     isLoading: boolean;
     error?: any;
-    softDelete: (id: number) => Promise<any>;
+    read: (id: string) => Promise<any>;
+    softDelete: (id: string) => Promise<any>;
   };
 }
 
