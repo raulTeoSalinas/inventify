@@ -185,7 +185,7 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
         onDismiss={onDismissModal}
         footerComponent={renderFooter}
       >
-        <Text copyID="Selecciona la fecha" bold textAlign="center" />
+        <Text copyID="DATEINPUT_TITLE" bold textAlign="center" />
         <Calendar
           current={selectedDate}
           style={{ marginTop: 20 }}
@@ -195,6 +195,11 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
             calendarBackground: theme.colors.background,
             arrowColor: theme.colors.primary,
             todayTextColor: theme.colors.secondary,
+            dayTextColor: theme.colors.text,
+            textDisabledColor: theme.colors.shadow,
+            monthTextColor: theme.colors.text,
+            textMonthFontWeight: "bold",
+            textDayHeaderFontWeight: "bold",
           }}
           onDayPress={date => {
             handleSelectDate(date.dateString)

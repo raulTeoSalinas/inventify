@@ -186,5 +186,6 @@
   "DETAILNOTES_ID_TITLE": "Delivery Note",
   "DETAILNOTES_PRINT": "Print",
   "DETAILNOTES_ISSUED": "Issued by",
-  "DETAILNOTES_DESCRIPTION": "Description"
+  "DETAILNOTES_DESCRIPTION": "Description",
+  "DATEINPUT_TITLE": "Select a date"
 }

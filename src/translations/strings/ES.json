@@ -186,5 +186,6 @@
   "DETAILNOTES_ID_TITLE": "Nota de Remisión",
   "DETAILNOTES_PRINT": "Imprimir",
   "DETAILNOTES_ISSUED": "Emitida por",
-  "DETAILNOTES_DESCRIPTION": "Descripción"
+  "DETAILNOTES_DESCRIPTION": "Descripción",
+  "DATEINPUT_TITLE": "Selecciona una fecha"
 }
