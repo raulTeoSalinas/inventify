@@ -16,6 +16,8 @@ import { NotesHook } from "../viewModels/useNotes/useNotes.model";
 import useNotes from "../viewModels/useNotes/useNotes";
 import useCustomers from "../viewModels/useCustomers/useCustomers";
 import { CustomersHook } from "../viewModels/useCustomers/useCustomers.model";
+import { CompanyHook } from "../viewModels/useCompany/useCompany.model";
+import useCompany from "../viewModels/useCompany/useCompany";
 
 // Interfaz para el contexto
 interface MainContextType {
@@ -25,6 +27,7 @@ interface MainContextType {
   units: UnitsHook;
   notes: NotesHook;
   customers: CustomersHook;
+  company: CompanyHook;
 }
 
 const MainContext = createContext<MainContextType>({} as MainContextType);
@@ -54,6 +57,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const customers = useCustomers();
 
+  const company = useCompany();
+
   const refetchAll = async () => {
     await rawProducts.all.refetch();
     await fabricatedProducts.all.refetch();
@@ -61,11 +66,12 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     await units.all.refetch();
     await notes.all.refetch();
     await customers.all.refetch();
+    await company.one.refetch();
   }
 
   // Refetch everything when we log in
   useEffect(() => {
-    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list || !customers.all.list)) {
+    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list || !customers.all.list || !company.one.get)) {
       refetchAll();
     }
   }, [token])
@@ -77,7 +83,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     units,
     refetchAll,
     notes,
-    customers
+    customers,
+    company
   }
 
   return (

@@ -32,11 +32,13 @@ const GET_NOTES = gql`
         dateMade
         amount
         user_created {
+          id
           last_name
           first_name
         }
       }
       transactions(sort: "date_created") {
+        description
         price
         quantity
         idRawProducts {
@@ -93,11 +95,13 @@ const GET_NOTE = gql`
         dateMade
         amount
         user_created {
+          id
           last_name
           first_name
         }
       }
       transactions(sort: "date_created") {
+        description
         price
         quantity
         idRawProducts {

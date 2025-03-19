@@ -31,7 +31,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
     }, 0);
   };
 
-  const totalAmount = calculateTotalAmount(note.transactions);
+  const totalAmount = calculateTotalAmount(note.transactions as Transaction[]);
 
   const firstName = note.user_created.first_name || "";
   const lastName = note.user_created.last_name || "";
@@ -52,7 +52,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
             <Row>
               <InfoRow>
                 <Icon name="person-circle" style={{ marginRight: 4 }} />
-                <Text copyID={customer} size="extraSmall" />
+                <Text copyID={customer as string} size="extraSmall" />
               </InfoRow>
               <InfoRow>
                 <Icon size={22} color="success" provider="FontAwesome" name="hand-holding-dollar" style={{ marginRight: 4 }} />

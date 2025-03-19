@@ -94,7 +94,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={note && (() => openDeleteModal('NOTE', 0))} headerSize="extraLarge" copyIDTitle={!note ? "CUNOTES_CREATE_NOTE" : "CUNOTES_EDIT_NOTE"} />
+      <Header backButton deleteFunc={note && (() => openDeleteModal('NOTE', 0))} headerSize="extraLarge" copyIDTitle={!note ? "CUNOTES_CREATE_NOTE" : "CUNOTES_EDIT_NOTE"} copyIDTitleVariables={{id: note?.id ?? ""}} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <SectionHeader copyID="CUNOTES_GENERAL_DATA" />
         <DateInput

@@ -6,5 +6,6 @@ export type HeaderProps = {
   headerSize?: keyof ThemeType['fontSizes'];
   backButton?: boolean;
   deleteFunc?: () => void;
+  copyIDTitleVariables?: Record<string, string>;
 }
 

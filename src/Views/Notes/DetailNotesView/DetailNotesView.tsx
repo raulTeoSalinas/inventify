@@ -1,42 +1,28 @@
 // React
-import React from 'react';
+import React, { useRef } from 'react';
 // React Native
-import { View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 // External Dependencies
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 // Internal Dependencies
 import {
   Header,
   ViewLayout,
-  TextInput,
   PillButton,
-  ModalDelete,
   Text,
   Separator,
   SectionHeader,
-  Toggle,
-  SelectInput,
-  RadioButton,
-  Button,
   CardLayout,
   Icon,
-  Modal,
-  DateInput
 } from "../../../designSystem";
-import { StyledButton } from "./DetailNotesView.styles";
-import { ItemContainer } from "../../../designSystem/molecules/SelectInput/SelectInput.styles";
 import { DetailNotesViewProps } from "./DetailNotesView.model";
-import { RawProduct } from "../../../viewModels/useRawProducts/useRawProducts.model";
-import { FabricatedProduct } from "../../../viewModels/useFabricatedProducts/useFabricatedProducts.model";
-import { Service } from "../../../viewModels/useServices/useServices.model";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import useNotesView from "./DetailNotesView.controller";
+import useDetailNotesView from "./DetailNotesView.controller";
 import { formatDateForCalendar } from "../../../designSystem/molecules/DateInput/DateInput";
 import { negativeToOposite } from "../../../utils/negativeToOposite";
 import { Transaction } from "../../../viewModels/useTransactions/useTransactions.model";
 
 const DetailNotesView: React.FC<DetailNotesViewProps> = (props) => {
-
 
 
   const {
@@ -45,32 +31,36 @@ const DetailNotesView: React.FC<DetailNotesViewProps> = (props) => {
     note,
     theme,
     getTranslatedUnit,
-    handlePressEdit
-  } = useNotesView()
+    handlePressEdit,
+    printToFile,
+    date
+  } = useDetailNotesView()
 
-
-
+  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
   return (
     <ViewLayout>
 
-      <Header backButton headerSize="extraLarge" copyIDTitle={`Remision ${note.id}`} />
+      <Header backButton headerSize="extraLarge" copyIDTitle={`NOTE_NOTECARD_TITLE`} copyIDTitleVariables={{id: note.id}} />
 
-      <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
+      <KeyboardAwareScrollView 
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef?.current?.scrollToEnd(true)}
+        extraScrollHeight={10} 
+        contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <SectionHeader copyID="CUNOTES_GENERAL_DATA" />
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8, marginTop: "4%" }}>
           <Text bold size="small" copyID="CUNOTES_NOTE_DATE" />
-          <Text copyID={formatDateForCalendar(note.dateMade)} />
-
+          <Text copyID={date} />
         </View>
         <SectionHeader copyID="CUNOTES_CUSTOMER_DATA" />
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8, marginTop: "4%" }}>
-          <Text bold size="small" copyID="CUNOTES_CUSTOMER_NAME" />
-          <Text copyID={note?.idCustomers?.name ?? ""} />
+          <Text bold size="small" copyID="CUNOTES_CUSTOMER_NAME_D" />
+          <Text size="small" copyID={note?.idCustomers?.name ?? ""} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8, marginTop: "4%" }}>
           <Text bold size="small" copyID="CUNOTES_CUSTOMER_PHONE" />
-          <Text copyID={note?.idCustomers?.phoneNumber ?? "Sin registro"} />
+          <Text size="small" copyID={note?.idCustomers?.phoneNumber ?? "Sin registro"} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8, marginTop: "4%" }}>
           <Text bold size="small" copyID="CUNOTES_CUSTOMER_EMAIL" />
@@ -116,7 +106,7 @@ const DetailNotesView: React.FC<DetailNotesViewProps> = (props) => {
         {
           note.payments.map((payment, i) => (
             <View key={note.payments.length - i - 1} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8 }}>
-              <Text copyID={String(note.payments.length - i)} />
+              <Text style={{marginTop: "2%"}} copyID={String(note.payments.length - i)} />
               <CardLayout style={{ marginTop: "4%", flex: 1 }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 8, }}>
                   <Text bold size="small" copyID="CUNOTES_AMOUNT" />
@@ -165,8 +155,8 @@ const DetailNotesView: React.FC<DetailNotesViewProps> = (props) => {
         </View>
 
 
-        <PillButton onPress={handlePressEdit} iconName="pencil" style={{ width: "80%", marginTop: "12%" }} backgroundColor="white" textColor="dark" copyID="Editar" />
-        <PillButton iconName="download" style={{ width: "80%", marginVertical: "12%", marginTop: "4%" }} copyID="Descargar" />
+        <PillButton onPress={handlePressEdit} iconName="pencil" style={{ width: "80%", marginTop: "12%" }} backgroundColor="white" textColor="dark" copyID="CATA_CREATE_EDIT" />
+        <PillButton onPress={printToFile} textColor='white' iconName="print" style={{ width: "80%", marginVertical: "12%", marginTop: "4%" }} copyID="DETAILNOTES_PRINT" />
 
       </KeyboardAwareScrollView>
 

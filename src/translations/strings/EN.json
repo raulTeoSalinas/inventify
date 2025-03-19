@@ -103,12 +103,13 @@
   "CUFABRICATED_RAW_MATERIAL_PLACEHOLDER": "Select Raw Material",
   "CUFABRICATED_ADD_RAW_MATERIAL": "Add Raw Material",
   "CUNOTES_CREATE_NOTE": "Create Note",
-  "CUNOTES_EDIT_NOTE": "Edit Note",
+  "CUNOTES_EDIT_NOTE": "Edit Note {{id}}",
   "CUNOTES_GENERAL_DATA": "General Data",
   "CUNOTES_NOTE_DATE": "Note Date",
   "CUNOTES_CUSTOMER_DATA": "Customer Data",
   "CUNOTES_NEW_CUSTOMER": "New Customer",
   "CUNOTES_CUSTOMER_NAME": "Customer Name*",
+  "CUNOTES_CUSTOMER_NAME_D": "Customer Name",
   "CUNOTES_VALID_NAME": "Enter a valid name",
   "CUNOTES_CUSTOMER_EMAIL": "Customer Email",
   "CUNOTES_CUSTOMER_PHONE": "Customer Phone",
@@ -178,5 +179,12 @@
   "LOGG_VIEW_ERROR_TITLE": "Login Error",
   "LOGG_VIEW_ERROR_VERIFY": "Verify your username or password.",
   "LOGG_VIEW_VALIDATOR_MAIL": "Enter a valid email",
-  "LOGG_VIEW_VALIDATOR_PASSWORD": "Enter a valid password"
+  "LOGG_VIEW_VALIDATOR_PASSWORD": "Enter a valid password",
+  "DETAILNOTES_ADDRESS": "Address",
+  "DETAILNOTES_PHONE": "Phone",
+  "DETAILNOTES_EMAIL": "Email",
+  "DETAILNOTES_ID_TITLE": "Delivery Note",
+  "DETAILNOTES_PRINT": "Print",
+  "DETAILNOTES_ISSUED": "Issued by",
+  "DETAILNOTES_DESCRIPTION": "Description"
 }

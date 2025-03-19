@@ -1,5 +1,5 @@
 // React
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 // External Dependencies
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SplashScreen from 'expo-splash-screen';

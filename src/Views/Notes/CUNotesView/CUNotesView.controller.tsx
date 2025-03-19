@@ -171,8 +171,7 @@ const useNotesView = () => {
     if (transactions.length === 0) {
       setErrorProduct(true)
     } else { setErrorProduct(false) }
-    console.log(isValidated, errorProduct)
-    console.log(JSON.stringify(validationStates, null, 2))
+
     if (!isValidated || errorProduct
     ) return;
 
@@ -199,12 +198,7 @@ const useNotesView = () => {
       }
 
       const note = await notes.crud.read(String(response.id))
-      console.log(note)
       if (note) {
-        navigation.replace("DetailNotesView", { note })
-      }
-      if (note) {
-        console.log("perra para las perras")
         navigation.replace("DetailNotesView", { note })
       }
 
