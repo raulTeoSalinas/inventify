@@ -342,7 +342,7 @@ const useDetailNotes = () => {
           </tr>
           <tr>
               <td colspan="4">
-                  <strong>${numberToWords(total)}</strong>
+                  <strong>${numberToWords(total, language)}</strong>
               </td>
           </tr>
       </tfoot>
