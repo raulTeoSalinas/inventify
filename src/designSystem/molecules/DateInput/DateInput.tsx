@@ -188,7 +188,7 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
         <Text copyID="DATEINPUT_TITLE" bold textAlign="center" />
         <Calendar
           current={selectedDate}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, marginHorizontal: 2 }}
           enableSwipeMonths
           markedDates={getMarkedDates()}
           theme={{
