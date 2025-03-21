@@ -192,5 +192,6 @@
   "INVENTORY_SEARCH_PLACEHOLDER": "Buscar por ID.",
   "INVENTORY_CARD_TITLE": "Inventario {{id}}",
   "INVENTORY_SHRINK_RETAIL": "Merma al menudeo",
-  "INVENTORY_SHRINK_WHOLESALE": "Merma al mayoreo"
+  "INVENTORY_SHRINK_WHOLESALE": "Merma al mayoreo",
+  "CINVENTORIES_HEADER": "Crear Inventario"
 }

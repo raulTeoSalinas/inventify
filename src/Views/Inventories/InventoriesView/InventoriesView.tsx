@@ -8,7 +8,6 @@ import React, {useState, useEffect} from 'react';
 import {
   Header,
   ViewLayout,
-  ScrollView,
   Searcher,
   PillButton
 } from "../../../designSystem";
@@ -16,6 +15,7 @@ import { InventoriesViewProps } from "./InventoriesView.model";
 import { useMainContext } from '../../../contexts/mainContext';
 import InventoriesList from './components/components/InventoryList/InventoryList';
 import { ButtonWrapper } from './InventoriesView.styles';
+import useNavigation from '../../../navigation/useNavigation/useNavigation';
 
 const InventoriesView: React.FC<InventoriesViewProps> = (props) => {
 
@@ -38,6 +38,12 @@ const InventoriesView: React.FC<InventoriesViewProps> = (props) => {
     }
   }, [inventories.all.list, search])
 
+  const navigation = useNavigation();
+
+  const handleCreate = () => {
+    navigation.navigate("CInventoriesView")
+  }
+
   return (
     <ViewLayout>
       
@@ -47,7 +53,7 @@ const InventoriesView: React.FC<InventoriesViewProps> = (props) => {
           inventories={inventoriesFiltered}
         />
         <ButtonWrapper>
-          <PillButton backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="GENERAL_CREATE" />
+          <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="GENERAL_CREATE" />
         </ButtonWrapper>
     </ViewLayout>
   )

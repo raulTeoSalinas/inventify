@@ -6,7 +6,8 @@ import {
   CUServicesView,
   TransactionsView,
   CUNotesView,
-  DetailNotesView
+  DetailNotesView,
+  CInventoriesView
 } from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
@@ -35,7 +36,8 @@ export type RootStackParamList = {
   },
   DetailNotesView: {
     note: Note
-  }
+  },
+  CInventoriesView: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -76,6 +78,10 @@ const StackNavigation = () => {
         <Stack.Screen
           name="DetailNotesView"
           component={DetailNotesView}
+        />
+        <Stack.Screen
+          name="CInventoriesView"
+          component={CInventoriesView}
         />
       </Stack.Navigator>
     </NavigationContainer>

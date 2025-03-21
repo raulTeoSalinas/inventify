@@ -192,5 +192,6 @@
   "INVENTORY_SEARCH_PLACEHOLDER": "Search by ID.",
   "INVENTORY_CARD_TITLE": "Inventory {{id}}",
   "INVENTORY_SHRINK_RETAIL": "Shrinkage retail",
-  "INVENTORY_SHRINK_WHOLESALE": "Shrinkage wholesale"
+  "INVENTORY_SHRINK_WHOLESALE": "Shrinkage wholesale",
+  "CINVENTORIES_HEADER": "Create Inventory"
 }
