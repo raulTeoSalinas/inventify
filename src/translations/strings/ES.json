@@ -42,6 +42,7 @@
   "CATA_TRANS_QUANTITY": "Cantidad:",
   "CATA_TRANS_ADDED": "Ingreso",
   "CATA_TRANS_DISC_FAB": "Descontado por fabricado",
+  "CATA_TRANS_DISC_NOTE": "Descontado por remisión",
   "CURAWMATERIAL_HEADER": "Crear Materia Prima",
   "CURAWMATERIAL_HEADER_EDIT": "Editar Materia Prima",
   "CURAWMATERIAL_DESC_LABEL": "Descripción del producto:",

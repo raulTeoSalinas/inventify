@@ -35,10 +35,11 @@ const TransactionsView: React.FC<TransactionsViewProps> = (props) => {
     const date = isoDate ? new Date(isoDate).toLocaleString() : new Date().toLocaleString();
 
 
-    const getDescription = (description: 'Added' | 'Discounted By Fabricated'): string => {
+    const getDescription = (description: 'Added' | 'Discounted By Fabricated' | 'Discounted By Note'): string => {
       const descriptionMap = {
         'Added': 'CATA_TRANS_ADDED',
-        'Discounted By Fabricated': 'CATA_TRANS_DISC_FAB'
+        'Discounted By Fabricated': 'CATA_TRANS_DISC_FAB',
+        'Discounted By Note': 'CATA_TRANS_DISC_NOTE'
       };
 
       return descriptionMap[description] || description;
@@ -68,7 +69,7 @@ const TransactionsView: React.FC<TransactionsViewProps> = (props) => {
       <CardLayout style={{ marginHorizontal: 12, marginVertical: 4 }}>
         <Row>
           <Text bold size="extraSmall" copyID={`ID:`} />
-          <Text size="extraSmall" copyID={item.id} />
+          <Text size="extraSmall" copyID={item.id ?? ""} />
         </Row>
         <Separator />
         <Row>
@@ -106,7 +107,7 @@ const TransactionsView: React.FC<TransactionsViewProps> = (props) => {
         windowSize={10}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={50}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => (item.id ?? '').toString()}
         contentContainerStyle={{ paddingBottom: 120 }}
         ListEmptyComponent={<Text textAlign="center" copyID="CATA_SEARCHER_EMPTY" />}
       />

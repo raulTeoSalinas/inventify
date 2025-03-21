@@ -42,6 +42,7 @@
   "CATA_TRANS_QUANTITY": "Quantity:",
   "CATA_TRANS_ADDED": "Added",
   "CATA_TRANS_DISC_FAB": "Discounted by fabricated",
+  "CATA_TRANS_DISC_NOTE": "Discounted by note",
   "CURAWMATERIAL_HEADER": "Create Raw Material",
   "CURAWMATERIAL_HEADER_EDIT": "Edit Raw Material",
   "CURAWMATERIAL_DESC_LABEL": "Product description:",
