@@ -188,5 +188,9 @@
   "DETAILNOTES_PRINT": "Print",
   "DETAILNOTES_ISSUED": "Issued by",
   "DETAILNOTES_DESCRIPTION": "Description",
-  "DATEINPUT_TITLE": "Select a date"
+  "DATEINPUT_TITLE": "Select a date",
+  "INVENTORY_SEARCH_PLACEHOLDER": "Search by ID.",
+  "INVENTORY_CARD_TITLE": "Inventory {{id}}",
+  "INVENTORY_SHRINK_RETAIL": "Shrinkage retail",
+  "INVENTORY_SHRINK_WHOLESALE": "Shrinkage wholesale"
 }

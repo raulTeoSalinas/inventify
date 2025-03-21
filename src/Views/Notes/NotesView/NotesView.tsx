@@ -63,7 +63,7 @@ const NotesView: React.FC<NotesViewProps> = (props) => {
       </HeaderWrapper>
       <NoteList notes={notesFiltered} onScroll={handleChangeScrollY} />
       <ButtonWrapper>
-        <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="Crear" />
+        <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="GENERAL_CREATE" />
       </ButtonWrapper>
     </ViewLayout>
   )

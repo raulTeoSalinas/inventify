@@ -12,7 +12,7 @@ import { useDelete } from "../../graphql/mutations/useDelete";
 // Define your GraphQL query
 const GET_NOTES = gql`
   query GetNotes {
-    notes(filter: {isDeleted: {_eq: false}}) {
+    notes(filter: {isDeleted: {_eq: false}}, limit: -1, sort: "-id") {
       id
       dateMade
       user_created {

@@ -15,7 +15,7 @@
   "NOTE_HEADER_DESCRIPTION": "Crea, consulta o imprime tus remisiones.",
   "NOTE_SEARCH_PLACEHOLDER": "Busca por ID o por nombre de cliente.",
   "NOTE_NOTECARD_TITLE": "Remisión {{id}}",
-  "NOTE_NOTECARD_ISSUED": "Emitida por {{employee}}",
+  "NOTE_NOTECARD_ISSUED": "Emitido por {{employee}}",
   "CATA_HEADER_TITLE": "Catálogo",
   "CATA_HEADER_DESCRIPTION": "Administra tus productos y servicios.",
   "CATA_SEGMENT_RAW": "Materia Prima",
@@ -188,5 +188,9 @@
   "DETAILNOTES_PRINT": "Imprimir",
   "DETAILNOTES_ISSUED": "Emitida por",
   "DETAILNOTES_DESCRIPTION": "Descripción",
-  "DATEINPUT_TITLE": "Selecciona una fecha"
+  "DATEINPUT_TITLE": "Selecciona una fecha",
+  "INVENTORY_SEARCH_PLACEHOLDER": "Buscar por ID.",
+  "INVENTORY_CARD_TITLE": "Inventario {{id}}",
+  "INVENTORY_SHRINK_RETAIL": "Merma al menudeo",
+  "INVENTORY_SHRINK_WHOLESALE": "Merma al mayoreo"
 }
