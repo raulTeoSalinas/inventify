@@ -13,7 +13,7 @@ interface UseCreateMultipleProps {
 export const useCreateMultiple = ({ collection }: UseCreateMultipleProps) => {
 
   const CREATE_MULTIPLE_MUTATION = gql`
-    mutation CreateItems($items: [create_${collection}_input!] = {}) {
+    mutation CreateItems($items: [create_${collection}_input!]!) {
       create_${collection}_items(data: $items) {
         id
       }

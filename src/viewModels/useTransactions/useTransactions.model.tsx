@@ -4,12 +4,13 @@ import { FabricatedProduct } from "../useFabricatedProducts/useFabricatedProduct
 import { RawProduct } from "../useRawProducts/useRawProducts.model";
 import { Note } from "../useNotes/useNotes.model";
 import { Service } from "../useServices/useServices.model";
+import { Inventory } from "../useInventories/useInventories.model";
 // External Dependencies
 
 // Internal Dependencies
 export interface Transaction {
   quantity: number | string;
-  description: 'Added' | 'Discounted By Fabricated' | 'Discounted By Note';
+  description: 'Added' | 'Discounted By Fabricated' | 'Discounted By Note' | 'Discounted By Inventory' | 'Added By Inventory';
   id?: string;
   price?: number | string;
   idNotes?: Note;
@@ -17,6 +18,7 @@ export interface Transaction {
   date_created?: string;
   idFabricatedProducts?: Partial<FabricatedProduct>
   idRawProducts?: Partial<RawProduct>
+  idInventories?: Partial<Inventory>
 }
 
 export const calculateAvailableUnits = (transactions?: Transaction[]): number => {

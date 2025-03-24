@@ -21,8 +21,10 @@ import useCInventoriesView from "./CInventoriesView.controller";
 import { useMainContext } from '../../../contexts/mainContext';
 import { Unit } from "../../../viewModels/useUnits/useUnits.model";
 import { useAppSelector } from '../../../store/hooks';
-import { calculateAvailableUnits } from '../../../viewModels/useTransactions/useTransactions.model';
+import { calculateAvailableUnits, Transaction } from '../../../viewModels/useTransactions/useTransactions.model';
 import { useValidator } from '../../../hooks/useValidator/useValidator';
+import { InventoryProduct } from '../../../viewModels/useInventories/useInventories.model';
+import { useToast } from '../../../hooks/useToast/useToast';
 
 const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
 
@@ -40,10 +42,6 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
     return language === "EN" ? item.nameEng : item.nameSpa;
   }
 
-  const handleCreate = () => {
-    const isValidated = validateAll();
-    console.log("isValidated", isValidated);
-  }
   const [shrinkageRaw, setShrinkageRaw] = useState({});
   const [shrinkageFab, setShrinkageFab] = useState({});
   const [countedUnitsRaw, setCountedUnitsRaw] = useState({});
@@ -62,7 +60,9 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
       const product = rawProducts.all.list.find(item => item.id === id);
       if (product) {
         const expected = calculateAvailableUnits(product.transactions);
-        const diff = value !== '' && !isNaN(Number(value)) ? Number(value) - expected : 0;
+        const diff = value !== '' && !isNaN(Number(value)) 
+        ? Number((Number(value) - expected).toFixed(2)) 
+        : 0;
         setShrinkageRaw(prev => ({
           ...prev,
           [id]: diff
@@ -83,7 +83,9 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
       const product = fabricatedProducts.all.list.find(item => item.id === id);
       if (product) {
         const expected = calculateAvailableUnits(product.transactions);
-        const diff = value !== '' && !isNaN(Number(value)) ? Number(value) - expected : 0;
+        const diff = value !== '' && !isNaN(Number(value)) 
+                  ? Number((Number(value) - expected).toFixed(2)) 
+                  : 0;
         setShrinkageFab(prev => ({
           ...prev,
           [id]: diff
@@ -94,6 +96,77 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
 
   const [validationValues, setValidationValues] = useState({});
   const { validateAll, validationStates } = useValidator(validationValues);
+  const { showToast } = useToast();
+
+  const handlePressCreate = () => {
+    const isValidated = validateAll();
+    if (!isValidated) return;
+    Alert.alert("Atención", "Los inventarios no podrán ser modificados una vez creados, ¿Desea continuar?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Continuar", onPress: handleCreate }
+    ]);
+  }
+
+  const handleCreate = async () => {
+
+    // Get the transactions for the inventory to add or subtract units
+    const transactions: Transaction[] = [];
+    shrinkageRaw && Object.keys(shrinkageRaw).forEach(id => {
+      if (shrinkageRaw[id] !== 0) {
+        transactions.push({
+          quantity: Number(shrinkageRaw[id]),
+          description: Number(shrinkageRaw[id]) > 0 ?  "Added By Inventory" : "Discounted By Inventory",
+          idRawProducts: { id: id }
+        });
+      }
+    });
+
+    shrinkageFab && Object.keys(shrinkageFab).forEach(id => {
+      if (shrinkageFab[id] !== 0) {
+        transactions.push({
+          quantity: Number(shrinkageFab[id]),
+          description: Number(shrinkageFab[id]) > 0 ?  "Added By Inventory" : "Discounted By Inventory",
+          idFabricatedProducts: { id: id }
+        });
+      }
+    });
+
+
+    const products: InventoryProduct[] = [];
+
+    countedUnitsRaw && Object.keys(countedUnitsRaw).forEach(id => {
+      products.push({
+        countedUnits: Number(countedUnitsRaw[id]),
+        expectedUnits: calculateAvailableUnits(rawProducts.all.list?.find(item => item.id === id)?.transactions),
+        idRawProducts: { id: id },
+      });
+    });
+    countedUnitsFab && Object.keys(countedUnitsFab).forEach(id => {
+      products.push({
+        countedUnits: Number(countedUnitsFab[id]),
+        expectedUnits: calculateAvailableUnits(fabricatedProducts.all.list?.find(item => item.id === id)?.transactions),
+        idFabricatedProducts: { id: id },
+      });
+    });
+
+    try {
+      await inventories.crud.create({ products, transactions });
+      showToast({
+        type: "success",
+        title: "GENERAL_SUCCESS_TOAST",
+        message: "Inventario creado"
+      });
+      await rawProducts.all.refetch();
+      await fabricatedProducts.all.refetch();
+    } catch (error) {
+      console.error('Error creating inventory:', error);
+      showToast({
+        type: "error",
+        title: "GENERAL_ERROR_TOAST",
+        message: "Error creando inventario"
+      });
+    }
+  }
 
   useEffect(() => {
     if (rawProducts.all.list) {
@@ -146,7 +219,7 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
         ...prev,
         ...initialValidationValues
       }));}
-  }, [rawProducts.all.list, countedUnitsRaw]);
+  }, [rawProducts.all.list, fabricatedProducts.all.list, countedUnitsRaw, countedUnitsFab]);
 
   useEffect(() => {
     Alert.alert("Atención", "Por favor evite ingresar productos o generar remisiones durante la creación del inventario, ya que esto podría ocasionar errores en los cálculos finales.", [{ text: "Entendido" }]);
@@ -232,7 +305,7 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
             ))}
           </>
         )}
-        <PillButton onPress={handleCreate} isLoading={inventories.crud.isLoading} style={{ width: "80%", marginVertical: "12%" }} isGradient copyID="GENERAL_CREATE" />
+        <PillButton onPress={handlePressCreate} isLoading={inventories.crud.isLoading} style={{ width: "80%", marginVertical: "12%" }} isGradient copyID="GENERAL_CREATE" />
 
       </KeyboardAwareScrollView>
      

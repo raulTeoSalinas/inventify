@@ -13,7 +13,7 @@ interface UseCreateProps {
 export const useCreate = ({ collection }: UseCreateProps) => {
 
   const CREATE_MUTATION = gql`
-    mutation CreateItem($data: create_${collection}_input = {}) {
+    mutation CreateItem($data: create_${collection}_input!) {
       create_${collection}_item(data: $data) {
         id
       }

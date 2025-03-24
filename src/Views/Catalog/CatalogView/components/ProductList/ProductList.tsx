@@ -147,13 +147,12 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
           }
 
           await transactions.crud.createMultiple(transactionsToCreate)
-          showToast({
-            type: "success",
-            title: "GENERAL_SUCCESS_TOAST",
-            message: "CATA_ENTER_TOAST_SUCCESS"
-          })
         }
-
+        showToast({
+          type: "success",
+          title: "GENERAL_SUCCESS_TOAST",
+          message: "CATA_ENTER_TOAST_SUCCESS"
+        })
         await rawProducts.all.refetch();
         await fabricatedProducts.all.refetch();
         setAddModalVisible(false)

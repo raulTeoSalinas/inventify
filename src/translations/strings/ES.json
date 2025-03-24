@@ -33,7 +33,7 @@
   "CATA_ENTER_PLACEHOLDER": "Ej. 20",
   "CATA_ENTER_DISCOUNT": "Descontar la Materia Prima proporcional",
   "CATA_ENTER_RAW_MATERIAL": "- {{quantity}} {{unit}} de {{product}}",
-  "CATA_ENTER_TOAST_SUCCESS": "Se ha relizado en ingreso con éxito",
+  "CATA_ENTER_TOAST_SUCCESS": "Se ha relizado el ingreso con éxito",
   "CATA_ENTER_TOAST_ERROR": "El ingreso ha fallado",
   "CATA_TRANS_TITLE": "Transacciones",
   "CATA_TRANS_DESC": "Está viendo las Transacciones del producto:",

@@ -1,13 +1,14 @@
 import { FabricatedProduct } from "../useFabricatedProducts/useFabricatedProducts.model";
 import { RawProduct } from "../useRawProducts/useRawProducts.model";
 import { User } from "../useUsers/useUser.model";
+import { Transaction } from "../useTransactions/useTransactions.model";
 
-interface InventoryProduct {
+export interface InventoryProduct {
   countedUnits: number | string;
   expectedUnits: number | string;
-  id: string;
-  idFabricatedProducts: FabricatedProduct | null;
-  idRawProducts: RawProduct | null;
+  id?: string;
+  idFabricatedProducts?: Partial<FabricatedProduct>;
+  idRawProducts?: Partial<RawProduct>;
 }
 
 
@@ -16,6 +17,7 @@ export interface Inventory {
   date_created: string;
   user_created: User;
   products: InventoryProduct[];
+  transactions: Transaction[];
 }
 
 export interface InventoriesData {
