@@ -82,7 +82,7 @@ const DetailInventoriesView: React.FC<DetailInventoriesViewProps> = (props) => {
   return (
     <ViewLayout>
 
-      <Header backButton headerSize="extraLarge" copyIDTitle={`NOTE_NOTECARD_TITLE`} copyIDTitleVariables={{id: inventory.id}} />
+      <Header backButton headerSize="extraLarge" copyIDTitle={`INVENTORY_CARD_TITLE`} copyIDTitleVariables={{id: inventory.id}} />
 
       <KeyboardAwareScrollView 
         extraScrollHeight={10} 

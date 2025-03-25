@@ -193,5 +193,12 @@
   "INVENTORY_CARD_TITLE": "Inventario {{id}}",
   "INVENTORY_SHRINK_RETAIL": "Merma al menudeo",
   "INVENTORY_SHRINK_WHOLESALE": "Merma al mayoreo",
-  "CINVENTORIES_HEADER": "Crear Inventario"
+  "CINVENTORIES_HEADER": "Crear Inventario",
+  "CINVENTORIES_TOAST_CREATE_MSG": "Inventario creado satisfactoriamente.",
+  "CINVENTORIES_TOAST_CREATE_ERROR": "Error al crear el inventario.",
+  "CINVENTORIES_ALERT_FIRST": "Por favor evite ingresar productos o generar remisiones durante la creación del inventario, ya que esto podría ocasionar errores en los cálculos finales.",
+  "CINVENTORIES_ALERT_SECOND": "Los inventarios no podrán ser modificados ni eliminados una vez creados, ¿Desea continuar?",
+  "CINVENTORIES_EXPECTED_UNITS": "Unidades esperadas",
+  "CINVENTORIES_COUNTED_UNITS": "Unidades contadas",
+  "CINVENTORIES_SHRIKAGE": "Merma por unidad"
 }

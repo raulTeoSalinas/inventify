@@ -193,5 +193,12 @@
   "INVENTORY_CARD_TITLE": "Inventory {{id}}",
   "INVENTORY_SHRINK_RETAIL": "Shrinkage retail",
   "INVENTORY_SHRINK_WHOLESALE": "Shrinkage wholesale",
-  "CINVENTORIES_HEADER": "Create Inventory"
+  "CINVENTORIES_HEADER": "Create Inventory",
+  "CINVENTORIES_TOAST_CREATE_MSG": "Inventory created successfully.",
+  "CINVENTORIES_TOAST_CREATE_ERROR": "Error creating inventory.",
+  "CINVENTORIES_ALERT_FIRST": "Please avoid entering products or generating notes during inventory creation, as this may cause errors in the final calculations.",
+  "CINVENTORIES_ALERT_SECOND": "Inventories cannot be modified or deleted once created. Do you want to continue?",
+  "CINVENTORIES_EXPECTED_UNITS": "Expected units",
+  "CINVENTORIES_COUNTED_UNITS": "Counted units",
+  "CINVENTORIES_SHRIKAGE": "Shrinkage per unit"
 }
