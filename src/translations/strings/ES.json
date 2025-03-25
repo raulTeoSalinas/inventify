@@ -200,5 +200,8 @@
   "CINVENTORIES_ALERT_SECOND": "Los inventarios no podrán ser modificados ni eliminados una vez creados, ¿Desea continuar?",
   "CINVENTORIES_EXPECTED_UNITS": "Unidades esperadas",
   "CINVENTORIES_COUNTED_UNITS": "Unidades contadas",
-  "CINVENTORIES_SHRIKAGE": "Merma por unidad"
+  "CINVENTORIES_SHRIKAGE": "Merma por unidad",
+  "DETAIL_INVENTORIES_DATE": "Fecha de inventario",
+  "DETAIL_COUNTED_SHRINKAGE": "Montos de merma",
+  "DETAIL_COUNTED_PRODUCTS": "Conteo de productos"
 }

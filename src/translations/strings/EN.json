@@ -200,5 +200,8 @@
   "CINVENTORIES_ALERT_SECOND": "Inventories cannot be modified or deleted once created. Do you want to continue?",
   "CINVENTORIES_EXPECTED_UNITS": "Expected units",
   "CINVENTORIES_COUNTED_UNITS": "Counted units",
-  "CINVENTORIES_SHRIKAGE": "Shrinkage per unit"
+  "CINVENTORIES_SHRIKAGE": "Shrinkage per unit",
+  "DETAIL_INVENTORIES_DATE": "Inventory Date",
+  "DETAIL_COUNTED_SHRINKAGE": "Shrinkage Amounts",
+  "DETAIL_COUNTED_PRODUCTS": "Product Count"
 }
