@@ -25,10 +25,13 @@ import { calculateAvailableUnits, Transaction } from '../../../viewModels/useTra
 import { useValidator } from '../../../hooks/useValidator/useValidator';
 import { InventoryProduct } from '../../../viewModels/useInventories/useInventories.model';
 import { useToast } from '../../../hooks/useToast/useToast';
+import useNavigation from '../../../navigation/useNavigation/useNavigation';
 
 const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
 
-  const { inventories, rawProducts, fabricatedProducts  } = useMainContext()
+  const { inventories, rawProducts, fabricatedProducts  } = useMainContext();
+
+  const navigation = useNavigation();
 
   const segments = [
     'CATA_SEGMENT_RAW',
@@ -101,7 +104,7 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
   const handlePressCreate = () => {
     const isValidated = validateAll();
     if (!isValidated) return;
-    Alert.alert("Atención", "Los inventarios no podrán ser modificados una vez creados, ¿Desea continuar?", [
+    Alert.alert("Atención", "Los inventarios no podrán ser modificados ni eliminados una vez creados, ¿Desea continuar?", [
       { text: "Cancelar", style: "cancel" },
       { text: "Continuar", onPress: handleCreate }
     ]);
@@ -150,14 +153,17 @@ const CInventoriesView: React.FC<CInventoriesViewProps> = (props) => {
     });
 
     try {
-      await inventories.crud.create({ products, transactions });
+      const { id } = await inventories.crud.create({ products, transactions });
       showToast({
         type: "success",
         title: "GENERAL_SUCCESS_TOAST",
         message: "Inventario creado"
       });
+      const createdInventory = await inventories.crud.read(id);
       await rawProducts.all.refetch();
       await fabricatedProducts.all.refetch();
+
+      navigation.replace("DetailInventoriesView", { inventory: createdInventory });
     } catch (error) {
       console.error('Error creating inventory:', error);
       showToast({

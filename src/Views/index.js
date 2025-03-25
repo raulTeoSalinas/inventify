@@ -10,4 +10,6 @@ export { default as CUFabricatedView } from "./Catalog/CUFabricatedView/CUFabric
 export { default as CUServicesView } from "./Catalog/CUServicesView/CUServicesView"
 export { default as TransactionsView } from "./Catalog/TransactionsView/TransactionsView"
 export { default as DetailNotesView } from "./Notes/DetailNotesView/DetailNotesView"
+export { default as DetailInventoriesView } from "./Inventories/DetailInventoriesView/DetailInventoriesView"
 export { default as CInventoriesView } from "./Inventories/CInventoriesView/CInventoriesView"
+

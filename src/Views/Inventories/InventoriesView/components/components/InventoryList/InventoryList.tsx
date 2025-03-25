@@ -25,10 +25,15 @@ import { setDiscountRaw } from "../../../../../../store/slices/configSlice";
 import { Transaction } from "../../../../../../viewModels/useTransactions/useTransactions.model";
 
 import { InventoryListProps } from './InventoryList.model';
+import { Inventory } from '../../../../../../viewModels/useInventories/useInventories.model';
 
 const InventoriesList: React.FC<InventoryListProps> = ({ onScroll, inventories }) => {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  const handleOpenDetail = (inventory: Inventory) => {
+    navigation.navigate("DetailInventoriesView", { inventory });
+  }
 
   return (
     <>
@@ -36,7 +41,7 @@ const InventoriesList: React.FC<InventoryListProps> = ({ onScroll, inventories }
         data={inventories}
         renderItem={({ item }) => (
             <InventoryCard
-              onPress={() => { }}
+              onPress={() => handleOpenDetail(item)}
               inventory={item}
             />
         )}
