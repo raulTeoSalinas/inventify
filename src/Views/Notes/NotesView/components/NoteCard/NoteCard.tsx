@@ -14,6 +14,7 @@ import { NoteCardProps } from "./NoteCard.model";
 import { Transaction } from "../../../../../viewModels/useTransactions/useTransactions.model";
 import { formatLongDate } from "../../../../../utils/formatDates";
 import { useAppSelector } from "../../../../../store/hooks";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
 
@@ -25,13 +26,17 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
     return transactions.reduce((total, transaction) => {
       // Verificar que precio y cantidad no sean undefined y convertirlos a números
       const price = Number(transaction.price) || 0;
-      const quantity = Math.abs(Number(transaction.quantity) || 0);
+      const quantity = Math.abs(Number(transaction.quantity) || 1); // IF quantity is 0, set it to 1 for services
 
       return total + (price * quantity);
     }, 0);
   };
 
   const totalAmount = calculateTotalAmount(note.transactions as Transaction[]);
+
+  const totalPayments = note.payments.reduce((acc, payment) => {
+    return acc + Number(payment.amount);
+  }, 0);
 
   const firstName = note.user_created.first_name || "";
   const lastName = note.user_created.last_name || "";
@@ -55,8 +60,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onPress }) => {
                 <Text copyID={customer as string} size="extraSmall" />
               </InfoRow>
               <InfoRow>
-                <Icon size={22} color="success" provider="FontAwesome" name="hand-holding-dollar" style={{ marginRight: 4 }} />
-                <Text copyID={`$ ${String(totalAmount)}`} size="extraSmall" />
+                <Icon size={22} color={totalPayments < totalAmount ? "error" : "success"} provider="FontAwesome" name="hand-holding-dollar" style={{ marginRight: 4 }} />
+                <Text copyID={formatCurrency(totalAmount)} size="extraSmall" />
               </InfoRow>
             </Row>
 
