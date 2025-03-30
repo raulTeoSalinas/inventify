@@ -235,5 +235,16 @@
   "CINVENTORIES_SHRIKAGE": "Shrinkage per unit",
   "DETAIL_INVENTORIES_DATE": "Inventory Date",
   "DETAIL_COUNTED_SHRINKAGE": "Shrinkage Amounts",
-  "DETAIL_COUNTED_PRODUCTS": "Product Count"
+  "DETAIL_COUNTED_PRODUCTS": "Product Count",
+  "MORE_HEADER_TITLE": "More",
+  "MORE_HEADER_DESCRIPTION": "Other functionalities of Inventify.",
+  "MORE_SELLERS": "SELLERS",
+  "MORE_SELLERS_DESC": "Edit and add sellers",
+  "MORE_COMISSIONS": "Calculate commissions",
+  "MORE_DATA": "YOUR DATA",
+  "MORE_CUSTOMERS": "Edit customers",
+  "MORE_COMPANY": "Edit your company's information",
+  "MORE_SETTINGS": "SETTINGS",
+  "MORE_APP_SETTINGS": "App settings",
+  "MORE_ABOUT": "About Inventify"
 }

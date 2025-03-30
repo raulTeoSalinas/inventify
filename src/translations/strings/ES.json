@@ -235,5 +235,16 @@
   "CINVENTORIES_SHRIKAGE": "Merma por unidad",
   "DETAIL_INVENTORIES_DATE": "Fecha de inventario",
   "DETAIL_COUNTED_SHRINKAGE": "Montos de merma",
-  "DETAIL_COUNTED_PRODUCTS": "Conteo de productos"
+  "DETAIL_COUNTED_PRODUCTS": "Conteo de productos",
+  "MORE_HEADER_TITLE": "Más",
+  "MORE_HEADER_DESCRIPTION": "Otras funcionalidades de Inventify.",
+  "MORE_SELLERS": "VENDEDORES",
+  "MORE_SELLERS_DESC": "Edita y agrega vendedores",
+  "MORE_COMISSIONS": "Calcular comisiones",
+  "MORE_DATA": "TUS DATOS",
+  "MORE_CUSTOMERS":"Editar clientes",
+  "MORE_COMPANY": "Edita la información de tu empresa",
+  "MORE_SETTINGS": "AJUSTES",
+  "MORE_APP_SETTINGS": "Configuraciones de la app",
+  "MORE_ABOUT": "Acerca de Inventify"
 }

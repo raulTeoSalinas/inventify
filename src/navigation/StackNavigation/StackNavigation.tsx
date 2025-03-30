@@ -8,7 +8,8 @@ import {
   CUNotesView,
   DetailNotesView,
   CInventoriesView,
-  DetailInventoriesView
+  DetailInventoriesView,
+  SettingsView
 } from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
@@ -42,7 +43,8 @@ export type RootStackParamList = {
   CInventoriesView: undefined,
   DetailInventoriesView: {
     inventory: Inventory
-  }
+  },
+  SettingsView: undefined
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -91,6 +93,10 @@ const StackNavigation = () => {
         <Stack.Screen
           name="DetailInventoriesView"
           component={DetailInventoriesView}
+        />
+        <Stack.Screen
+          name="SettingsView"
+          component={SettingsView}
         />
       </Stack.Navigator>
     </NavigationContainer>

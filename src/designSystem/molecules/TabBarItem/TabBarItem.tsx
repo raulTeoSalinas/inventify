@@ -1,3 +1,4 @@
+import React from "react";
 // Internal dependencies
 import Text from "../../atoms/Text/Text";
 import Icon from "../../atoms/Icon/Icon";

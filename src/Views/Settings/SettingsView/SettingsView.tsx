@@ -2,18 +2,16 @@
 // React
 import React from 'react'
 // React Native
-import { View, TouchableOpacity } from "react-native"
+import { View } from "react-native"
 // External Dependencies
 // Internal Dependencies
 import {
   Header,
   ViewLayout,
   ScrollView,
-  Text,
   CardLayout,
   Separator,
   RadioButton,
-  Icon,
   TextButton
 } from "../../../designSystem"
 
@@ -47,7 +45,7 @@ const SettingsView: React.FC<SettingsViewProps> = (props) => {
     <ViewLayout>
       <ScrollView isBottomTab>
 
-        <Header copyIDTitle="SETT_HEADER_TITLE" copyIDDescription="SETT_HEADER_DESCRIPTION" />
+        <Header backButton copyIDTitle="SETT_HEADER_TITLE" copyIDDescription="SETT_HEADER_DESCRIPTION" />
 
         <CardLayout labelCopyID="SETT_VIEW_LANGUAGE" style={{ marginHorizontal: 12, marginTop: 12 }}>
           <RadioButton onPress={() => handleChangeLanguage("ES")} isActive={configState.language === "ES"} labelCopyID="Español 🇲🇽" />

@@ -10,7 +10,8 @@ import {
   DashBoardView,
   InventoriesView,
   NotesView,
-  SettingsView
+  SettingsView,
+  MoreView
 } from "../../Views";
 import useThemeProvider from "../../theme/ThemeProvider.controller";
 import { TabBarItem } from "../../designSystem";
@@ -22,6 +23,7 @@ export type RootTabParamList = {
   InventoriesView: undefined,
   SettingsView: undefined,
   LoginView: undefined,
+  MoreView: undefined,
 };
 
 
@@ -79,10 +81,10 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="SettingsView"
-        component={SettingsView}
+        name="MoreView"
+        component={MoreView}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarItem focused={focused} iconName="settings" copyID="SETT_HEADER_TITLE" />,
+          tabBarIcon: ({ focused }) => <TabBarItem focused={focused} iconName="ellipsis-vertical" iconProvider="FontAwesome" copyID="MORE_HEADER_TITLE" />,
         }}
       />
     </Tab.Navigator>
