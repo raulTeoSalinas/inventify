@@ -36,7 +36,7 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
     dispatch(clearTokens())
   }
 
-  const handleNavigate = (screen: "BottomTabs" | "CInventoriesView" | "SettingsView") => {
+  const handleNavigate = (screen: "BottomTabs" | "CInventoriesView" | "SettingsView" | "CustomersView") => {
     navigation.navigate(screen);
   }
 
@@ -61,7 +61,7 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
         </CardLayout>
 
         <CardLayout labelCopyID="MORE_DATA" style={{ marginHorizontal: 12, marginTop: 12 }}>
-          <TouchableOpacity style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => handleNavigate("CustomersView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_CUSTOMERS' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>

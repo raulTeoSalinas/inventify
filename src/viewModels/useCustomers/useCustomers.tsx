@@ -7,7 +7,7 @@ import { CustomersData, CustomersHook, Customer } from "./useCustomers.model";
 // Define your GraphQL query
 const GET_CUSTOMERS = gql`
   query GetCustomers {
-    customers {
+    customers(filter: {isDeleted: {_eq: false}}) {
       id
       name
       phoneNumber

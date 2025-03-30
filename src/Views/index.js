@@ -13,4 +13,7 @@ export { default as TransactionsView } from "./Catalog/TransactionsView/Transact
 export { default as DetailNotesView } from "./Notes/DetailNotesView/DetailNotesView"
 export { default as DetailInventoriesView } from "./Inventories/DetailInventoriesView/DetailInventoriesView"
 export { default as CInventoriesView } from "./Inventories/CInventoriesView/CInventoriesView"
-
+export { default as CUSellersView } from "./Sellers/CUSellersView/CUSellersView";
+export { default as SellersView } from "./Sellers/SellersView/SellersView";
+export { default as CUCustomersView } from "./Customers/CUCustomersView/CUCustomersView";
+export { default as CustomersView } from "./Customers/CustomersView/CustomersView";

@@ -9,7 +9,11 @@ import {
   DetailNotesView,
   CInventoriesView,
   DetailInventoriesView,
-  SettingsView
+  SettingsView,
+  SellersView,
+  CUSellersView,
+  CUCustomersView,
+  CustomersView
 } from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,6 +22,7 @@ import { FabricatedProduct } from "../../viewModels/useFabricatedProducts/useFab
 import { Service } from "../../viewModels/useServices/useServices.model";
 import { Note } from "../../viewModels/useNotes/useNotes.model";
 import { Inventory } from "../../viewModels/useInventories/useInventories.model";
+import { Customer } from "../../viewModels/useCustomers/useCustomers.model";
 
 // Define the stack parameter list type
 export type RootStackParamList = {
@@ -44,7 +49,12 @@ export type RootStackParamList = {
   DetailInventoriesView: {
     inventory: Inventory
   },
-  SettingsView: undefined
+  SettingsView: undefined,
+  SellersView: undefined,
+  CUCustomersView: {
+    customer?: Customer
+  },
+  CustomersView: undefined,
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -97,6 +107,14 @@ const StackNavigation = () => {
         <Stack.Screen
           name="SettingsView"
           component={SettingsView}
+        />
+        <Stack.Screen
+          name="CUCustomersView"
+          component={CUCustomersView}
+        />
+        <Stack.Screen
+          name="CustomersView"
+          component={CustomersView}
         />
       </Stack.Navigator>
     </NavigationContainer>
