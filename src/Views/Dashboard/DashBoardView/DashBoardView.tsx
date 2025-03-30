@@ -44,14 +44,22 @@ const DashBoardView: React.FC<DashBoardViewProps> = (props) => {
         </View>
 
         <CardLayout cardStyle={{gap: 2}} style={{marginTop: "4%", width: "95%", alignSelf: "center"}}>
-          <Text size='small' copyID="Venta total" color='textLight' bold />
+          <Text size='small' copyID="DASH_TOTAL_SALES" color='textLight' bold />
           <Separator />
 
           <Text  copyID={formatCurrency(totalByNotesFiltered)} size='huge' bold />
 
 
           <View style={{flexDirection: "row",  alignItems: "flex-end", gap: 8, }}>
-            <Text size='extraSmall' copyID={`Respecto al ${segmentSelected} Anterior`} />
+            <Text 
+              size='extraSmall' 
+              copyID={segmentSelected === segments[0] 
+                ? "DASH_COMPARATIVE_DAY" 
+                : segmentSelected === segments[1] 
+                  ? "DASH_COMPARATIVE_WEEK" 
+                  : "DASH_COMPARATIVE_MONTH"
+              } 
+            />
             <Text color={percentageDifference >= 0 ? 'success' : 'error'} copyID={`${percentageDifference.toFixed(2)}%`} bold />
           </View>
         </CardLayout>
@@ -79,12 +87,12 @@ const DashBoardView: React.FC<DashBoardViewProps> = (props) => {
               <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                 <View style={{flexDirection: "row", alignItems: "center", gap: 4}}>
                   <View style={{width: 12, height: 12, borderRadius:6, backgroundColor: theme.colors.primary}} />
-                  <Text size='small' copyID="Cobrado" color='textLight' bold />
+                  <Text size='small' copyID="DASH_CHARGED" color='textLight' bold />
                 </View>
                 <Text size='huge' copyID={formatCurrency(totalByNotesFiltered - totalRemainingByNotesFiltered)} color='textLight' bold />
                 <View style={{flexDirection: "row", alignItems: "center", gap: 4, marginTop: 8}}>
                   <View style={{width: 12, height: 12, borderRadius:6, backgroundColor: theme.colors.secondary}} />
-                  <Text size='small' copyID="Restante" color='textLight' bold />
+                  <Text size='small' copyID="DASH_PENDING" color='textLight' bold />
                 </View> 
                 <Text size='huge' copyID={formatCurrency(totalRemainingByNotesFiltered)} color='textLight' bold />
               </View> 
@@ -120,11 +128,11 @@ const DashBoardView: React.FC<DashBoardViewProps> = (props) => {
         {
           mostSoldProduct && (
             <CardLayout cardStyle={{gap: 2}} style={{marginTop: "4%", width: "95%", alignSelf: "center"}}>
-              <Text size='small' copyID="Producto Más Vendido" color='textLight' bold />
+              <Text size='small' copyID="DASH_MOST_SOLD" color='textLight' bold />
               <Separator />
               <Text  copyID={mostSoldProduct?.description ?? ""} size='huge' bold />
-              <View style={{flexDirection: "row",  alignItems: "flex-end", gap: 8, }}>
-                  <Text size='small' copyID={`Unidades vendidas`} />
+              <View style={{flexDirection: "row",  alignItems: "flex-end", gap: 4, }}>
+                  <Text size='small' copyID={`DASH_SOLD_UNITS`} />
                   <Text color='success' copyID={`${mostSoldProduct?.quantity} ${mostSoldProduct?.unit ? getTranslatedUnit(mostSoldProduct.unit) : ''}`} bold />
               </View>
             </CardLayout>

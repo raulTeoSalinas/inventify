@@ -10,14 +10,17 @@ import { Note } from '../../../viewModels/useNotes/useNotes.model';
 import useThemeProvider from '../../../theme/ThemeProvider.controller';
 import { useAppSelector } from '../../../store/hooks';
 import { Unit } from '../../../viewModels/useUnits/useUnits.model';
+import useTranslations from '../../../translations/useTranslations';
 
 const useDashBoardView = () => {
 
   const segments = [
-    'Día',
-    'Semana',
-    'Mes',
+    'DASH_SEGMENT_DAY',
+    'DASH_SEGMENT_WEEK',
+    'DASH_SEGMENT_MONTH',
   ]
+
+  const t = useTranslations();
   const [segmentSelected, setSegmentSelected] = useState(segments[0]);
 
   const { notes } = useMainContext();
@@ -233,7 +236,7 @@ const useDashBoardView = () => {
     
     if (segmentSelected === segments[0]) {
       // Vista diaria (lunes a domingo)
-      labels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+      labels = [t('DASH_MON'), t('DASH_TUE'), t('DASH_WED'), t('DASH_THU'), t('DASH_FRI'), t('DASH_SAT'), t('DASH_SUN')];
       
       // Obtener el inicio de la semana actual (lunes)
       const currentDay = today.getDay() || 7; // Convierte 0 (domingo) a 7
@@ -280,7 +283,7 @@ const useDashBoardView = () => {
       
       // Inicializar semanas
       const weeksInMonth = Math.ceil((lastDayOfMonth.getDate() + firstDayOfMonth.getDay()) / 7);
-      labels = Array(weeksInMonth).fill(0).map((_, i) => `Sem ${i + 1}`);
+      labels = Array(weeksInMonth).fill(0).map((_, i) => `${t('DASH_WEEK')} ${i + 1}`);
       data = Array(weeksInMonth).fill(0);
       
       // Agrupar notas por semana del mes
@@ -302,7 +305,7 @@ const useDashBoardView = () => {
       
     } else if (segmentSelected === segments[2]) {
       // Vista mensual (meses del año)
-      labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      labels = [t('DASH_JAN'), t('DASH_FEB'), t('DASH_MAR'), t('DASH_APR'), t('DASH_MAY'), t('DASH_JUN'), t('DASH_JUL'), t('DASH_AUG'), t('DASH_SEP'), t('DASH_OCT'), t('DASH_NOV'), t('DASH_DEC')];
       data = Array(12).fill(0);
       
       const currentYear = today.getFullYear();
