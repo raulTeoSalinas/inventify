@@ -281,5 +281,11 @@
   "UCOMPANY_TOAST_CREATE_MSG": "Empresa editada satisfactoriamente.",
   "UCOMPANY_TOAST_CREATE_ERROR": "Error al editar la empresa.",
   "UCOMPANY_LOGO_LABEL": "Logo de la empresa",
-  "UCOMPANY_LOGO_ERROR": "Seleccione un logo."
+  "UCOMPANY_LOGO_ERROR": "Seleccione un logo.",
+  "ABOUT_HEADER": "Acerca de Inventify",
+  "ABOUT_VERSION": "Versión de la app:",
+  "ABOUT_TECHNOLOGIES": "Tecnologías utilizadas:",
+  "ABOUT_DEVELOPER": "Desarrollador:",
+  "ABOUT_SOFTWARE_TITLE": "Ingeniero de Software",
+  "ABOUT_NOTE": "Espero que esta aplicación te ayude a tener un mayor control y eficiencia en tu empresa o negocio. ¡Que sea una herramienta clave para tu éxito y crecimiento! 🚀"
 }

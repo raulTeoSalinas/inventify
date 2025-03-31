@@ -281,5 +281,11 @@
   "UCOMPANY_TOAST_CREATE_MSG": "Company successfully edited.",
   "UCOMPANY_TOAST_CREATE_ERROR": "Error editing the company.",
   "UCOMPANY_LOGO_LABEL": "Company Logo",
-  "UCOMPANY_LOGO_ERROR": "Select a logo."
+  "UCOMPANY_LOGO_ERROR": "Select a logo.",
+  "ABOUT_HEADER": "About Inventify",
+  "ABOUT_VERSION": "App Version:",
+  "ABOUT_TECHNOLOGIES": "Technologies Used:",
+  "ABOUT_DEVELOPER": "Developer:",
+  "ABOUT_SOFTWARE_TITLE": "Software Engineer",
+  "ABOUT_NOTE": "I hope this application helps you achieve greater control and efficiency in your company or business. May it be a key tool for your success and growth! 🚀"
 }

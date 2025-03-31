@@ -36,7 +36,7 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
     dispatch(clearTokens())
   }
 
-  const handleNavigate = (screen: "BottomTabs" | "CInventoriesView" | "SettingsView" | "CustomersView" | "UCompanyView") => {
+  const handleNavigate = (screen: "BottomTabs" | "CInventoriesView" | "SettingsView" | "CustomersView" | "UCompanyView" | "AboutView") => {
     navigation.navigate(screen);
   }
 
@@ -78,7 +78,7 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>
           <Separator />
-          <TouchableOpacity style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => handleNavigate("AboutView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_ABOUT' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>

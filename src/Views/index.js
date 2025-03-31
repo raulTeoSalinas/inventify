@@ -18,3 +18,4 @@ export { default as SellersView } from "./Sellers/SellersView/SellersView";
 export { default as CUCustomersView } from "./Customers/CUCustomersView/CUCustomersView";
 export { default as CustomersView } from "./Customers/CustomersView/CustomersView";
 export { default as UCompanyView } from "./Company/UCompanyView/UCompanyView";
+export { default as AboutView } from "./AboutView/AboutView";
