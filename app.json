@@ -29,7 +29,13 @@
       "favicon": "./src/assets/images/app/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to set an image for your company."
+        }
+      ]
     ],
     "extra": {
       "eas": {

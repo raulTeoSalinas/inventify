@@ -9,6 +9,7 @@ export { default as Button } from "./atoms/Button/Button"
 export { default as SectionHeader } from "./atoms/SectionHeader/SectionHeader"
 
 export { default as TextInput } from "./molecules/TextInput/TextInput"
+export { default as ImagePicker } from "./molecules/ImagePicker/ImagePicker"
 export { default as TabBarItem } from "./molecules/TabBarItem/TabBarItem"
 export { default as Header } from "./molecules/Header/Header"
 export { default as Searcher } from "./molecules/Searcher/Searcher"

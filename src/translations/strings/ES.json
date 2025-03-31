@@ -264,5 +264,22 @@
   "CUCUSTOMERS_TOAST_EDIT_MSG": "Cliente editado satisfactoriamente.",
   "CUCUSTOMERS_TOAST_EDIT_ERROR": "Error al editar el cliente.",
   "CUCUSTOMERS_TOAST_DELETE_MSG": "Cliente eliminado satisfactoriamente.",
-  "CUCUSTOMERS_TOAST_DELETE_ERROR": "Error al eliminar el cliente."
+  "CUCUSTOMERS_TOAST_DELETE_ERROR": "Error al eliminar el cliente.",
+  "UCOMPANY_HEADER": "Editar tu empresa",
+  "UCOMPANY_NAME_LABEL": "Nombre de la empresa",
+  "UCOMPANY_NAME_PLACE": "Ej. Mi empresa S.A. de C.V.",
+  "UCOMPANY_NAME_ERROR": "Introduce un nombre válido",
+  "UCOMANY_ADDRESS_LABEL": "Dirección de la empresa",
+  "UCOMPANY_ADDRESS_PLACE": "Ej. Calle 123, Colonia Centro",
+  "UCOMPANY_ADDRESS_ERROR": "Introduce una dirección válida",
+  "UCOMPANY_PHONE_LABEL": "Teléfono de la empresa",
+  "UCOMPANY_PHONE_PLACE": "Ej. 55 1234 5678",
+  "UCOMPANY_PHONE_ERROR": "Introduce un teléfono válido",
+  "UCOMPANY_EMAIL_LABEL": "Correo de la empresa",
+  "UCOMPANY_EMAIL_PLACE": "Ej. mi.empresa@gmail.com",
+  "UCOMPANY_EMAIL_ERROR": "Introduce un correo válido",
+  "UCOMPANY_TOAST_CREATE_MSG": "Empresa editada satisfactoriamente.",
+  "UCOMPANY_TOAST_CREATE_ERROR": "Error al editar la empresa.",
+  "UCOMPANY_LOGO_LABEL": "Logo de la empresa",
+  "UCOMPANY_LOGO_ERROR": "Seleccione un logo."
 }

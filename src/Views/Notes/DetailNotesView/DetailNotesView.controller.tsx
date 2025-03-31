@@ -89,6 +89,8 @@ const useDetailNotes = () => {
 
   const date = formatLongDate(noteDisplay.dateMade, language);
 
+  const token = useAppSelector((state) => state.auth.access_token);
+
   const printToFile = async () => {
 
     if (!note || !company.one.get) return;
@@ -258,7 +260,7 @@ const useDetailNotes = () => {
 </head>
 <body>
   <div id="header">
-      <img id="logo" src="${ENDPOINT.assets}/6650f26a-166b-4cf7-acee-8afc10e9403d" alt="logo">
+      <img id="logo" src="${ENDPOINT.assets}/${companyData.logo.id}?access_token=${token}" alt="logo">
       <div id="info">
           <h1 id="title">${companyData.name}</h1>
           <div style="margin-top: 12px;" class="info-column" >

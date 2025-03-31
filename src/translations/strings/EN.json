@@ -264,5 +264,22 @@
   "CUCUSTOMERS_TOAST_EDIT_MSG": "Customer edited successfully.",
   "CUCUSTOMERS_TOAST_EDIT_ERROR": "Error editing the customer.",
   "CUCUSTOMERS_TOAST_DELETE_MSG": "Customer deleted successfully.",
-  "CUCUSTOMERS_TOAST_DELETE_ERROR": "Error deleting the customer."
+  "CUCUSTOMERS_TOAST_DELETE_ERROR": "Error deleting the customer.",
+  "UCOMPANY_HEADER": "Edit your company",
+  "UCOMPANY_NAME_LABEL": "Company Name",
+  "UCOMPANY_NAME_PLACE": "E.g. My Company LLC",
+  "UCOMPANY_NAME_ERROR": "Enter a valid name",
+  "UCOMANY_ADDRESS_LABEL": "Company Address",
+  "UCOMPANY_ADDRESS_PLACE": "E.g. 123 Main St, Downtown",
+  "UCOMPANY_ADDRESS_ERROR": "Enter a valid address",
+  "UCOMPANY_PHONE_LABEL": "Company Phone",
+  "UCOMPANY_PHONE_PLACE": "E.g. 555 123 4567",
+  "UCOMPANY_PHONE_ERROR": "Enter a valid phone number",
+  "UCOMPANY_EMAIL_LABEL": "Company Email",
+  "UCOMPANY_EMAIL_PLACE": "E.g. my.company@gmail.com",
+  "UCOMPANY_EMAIL_ERROR": "Enter a valid email",
+  "UCOMPANY_TOAST_CREATE_MSG": "Company successfully edited.",
+  "UCOMPANY_TOAST_CREATE_ERROR": "Error editing the company.",
+  "UCOMPANY_LOGO_LABEL": "Company Logo",
+  "UCOMPANY_LOGO_ERROR": "Select a logo."
 }

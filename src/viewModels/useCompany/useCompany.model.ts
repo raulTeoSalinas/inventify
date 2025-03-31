@@ -1,4 +1,6 @@
-
+export interface Logo {
+  id: string;
+}
 
 export interface Company {
   id: string;
@@ -6,6 +8,7 @@ export interface Company {
   tel: string;
   email: string;
   address: string;
+  logo: Logo;
 }
 
 export interface CompanyData {
