@@ -20,6 +20,8 @@ import { CompanyHook } from "../viewModels/useCompany/useCompany.model";
 import useCompany from "../viewModels/useCompany/useCompany";
 import useInventories from "../viewModels/useInventories/useInventories";
 import { InventoriesHook } from "../viewModels/useInventories/useInventories.model";
+import { SellersHook } from "../viewModels/useSellers/useSellers.model";
+import useSellers from "../viewModels/useSellers/useSellers";
 // Interfaz para el contexto
 interface MainContextType {
   rawProducts: RawProductsHook;
@@ -30,6 +32,7 @@ interface MainContextType {
   customers: CustomersHook;
   company: CompanyHook;
   inventories: InventoriesHook;
+  sellers: SellersHook;
 }
 
 const MainContext = createContext<MainContextType>({} as MainContextType);
@@ -63,6 +66,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
 
   const inventories = useInventories();
 
+  const sellers = useSellers();
+
   const refetchAll = async () => {
     await rawProducts.all.refetch();
     await fabricatedProducts.all.refetch();
@@ -72,11 +77,12 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     await customers.all.refetch();
     await company.one.refetch();
     await inventories.all.refetch();
+    await sellers.all.refetch();
   }
 
   // Refetch everything when we log in
   useEffect(() => {
-    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list || !customers.all.list || !company.one.get || !inventories.all.list)) {
+    if (token && (!rawProducts.all.list || !fabricatedProducts.all.list || !services.all.list || !units.all.list || !notes.all.list || !customers.all.list || !company.one.get || !inventories.all.list || !sellers.all.list)) {
       refetchAll();
     }
   }, [token])
@@ -90,7 +96,8 @@ const MainContextProvider: React.FC<MainContextProviderProps> = ({ children }) =
     notes,
     customers,
     company,
-    inventories
+    inventories,
+    sellers
   }
 
   return (

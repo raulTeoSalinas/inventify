@@ -30,17 +30,11 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
 
   const dispatch = useAppDispatch();
 
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const handleCloseSession = () => {
     dispatch(clearTokens())
   }
-
-  const handleNavigate = (screen: "BottomTabs" | "CInventoriesView" | "SettingsView" | "CustomersView" | "UCompanyView" | "AboutView") => {
-    navigation.navigate(screen);
-  }
-
-
 
   return (
     <ViewLayout>
@@ -49,7 +43,7 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
         <Header copyIDTitle="MORE_HEADER_TITLE" copyIDDescription="MORE_HEADER_DESCRIPTION" />
 
         <CardLayout labelCopyID="MORE_SELLERS" style={{ marginHorizontal: 12, marginTop: 12 }}>
-          <TouchableOpacity style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => navigate("SellersView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_SELLERS_DESC' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>
@@ -61,24 +55,24 @@ const MoreView: React.FC<SettingsViewProps> = (props) => {
         </CardLayout>
 
         <CardLayout labelCopyID="MORE_DATA" style={{ marginHorizontal: 12, marginTop: 12 }}>
-          <TouchableOpacity onPress={() => handleNavigate("CustomersView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => navigate("CustomersView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_CUSTOMERS' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>
           <Separator />
-          <TouchableOpacity onPress={() => handleNavigate("UCompanyView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => navigate("UCompanyView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_COMPANY' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>
         </CardLayout>
        
         <CardLayout labelCopyID="MORE_SETTINGS" style={{ marginHorizontal: 12, marginTop: 12 }}>
-          <TouchableOpacity onPress={() => handleNavigate("SettingsView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => navigate("SettingsView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_APP_SETTINGS' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>
           <Separator />
-          <TouchableOpacity onPress={() => handleNavigate("AboutView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+          <TouchableOpacity onPress={() => navigate("AboutView")} style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <Text copyID='MORE_ABOUT' />
             <Icon name="chevron-forward" size={20} color="textLight" />
           </TouchableOpacity>

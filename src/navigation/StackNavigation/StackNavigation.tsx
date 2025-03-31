@@ -25,6 +25,7 @@ import { Service } from "../../viewModels/useServices/useServices.model";
 import { Note } from "../../viewModels/useNotes/useNotes.model";
 import { Inventory } from "../../viewModels/useInventories/useInventories.model";
 import { Customer } from "../../viewModels/useCustomers/useCustomers.model";
+import { Seller } from "../../viewModels/useSellers/useSellers.model";
 
 // Define the stack parameter list type
 export type RootStackParamList = {
@@ -59,6 +60,9 @@ export type RootStackParamList = {
   CustomersView: undefined,
   UCompanyView: undefined,
   AboutView: undefined,
+  CUSellersView: {
+    seller?: Seller
+  },
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -127,6 +131,14 @@ const StackNavigation = () => {
         <Stack.Screen
           name="AboutView"
           component={AboutView}
+        />
+        <Stack.Screen
+          name="SellersView"
+          component={SellersView}
+        />
+        <Stack.Screen
+          name="CUSellersView"
+          component={CUSellersView}
         />
       </Stack.Navigator>
     </NavigationContainer>

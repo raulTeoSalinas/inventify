@@ -13,16 +13,13 @@ import {
 
 } from "../../../designSystem";
 import { SellersViewProps } from "./Sellers.model";
-import NoteList from "./components/NoteList/NoteList";
+import SellerList from "./components/SellerList/SellerList";
 import useHideInScroll from "../../../hooks/useHideInScroll/useHideInSroll";
 import { HeaderWrapper, ButtonWrapper } from "./SellersView.styles";
 import useNavigation from "../../../navigation/useNavigation/useNavigation";
 import { useMainContext } from "../../../contexts/mainContext";
 
 const SellersView: React.FC<SellersViewProps> = (props) => {
-
-
-  const { HideView, handleChangeScrollY } = useHideInScroll();
 
   const navigation = useNavigation();
 
@@ -32,36 +29,34 @@ const SellersView: React.FC<SellersViewProps> = (props) => {
 
   const [search, setSearch] = useState("");
 
-  const { notes } = useMainContext();
+  const { sellers } = useMainContext();
 
-  const [notesFiltered, setNotesFiltered] = useState(notes.all.list ?? []);
+  const [sellersFiltered, setSellersFiltered] = useState(sellers.all.list ?? []);
   useEffect(() => {
     if (search === "") {
-      setNotesFiltered(notes.all.list ?? []);
+      setSellersFiltered(sellers.all.list ?? []);
       return;
     }
 
-    if (notes.all.list) {
-      const filtered = notes.all.list.filter((note) => {
+    if (sellers.all.list) {
+      const filtered = sellers.all.list.filter((seller) => {
         const normalizedSearch = search.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        const normalizedCustomerName = note.idCustomers?.name?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        return (normalizedCustomerName ?? "").includes(normalizedSearch) || note.id?.toString().includes(search);
+        const normalizedSellerName = seller.name?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        return (normalizedSellerName ?? "").includes(normalizedSearch);
       });
-      setNotesFiltered(filtered);
+      setSellersFiltered(filtered);
     }
-  }, [notes.all.list, search])
+  }, [sellers.all.list, search])
 
 
 
   return (
     <ViewLayout>
-      <HideView>
-        <Header copyIDTitle="NOTE_HEADER_TITLE" copyIDDescription="NOTE_HEADER_DESCRIPTION" />
-      </HideView>
+      <Header backButton copyIDTitle="SELLERS_HEADER_TITLE" copyIDDescription="SELLERS_HEADER_DESCRIPTION" />
       <HeaderWrapper>
-        <Searcher setText={setSearch} placeHolderCopyID="NOTE_SEARCH_PLACEHOLDER" style={{ marginHorizontal: 12, marginVertical: 12 }} />
+        <Searcher setText={setSearch} placeHolderCopyID="SELLERS_SEARCH_PLACEHOLDER" style={{ marginHorizontal: 12, marginVertical: 12 }} />
       </HeaderWrapper>
-      <NoteList notes={notesFiltered} onScroll={handleChangeScrollY} />
+      <SellerList sellers={sellersFiltered} />
       <ButtonWrapper>
         <PillButton onPress={handleCreate} backgroundColor="secondary" textColor="background" textSize="extraSmall" iconName="add-circle" copyID="GENERAL_CREATE" />
       </ButtonWrapper>

@@ -287,5 +287,8 @@
   "ABOUT_TECHNOLOGIES": "Technologies Used:",
   "ABOUT_DEVELOPER": "Developer:",
   "ABOUT_SOFTWARE_TITLE": "Software Engineer",
-  "ABOUT_NOTE": "I hope this application helps you achieve greater control and efficiency in your company or business. May it be a key tool for your success and growth! 🚀"
+  "ABOUT_NOTE": "I hope this application helps you achieve greater control and efficiency in your company or business. May it be a key tool for your success and growth! 🚀",
+  "SELLERS_HEADER_TITLE": "Sellers",
+  "SELLERS_HEADER_DESCRIPTION": "View, create, and edit your sellers.",
+  "SELLERS_SEARCH_PLACEHOLDER": "Search by name."
 }

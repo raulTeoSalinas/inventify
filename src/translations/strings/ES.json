@@ -287,5 +287,8 @@
   "ABOUT_TECHNOLOGIES": "Tecnologías utilizadas:",
   "ABOUT_DEVELOPER": "Desarrollador:",
   "ABOUT_SOFTWARE_TITLE": "Ingeniero de Software",
-  "ABOUT_NOTE": "Espero que esta aplicación te ayude a tener un mayor control y eficiencia en tu empresa o negocio. ¡Que sea una herramienta clave para tu éxito y crecimiento! 🚀"
+  "ABOUT_NOTE": "Espero que esta aplicación te ayude a tener un mayor control y eficiencia en tu empresa o negocio. ¡Que sea una herramienta clave para tu éxito y crecimiento! 🚀",
+  "SELLERS_HEADER_TITLE": "Vendedores",
+  "SELLERS_HEADER_DESCRIPTION": "Consulta, crea y edita tus vendedores.",
+  "SELLERS_SEARCH_PLACEHOLDER": "Buscar por nombre."
 }

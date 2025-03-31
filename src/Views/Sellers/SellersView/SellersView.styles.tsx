@@ -7,6 +7,6 @@ export const HeaderWrapper = styled.View`
 
 export const ButtonWrapper = styled.View`
   position: absolute;
-  bottom: 80px;
+  bottom: 40px;
   right: 12px;
 `;
