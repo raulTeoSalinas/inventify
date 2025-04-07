@@ -317,5 +317,11 @@
   "CUSELLER_TOAST_DELETE_SUCCESS": "Seller deleted successfully.",
   "CUSELLER_TOAST_DELETE_ERROR": "Error deleting the seller.",
   "SELLERS_COMISSIONS": "Commissions",
-  "SELLERS_COMISSIONS_DESC": "Check your sellers' commissions."
+  "SELLERS_COMISSIONS_DESC": "Check your sellers' commissions.",
+  "CALCULATE_COMISSIONS": "Calculate commissions",
+  "CALCULATE_COMISSIONS_DESC": "Calculate the commissions of {{seller}}.",
+  "CALCULATE_COMISSIONS_TOTAL": "Total commissions",
+  "CALCULATE_COMISSIONS_DETAIL": "Breakdown",
+  "CALCULATE_COMISSIONS_DAY": "Today",
+  "CALCULATE_COMISSIONS_WEEK": "This Week"
 }

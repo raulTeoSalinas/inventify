@@ -16,6 +16,7 @@ const SellerList: React.FC<SellerListProps> = ({ sellers, noEdit }) => {
 
   const handlePress = (seller: Seller) => {
     if (noEdit) {
+      navigation.navigate('CalculateComissionView', { seller });
       return;
     }
     navigation.navigate('CUSellersView', { seller });

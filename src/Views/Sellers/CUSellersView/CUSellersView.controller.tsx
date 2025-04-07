@@ -69,6 +69,7 @@ const useCUSellersView = () => {
       setName(seller.name);
       // Establecer los clientes del vendedor
       setCustomersFromSeller(seller.customers || []);
+      setSelectedCustomerOptions(seller.customers || [])
 
       // Procesar esquemas de comisión
       // Convertir el array de esquemas a un objeto con los valores
@@ -106,7 +107,6 @@ const useCUSellersView = () => {
         return acc;
       }, {} as { [key: string]: number | string });
       setSchemeAmounts(schemeAmountsObj);
-
       // Establecer esquemas seleccionados
 
     }

@@ -16,6 +16,7 @@ export { default as CInventoriesView } from "./Inventories/CInventoriesView/CInv
 export { default as CUSellersView } from "./Sellers/CUSellersView/CUSellersView";
 export { default as SellersView } from "./Sellers/SellersView/SellersView";
 export { default as SellersComissionView } from "./Sellers/SellersComissionView/SellersComissionView";
+export { default as CalculateComissionView } from "./Sellers/CalculateComissionView/CalculateComissionView";
 
 export { default as CUCustomersView } from "./Customers/CUCustomersView/CUCustomersView";
 export { default as CustomersView } from "./Customers/CustomersView/CustomersView";
