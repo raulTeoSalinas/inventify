@@ -83,7 +83,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           textSize="extraSmall"
           bold
           textColor="text"
-          copyID="Ver transacciones"
+          copyID="CATA_CREATE_TRANSACTIONS"
           onPress={onViewTransactionsPress}
         />
       </Row>

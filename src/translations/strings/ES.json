@@ -60,6 +60,7 @@
   "CATA_CREATE_SER": "Crear Servicio",
   "CATA_CREATE_EDIT": "Editar",
   "CATA_CREATE_ENTER": "Ingresar",
+  "CATA_CREATE_TRANSACTIONS": "Ver transacciones",
   "CATA_ENTER_TEXT": "Se ingresarán unidades al producto:",
   "CATA_ENTER_LABEL": "Ingresar cantidad",
   "CATA_ENTER_PLACEHOLDER": "Ej. 20",
