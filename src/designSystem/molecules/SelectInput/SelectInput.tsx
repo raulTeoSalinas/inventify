@@ -127,7 +127,7 @@ const SelectInput = <T,>({
     });
 
     setOptionsDisplayed(filteredProducts as T[]);
-  }, [searchText, optionsIndex
+  }, [searchText, optionsIndex, options
   ]);
 
   const theme = useThemeProvider();

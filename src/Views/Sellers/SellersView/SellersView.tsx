@@ -14,7 +14,6 @@ import {
 } from "../../../designSystem";
 import { SellersViewProps } from "./Sellers.model";
 import SellerList from "./components/SellerList/SellerList";
-import useHideInScroll from "../../../hooks/useHideInScroll/useHideInSroll";
 import { HeaderWrapper, ButtonWrapper } from "./SellersView.styles";
 import useNavigation from "../../../navigation/useNavigation/useNavigation";
 import { useMainContext } from "../../../contexts/mainContext";

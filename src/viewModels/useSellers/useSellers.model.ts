@@ -1,19 +1,20 @@
 import { RawProduct } from "../useRawProducts/useRawProducts.model";
 import { FabricatedProduct } from "../useFabricatedProducts/useFabricatedProducts.model";
-
-export interface comissionScheme {
-  id: string;
-  idSellers: Seller;
-  idRawProduct?: Partial<RawProduct>;
-  idFabricatedProduct?: Partial<FabricatedProduct>;
-  type: string;
-  amount: number;
+import { Customer } from "../useCustomers/useCustomers.model";
+export interface ComissionScheme {
+  id?: string;
+  idSellers?: Seller;
+  idRawProducts?: Partial<RawProduct>;
+  idFabricatedProducts?: Partial<FabricatedProduct>;
+  type: "FIXED" | "PERCENTAGE" | "DIFFERENCE";
+  amount?: number;
 }
 
 export interface Seller {
   id: string;
   name: string;
-  comissionSchemes: comissionScheme[];
+  comissionSchemes: ComissionScheme[];
+  customers: Partial<Customer>[];
 }
 
 export interface SellersData {

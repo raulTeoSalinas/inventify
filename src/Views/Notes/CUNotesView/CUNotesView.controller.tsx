@@ -347,6 +347,7 @@ const useNotesView = () => {
 
   const handleChangeProduct = (index: number) => {
     const newTrans = [...transactions];
+    if (!selectedOptions[index]?.id) return;
     if (selectedOptions[index].__typename === 'fabricatedProducts') {
       newTrans[index] = {
         ...newTrans[index],

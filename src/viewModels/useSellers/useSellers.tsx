@@ -8,7 +8,7 @@ import { Seller, SellersData, SellersHook } from "./useSellers.model";
 // Define your GraphQL query
 const GET_SELLERS = gql`
   query GetSellers {
-    sellers {
+    sellers(filter: {isDeleted: {_neq: true}}) {
       id
       name
       comissionSchemes {
@@ -33,6 +33,12 @@ const GET_SELLERS = gql`
             nameSpa
           }
         }
+      }
+      customers {
+        id
+        name
+        phoneNumber
+        email
       }
     }
   }
