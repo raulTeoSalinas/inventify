@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 // React Native
 import { FlatList, View, TextInput as RNTextInput } from "react-native";
 // External Dependencies
-import { BottomSheetFooter, BottomSheetFooterProps } from '@gorhom/bottom-sheet';// Internal dependencies
+import { BottomSheetFooter, BottomSheetFooterProps, BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 // Internal Dependencies
 import ProductCard from "../ProductCard/ProductCard";
@@ -175,7 +175,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
 
   const renderFooter = useCallback(
     (props: BottomSheetFooterProps) => (
-      <BottomSheetFooter {...props} bottomInset={0}>
+      <BottomSheetFooter {...props} bottomInset={-10}>
         <FooterContainer paddingBottom={paddingBottom}>
           <Button onPress={handleCancel} backgroundColor="white" style={{ flex: 1 }} size="large" copyID="GENERAL_CANCEL" />
           <Button loading={transactions.crud.isLoading} onPress={handleAdd} style={{ flex: 1 }} size="large" copyID="CATA_CREATE_ENTER" />
@@ -233,6 +233,7 @@ const ProductList: React.FC<ProductListProps> = ({ onScroll, products }) => {
 
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <TextInput
+              isBottomSheet
               inputMode='decimal'
               setValue={setQuantityToAdd}
               onBlur={() => validateSingle("quantityToAdd")}

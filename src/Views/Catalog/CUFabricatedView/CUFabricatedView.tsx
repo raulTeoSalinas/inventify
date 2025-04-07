@@ -88,16 +88,16 @@ const CUFabricatedView: React.FC<CUFabricatedViewProps> = (props) => {
           titleCopyID="CUFABRICATED_UNITY_PLACE"
           style={{ width: "90%", marginVertical: "4%" }}
           specialRenderItem={({ item }) => (
-            <ItemContainer>
+            <View style={{ width: "100%" }}>
               <RadioButton
                 onPress={() => setSelectedOptionUnit(item)}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingVertical: 16 }}
                 isActive={selectedOptionUnit.id === item.id}
                 labelCopyID={getTranslatedUnit(item) || ""}
               />
 
               <Separator />
-            </ItemContainer>
+            </View>
           )}
         >
           <Text copyID={getTranslatedUnit(unit) || ""} />

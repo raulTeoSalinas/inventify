@@ -73,6 +73,8 @@ const Modal: React.FC<ModalProps> = ({
       backgroundStyle={{ backgroundColor: theme.colors.background, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 56 }}
       {...restProps}
       stackBehavior="replace"
+      keyboardBehavior="extend"
+      android_keyboardInputMode="adjustResize"
     >
       {children}
     </BottomSheetModal>

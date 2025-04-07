@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-
+import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 export const Container = styled.View`
   overflow: hidden;
   border-radius: 24px;
@@ -22,4 +22,16 @@ export const StyledTextInput = styled.TextInput`
   padding-right: 12px;
   flex: 1;
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const StyledBottomSheetTextInput = styled(BottomSheetTextInput)`
+  background-color: ${({ theme, backgroundLight }) => backgroundLight ? theme.colors.background : theme.colors.backgroundContrast};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${({ theme }) => theme.fontSizes.medium}px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  flex: 1;
+  color: ${({ theme }) => theme.colors.text}; 
 `;

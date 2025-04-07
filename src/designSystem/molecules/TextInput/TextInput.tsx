@@ -3,7 +3,7 @@ import React from "react";
 // React Native
 import { View } from "react-native";
 // Internal Dependencies
-import { Container, StyledTextInput } from "./TextInput.styles";
+import { Container, StyledTextInput, StyledBottomSheetTextInput } from "./TextInput.styles";
 import Text from "../../atoms/Text/Text";
 import { TextInputProps } from "./TextInput.model";
 import useThemeProvider from "../../../theme/ThemeProvider.controller";
@@ -11,7 +11,7 @@ import Icon from "../../atoms/Icon/Icon";
 import useTranslations from "../../../translations/useTranslations";
 
 
-const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, style, labelCopyID, backgroundLight, ...props }) => {
+const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeholder, isError, errorMessage, inputMode = "text", autoCapitalize = "none", secureTextEntry = false, style, labelCopyID, backgroundLight, isBottomSheet, ...props }) => {
 
   const theme = useThemeProvider();
 
@@ -46,19 +46,32 @@ const TextInput: React.FC<TextInputProps> = ({ value, setValue, iconName, placeh
         borderColor: theme.colors.error
       }]}>
         <Container>
-          <StyledTextInput
-            backgroundLight={backgroundLight}
-            placeholder={translatedPlaceholder}
-            autoCapitalize={autoCapitalize}
-            placeholderTextColor="#888888"
-            value={value}
-            onChangeText={(text: string) => setValue(text)}
-            inputMode={inputMode}
-            secureTextEntry={secureTextEntry}
-            {...props}
-          />
 
-
+          {isBottomSheet ?
+            <StyledBottomSheetTextInput
+              backgroundLight={backgroundLight}
+              placeholder={translatedPlaceholder}
+              autoCapitalize={autoCapitalize}
+              placeholderTextColor="#888888"
+              value={value}
+              onChangeText={(text: string) => setValue(text)}
+              inputMode={inputMode}
+              secureTextEntry={secureTextEntry}
+              {...props}
+            />
+            :
+            <StyledTextInput
+              backgroundLight={backgroundLight}
+              placeholder={translatedPlaceholder}
+              autoCapitalize={autoCapitalize}
+              placeholderTextColor="#888888"
+              value={value}
+              onChangeText={(text: string) => setValue(text)}
+              inputMode={inputMode}
+              secureTextEntry={secureTextEntry}
+              {...props}
+            />
+          }
           {iconName && <Icon color="secondary" name={iconName} style={{ paddingLeft: 8, paddingRight: 12, height: "auto" }} />}
 
         </Container>

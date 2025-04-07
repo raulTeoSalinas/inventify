@@ -9,4 +9,5 @@ export interface TextInputProps extends Omit<RNTextInputProps, 'onChangeText' | 
   style?: StyleProp<ViewStyle>;
   labelCopyID?: string;
   backgroundLight?: boolean;
+  isBottomSheet?: boolean;
 }

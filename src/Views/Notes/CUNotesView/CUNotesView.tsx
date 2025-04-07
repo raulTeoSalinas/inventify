@@ -94,7 +94,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
   return (
     <ViewLayout>
 
-      <Header backButton deleteFunc={note && (() => openDeleteModal('NOTE', 0))} headerSize="extraLarge" copyIDTitle={!note ? "CUNOTES_CREATE_NOTE" : "CUNOTES_EDIT_NOTE"} copyIDTitleVariables={{id: note?.id ?? ""}} />
+      <Header backButton deleteFunc={note && (() => openDeleteModal('NOTE', 0))} headerSize="extraLarge" copyIDTitle={!note ? "CUNOTES_CREATE_NOTE" : "CUNOTES_EDIT_NOTE"} copyIDTitleVariables={{ id: note?.id ?? "" }} />
       <KeyboardAwareScrollView extraScrollHeight={10} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
         <SectionHeader copyID="CUNOTES_GENERAL_DATA" />
         <DateInput
@@ -195,7 +195,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                   titleCopyID="CUNOTES_SELECT_PRODUCT_SERVICE_TITLE"
                   style={{ flex: 1 }}
                   specialRenderItem={({ item }) => (
-                    <ItemContainer>
+                    <View style={{ width: "100%" }}>
                       <RadioButton
                         onPress={() => {
                           setSelectedOptions(prev => ({
@@ -203,12 +203,12 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
                             [i]: item
                           }));
                         }}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", paddingVertical: 16 }}
                         isActive={selectedOptions[i]?.id === item.id}
                         labelCopyID={item.description || ""}
                       />
                       <Separator />
-                    </ItemContainer>
+                    </View>
                   )}
                 >
                   <Text color={(transaction?.idFabricatedProducts ?? transaction?.idRawProducts ?? transaction?.idServices) ? "text" : "textLight"} size="extraSmall" copyID={transaction?.idRawProducts?.description || transaction?.idFabricatedProducts?.description || transaction?.idServices?.description || "CUNOTES_SELECT"} />
@@ -412,6 +412,7 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
             Number(price) !== (transactions[selectedIndexTransactionPrice]?.idFabricatedProducts?.wholesalePrice ?? transactions[selectedIndexTransactionPrice]?.idRawProducts?.wholesalePrice) &&
             Number(price) !== (transactions[selectedIndexTransactionPrice]?.idServices?.defaultPrice) && (
               <TextInput
+                isBottomSheet
                 isError={!validationStates[`transactions${selectedIndexTransactionPrice}_price`]}
                 defaultValue={price}
                 inputMode="decimal"
