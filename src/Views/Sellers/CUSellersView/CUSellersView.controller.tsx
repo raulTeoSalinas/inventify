@@ -75,7 +75,6 @@ const useCUSellersView = () => {
       const schemeValuesObj = seller.comissionSchemes.reduce((acc, scheme) => {
         const key = (scheme?.idFabricatedProducts?.id || scheme?.idRawProducts?.id);
         if (key !== undefined) {
-          console.log(scheme.type)
           if (scheme.type !== undefined) {
             switch (scheme.type) {
               case "FIXED":

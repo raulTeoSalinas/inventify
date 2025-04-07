@@ -315,5 +315,7 @@
   "CUSELLER_TOAST_EDIT_SUCCESS": "Vendedor editado satisfactoriamente.",
   "CUSELLER_TOAST_EDIT_ERROR": "Error al editar el vendedor.",
   "CUSELLER_TOAST_DELETE_SUCCESS": "Vendedor eliminado satisfactoriamente.",
-  "CUSELLER_TOAST_DELETE_ERROR": "Error al eliminar el vendedor."
+  "CUSELLER_TOAST_DELETE_ERROR": "Error al eliminar el vendedor.",
+  "SELLERS_COMISSIONS": "Comisiones",
+  "SELLERS_COMISSIONS_DESC": "Consulta las comisiones de tus vendedores."
 }

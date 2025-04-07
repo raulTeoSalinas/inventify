@@ -15,7 +15,8 @@ import {
   CUCustomersView,
   CustomersView,
   UCompanyView,
-  AboutView
+  AboutView,
+  SellersComissionView
 } from "../../Views";
 import BottomTabNavigation from "../BottomTabNavigation/BottomTabNavigation";
 import { NavigationContainer } from "@react-navigation/native";
@@ -63,6 +64,7 @@ export type RootStackParamList = {
   CUSellersView: {
     seller?: Seller
   },
+  SellersComissionView: undefined
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -135,6 +137,10 @@ const StackNavigation = () => {
         <Stack.Screen
           name="SellersView"
           component={SellersView}
+        />
+        <Stack.Screen
+          name="SellersComissionView"
+          component={SellersComissionView}
         />
         <Stack.Screen
           name="CUSellersView"

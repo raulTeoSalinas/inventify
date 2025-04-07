@@ -7,15 +7,17 @@ import { FlatList } from "react-native";
 import SellerCard from '../SellerCard/SellerCard';
 import { SellerListProps } from "./SellerList.model";
 import { Seller } from "../../../../../viewModels/useSellers/useSellers.model";
-import { useMainContext } from "../../../../../contexts/mainContext";
 import useNavigation from "../../../../../navigation/useNavigation/useNavigation";
 
 
-const SellerList: React.FC<SellerListProps> = ({ sellers }) => {
+const SellerList: React.FC<SellerListProps> = ({ sellers, noEdit }) => {
 
   const navigation = useNavigation();
 
   const handlePress = (seller: Seller) => {
+    if (noEdit) {
+      return;
+    }
     navigation.navigate('CUSellersView', { seller });
   }
   return (
@@ -24,6 +26,7 @@ const SellerList: React.FC<SellerListProps> = ({ sellers }) => {
       data={sellers}
       renderItem={({ item }) => (
         <SellerCard
+          noEdit={noEdit}
           seller={item as Seller}
           onPress={() => handlePress(item)}
         />

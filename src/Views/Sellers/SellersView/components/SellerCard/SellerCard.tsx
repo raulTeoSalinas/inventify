@@ -10,7 +10,7 @@ import {
 } from "./SellerCard.styles";
 import { SellerCardProps } from "./SellerCard.model";
 
-const SellerCard: React.FC<SellerCardProps> = ({ seller, onPress }) => {
+const SellerCard: React.FC<SellerCardProps> = ({ seller, onPress, noEdit }) => {
 
   const name = seller.name;
 
@@ -22,7 +22,7 @@ const SellerCard: React.FC<SellerCardProps> = ({ seller, onPress }) => {
           <ContentContainer>
             <Text copyID={name} copyVariables={{ id: seller.id }} bold />
           </ContentContainer>
-          <Icon name="edit" provider="FontAwesome" color="text" style={{ marginLeft: 4 }} />
+          <Icon name={noEdit ? "chevron-right" : "edit"} provider="FontAwesome" color="text" style={{ marginLeft: 4 }} />
         </Container>
 
       </CardLayout>

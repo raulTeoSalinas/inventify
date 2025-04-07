@@ -315,5 +315,7 @@
   "CUSELLER_TOAST_EDIT_SUCCESS": "Seller edited successfully.",
   "CUSELLER_TOAST_EDIT_ERROR": "Error editing the seller.",
   "CUSELLER_TOAST_DELETE_SUCCESS": "Seller deleted successfully.",
-  "CUSELLER_TOAST_DELETE_ERROR": "Error deleting the seller."
+  "CUSELLER_TOAST_DELETE_ERROR": "Error deleting the seller.",
+  "SELLERS_COMISSIONS": "Commissions",
+  "SELLERS_COMISSIONS_DESC": "Check your sellers' commissions."
 }
