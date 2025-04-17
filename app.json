@@ -15,7 +15,10 @@
     "ios": {
       "userInterfaceStyle": "automatic",
       "supportsTablet": true,
-      "bundleIdentifier": "com.lesnoy.Inventify"
+      "bundleIdentifier": "com.lesnoy.Inventify",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "userInterfaceStyle": "automatic",
@@ -23,7 +26,11 @@
         "foregroundImage": "./src/assets/images/app/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.lesnoy.Inventify"
+      "package": "com.lesnoy.Inventify",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./src/assets/images/app/favicon.png"
@@ -39,8 +46,15 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "03aa0b48-666f-4431-9e99-249eb48035a5"
+        "projectId": "3903d796-d73b-4e7f-a0a2-2c9f0a6004df"
       }
+    },
+    "owner": "lesnoy",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3903d796-d73b-4e7f-a0a2-2c9f0a6004df"
     }
   }
 }
