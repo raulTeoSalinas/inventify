@@ -54,8 +54,14 @@ const useDashBoardView = () => {
       return acc + numericAmount;
     }, 0);
     
+    const remaining = noteTotal - paymentTotal;
+    // Si el residual es menor que 0, no se puede calcular el remaining
+    if (remaining < 0) {
+      return 0;
+    }
+
     // Calcular lo que queda por pagar
-    return  noteTotal - paymentTotal;
+    return  remaining;
   };
   
   // Función reutilizable que devuelve el rango de fechas según el segmento
