@@ -16,6 +16,7 @@ import { FooterContainer } from "../SelectInput/SelectInput.styles";
 
 type InputDateProps = {
   date: string;
+  backgroundLight?: boolean;
   setDate: (date: string) => void;
   isError?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -79,7 +80,7 @@ LocaleConfig.locales['ES'] = {
 };
 
 // Component definition
-const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, labelCopyID, ...restProps }) => {
+const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, labelCopyID, backgroundLight, ...restProps }) => {
 
   // Hook for using Input Location
   const [modalVisible, setModalVisible] = useState(false);
@@ -154,7 +155,7 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
           )
         }
 
-        <View style={[{
+        <View style={[ !backgroundLight &&{
           shadowColor: "#5e5e5e7a",
           shadowOffset: {
             width: 0,
@@ -171,6 +172,7 @@ const InputDate: React.FC<InputDateProps> = ({ date, setDate, isError, style, la
               borderWidth: 1,
               borderColor: theme.colors.error
             }}
+            backgroundLight={backgroundLight}
             {...restProps}
           >
             <Text color={date ? "text" : "textLight"} size="small" copyID={date ? formatDateForCalendar(date) : "Seleccionar"} />

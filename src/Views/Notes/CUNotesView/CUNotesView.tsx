@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, {useState} from 'react';
 // React Native
 import { View, TouchableOpacity } from "react-native";
 // External Dependencies
@@ -88,7 +88,13 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
     setVisibleDeleteModal,
     selectedIndexTransactionPrice,
     price,
-    setPrice
+    setPrice,
+    customerAdvances,
+    paymentOptions,
+    handleTypePaymentChange,
+    getPaymentOptionByValue,
+    selectedPaymentOptions,
+    setSelectedPaymentOptions
   } = useNotesView()
 
   return (
@@ -167,6 +173,11 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
             >
               <Text copyID={customer ? customer?.name : "CUNOTES_SELECT"} />
             </SelectInput>
+          )
+        }
+        { 
+          customerAdvances > 0 && (
+            <Text bold color='success' size='small' copyID={`El cliente cuenta con ${formatCurrency(customerAdvances)} en adelantos.`} />
           )
         }
         <SectionHeader copyID="CUNOTES_PRODUCTS_SERVICES" />
@@ -283,22 +294,73 @@ const CUNotesView: React.FC<CUNotesViewProps> = (props) => {
         {
           payments.map((payment, i) => (
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%", gap: 8 }} key={i}>
-              <TextInput
-                isError={!validationStates[`payments${i}_amount`]}
-                placeholder="CUNOTES_AMOUNT_PLACEHOLDER"
-                inputMode="decimal"
-                labelCopyID="CUNOTES_AMOUNT"
-                style={{ flex: 0.8, marginTop: "4%" }}
-                setValue={(newValue) => handleAmountChange(i, newValue)}
-                value={payment?.amount !== undefined ? String(payment.amount) : ""}
-              />
-              <DateInput
-                isError={!validationStates[`payments${i}_date`]}
-                labelCopyID="CUNOTES_PAYMENT_DATE"
+              <Text copyID={String(i + 1)} />
+              <CardLayout style={{ marginTop: "4%", flex: 1 }}>
+              <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", gap: 8 }}>
+                <TextInput
+                  backgroundLight
+                  isError={!validationStates[`payments${i}_amount`]}
+                  placeholder="CUNOTES_AMOUNT_PLACEHOLDER"
+                  inputMode="decimal"
+                  labelCopyID="CUNOTES_AMOUNT"
+                  style={{ flex: 0.8, marginTop: "4%" }}
+                  setValue={(newValue) => handleAmountChange(i, newValue)}
+                  value={payment?.amount !== undefined ? String(payment.amount) : ""}
+                />
+                <DateInput
+                  backgroundLight
+                  isError={!validationStates[`payments${i}_date`]}
+                  labelCopyID="CUNOTES_PAYMENT_DATE"
+                  style={{ flex: 1, marginTop: "4%" }}
+                  date={payment.dateMade ?? ""}
+                  setDate={(date) => handleDateChange(i, date ?? "")}
+                />
+              </View>
+              <SelectInput
+                backgroundLight
+                isError={!validationStates[`payments${i}_type`]}
+                errorMessage="CUNOTES_SELECT_PAYMENT_TYPE"
+                labelCopyID="CUNOTES_PAYMENT_TYPE"
+                handleAccept={() => handleTypePaymentChange(i, selectedPaymentOptions[i]?.value as "deposit" | "cash" | "fromAdvance")}
+                options={ customerAdvances > 0 ? paymentOptions : paymentOptions.filter(option => option.value !== "fromAdvance") }
+                initialOption={getPaymentOptionByValue(payment.type as "deposit" | "cash" | "fromAdvance")}
+                selectedOption={getPaymentOptionByValue(payment.type ?? "")}
+                setSelectedOption={(option) => {
+                  setSelectedPaymentOptions(prev => ({
+                    ...prev,
+                    [i]: option
+                  }));
+                }}
+                titleCopyID="CUNOTES_SELECT_PAYMENT_TYPE_TITLE"
                 style={{ flex: 1, marginTop: "4%" }}
-                date={payment.dateMade ?? ""}
-                setDate={(date) => handleDateChange(i, date ?? "")}
-              />
+                specialRenderItem={({ item }) => (
+                  <View style={{ width: "100%" }}>
+                    <RadioButton
+                      onPress={() => {
+                        setSelectedPaymentOptions(prev => ({
+                          ...prev,
+                          [i]: item
+                        }));
+                      }}
+                      style={{ width: "100%", paddingVertical: 16 }}
+                      isActive={!!(item && selectedPaymentOptions[i]?.value === item.value)}
+                      labelCopyID={item?.label ?? ""}
+                      copyVariables={{amount: formatCurrency(customerAdvances)}}
+                    />
+                    <Separator />
+                  </View>
+                )}
+              >
+                <Text 
+                  size="extraSmall" 
+                  copyID={ getPaymentOptionByValue(payment.type ?? "")?.label ?? ""} 
+                  copyVariables={{
+                    amount: formatCurrency(customerAdvances)
+                  }}
+                />
+              </SelectInput>
+
+              </CardLayout>
               {
                 !customerPaymentInOne && (
                   <TouchableOpacity style={{ marginTop: 30 }} onPress={!note ? () => deleteRowPayments(i) : () => openDeleteModal('PAYMENT', i)}>

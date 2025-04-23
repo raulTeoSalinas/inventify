@@ -7,4 +7,5 @@ export interface Payment {
   dateMade?: string;
   amount?: number | string;
   user_created?: Partial<User>;
+  type?: "deposit" | "cash" | "fromAdvance";
 }

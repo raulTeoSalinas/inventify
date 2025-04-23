@@ -14,6 +14,13 @@ const GET_NOTES = gql`
   query GetNotes {
     notes(filter: {isDeleted: {_eq: false}}, limit: -1, sort: "-id") {
       id
+      advances {
+        id
+        idCustomers {
+          id
+        }
+        amount
+      }
       dateMade
       user_created {
         first_name
@@ -24,9 +31,17 @@ const GET_NOTES = gql`
         name
         phoneNumber
         email
+        advances {
+          id
+          idNotes {
+            id
+          }
+          amount
+        }
       }
       payments(sort: "-dateMade") {
         id
+        type
         date_updated
         date_created
         dateMade
@@ -77,6 +92,13 @@ const GET_NOTE = gql`
   query GetNote($id: ID = "") {
     notes_by_id(id: $id) {
       id
+      advances {
+        id
+        idCustomers {
+          id
+        }
+        amount
+      }
       dateMade
       user_created {
         first_name
@@ -87,12 +109,20 @@ const GET_NOTE = gql`
         name
         phoneNumber
         email
+        advances {
+          id
+          idNotes {
+            id
+          }
+          amount
+        }
       }
       payments(sort: "-dateMade") {
         id
         date_updated
         date_created
         dateMade
+        type
         amount
         user_created {
           id

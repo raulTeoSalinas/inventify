@@ -5,7 +5,7 @@ import { User } from "../useUsers/useUser.model"
 import { Customer } from "../useCustomers/useCustomers.model";
 import { Payment } from "../usePayments/usePayments";
 import { Transaction } from "../useTransactions/useTransactions.model";
-
+import { Advance } from "../useAdvances/useAdvances.model";
 export interface Note {
   id: string;
   dateMade: string;
@@ -13,6 +13,7 @@ export interface Note {
   idCustomers: Partial<Customer>;
   payments: Partial<Payment>[];
   transactions: Partial<Transaction>[];
+  advances: Partial<Advance>[] | null;
 }
 
 export interface NotesData {

@@ -28,6 +28,7 @@ import { getISODate } from "../../../utils/formatDates";
 import { cleanObject } from "../../../utils/cleanObject";
 import { setQuantityToNegative, setQuantityToPositive } from "../../../utils/setQuantity";
 import { useValidator, ValidationField } from "../../../hooks/useValidator/useValidator";
+import { Note } from '../../../viewModels/useNotes/useNotes.model';
 
 
 const useNotesView = () => {
@@ -131,6 +132,11 @@ const useNotesView = () => {
         value: payment.dateMade as string,
         validation: "notEmpty" // Esto es de tipo ValidationType automáticamente
       };
+
+      newFields[`payments${index}_type`] = {
+        value: payment.type as string,
+        validation: "notEmpty" // Esto es de tipo ValidationType automáticamente
+      };
     });
 
     if (isNewCustomer) {
@@ -144,6 +150,8 @@ const useNotesView = () => {
         validation: "notNull"
       };
     }
+
+
 
     setAllFields(newFields);
 
@@ -177,25 +185,42 @@ const useNotesView = () => {
 
     try {
       let response: { id: string } = { id: "-1" }
-      if (isNewCustomer) {
-        response = await notes.crud.create({
-          dateMade: date,
-          idCustomers: {
-            name: nameCustomer,
-            email: emailCustomer || null,
-            phoneNumber: phoneCustomer || null
-          },
-          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-          payments: cleanObject(payments) as Payment[]
-        })
-      } else {
-        response = await notes.crud.create({
-          dateMade: date,
-          idCustomers: { id: customer?.id ?? '' },
-          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-          payments: cleanObject(payments) as Payment[]
-        })
+
+      const newNote: Partial<Note> = {
+        dateMade: date,
+        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+        payments: cleanObject(payments) as Payment[]
       }
+
+      // check if some payments are from advances
+      const paymentsFromAdvance = payments.filter(payment => payment.type === "fromAdvance");
+
+      if (paymentsFromAdvance.length > 0) {
+        const advances = paymentsFromAdvance.map(payment => {
+          return {
+            idCustomers: { id: customer?.id ?? '' },
+            amount: Number(payment.amount) * -1
+          }
+        })
+        newNote.advances = advances
+      }
+
+      if (isNewCustomer) {
+        newNote.idCustomers = {
+          name: nameCustomer,
+          email: emailCustomer || null,
+          phoneNumber: phoneCustomer || null
+        }
+      } else {
+        newNote.idCustomers = { id: customer?.id ?? '' }
+      }
+
+      if (remaining > 0) {
+        // use spread operator to create a new object for remaining
+        newNote.advances = [...(newNote.advances || []), {idCustomers: {id: customer?.id || ''}, amount: remaining}]
+      }
+
+      response = await notes.crud.create(newNote)
 
       const note = await notes.crud.read(String(response.id))
       if (note) {
@@ -223,25 +248,50 @@ const useNotesView = () => {
     if (!isValidated || errorProduct || !note) return;
 
     try {
-      if (isNewCustomer) {
-        await notes.crud.update(note?.id, {
-          dateMade: date,
-          idCustomers: {
-            name: nameCustomer,
-            email: emailCustomer || null,
-            phoneNumber: phoneCustomer || null
-          },
-          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-          payments: cleanObject(payments) as Payment[]
-        })
-      } else {
-        await notes.crud.update(note?.id, {
-          dateMade: date,
-          idCustomers: { id: customer?.id ?? '' },
-          transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
-          payments: cleanObject(payments) as Payment[]
-        })
+
+      const noteUpdated: Partial<Note> = {
+        dateMade: date,
+        transactions: setQuantityToNegative(cleanObject(transactions) as Transaction[]),
+        payments: cleanObject(payments) as Payment[]
       }
+
+      // check if some payments are from advances
+      const paymentsFromAdvance = payments.filter(payment => payment.type === "fromAdvance");
+
+      console.log("paymentsFromAdvance", JSON.stringify(paymentsFromAdvance, null, 2))
+
+       if (paymentsFromAdvance.length > 0) {
+         const advances = paymentsFromAdvance.map(payment => {
+           return {
+             idCustomers: { id: customer?.id ?? '' },
+             amount: Number(payment.amount) * -1
+           }
+         })
+         noteUpdated.advances = advances
+       }
+
+      if (isNewCustomer) {
+        noteUpdated.idCustomers = {
+          name: nameCustomer,
+          email: emailCustomer || null,
+          phoneNumber: phoneCustomer || null
+        }
+      } else {
+        noteUpdated.idCustomers = { id: customer?.id ?? '' }
+      }
+
+      
+      if (remaining > 0) {
+        
+        noteUpdated.advances = [...(noteUpdated.advances || []), {idCustomers: {id: customer?.id || ''}, amount: remaining}]
+        
+      }
+      // we delete the advances if the remaining is less than 0 and there are no payments from advance
+      if (remaining < 0 && paymentsFromAdvance.length === 0) {
+        noteUpdated.advances = null
+      }
+      
+      await notes.crud.update(note.id, noteUpdated)
 
       showToast({ type: "success", title: "GENERAL_SUCCESS_TOAST", message: "CUNOTES_SUCCESS_UPDATE_NOTE_MESSAGE" })
 
@@ -425,7 +475,8 @@ const useNotesView = () => {
       ...prevState,
       {
         amount: "",
-        dateMade: getISODate(new Date())
+        dateMade: getISODate(new Date()),
+        type: "deposit"
       }
     ]);
   }
@@ -459,6 +510,16 @@ const useNotesView = () => {
     setPayments(updatedPayments);
   };
 
+  const handleTypePaymentChange = (index: number, type: "deposit" | "cash" | "fromAdvance" | undefined) => {
+    const updatedPayments = [...payments];
+    updatedPayments[index] = {
+      ...updatedPayments[index],
+      type: type
+    };
+    
+    setPayments(updatedPayments);
+  };
+
   const deleteRowPayments = (i: number) => {
     setPayments(prevState => {
       const newState = [...prevState];
@@ -472,12 +533,55 @@ const useNotesView = () => {
     if (!customerPaymentInOne) {
       setPayments([{
         amount: total,
-        dateMade: getISODate(new Date())
+        dateMade: getISODate(new Date()),
+        type: 'deposit'
       }])
     } else {
       setPayments([])
     }
   }
+
+
+  const customerAdvances = customer ? customer.advances.map(advance => advance.amount).reduce((acc, amount) => acc + amount, 0) : 0;
+  
+  const paymentOptions = [
+    { label: "CUNOTES_DEPOSIT", value: "deposit" },
+    { label: "CUNOTES_CASH", value: "cash" },
+    { label: "CUNOTES_FROM_ADVANCE", value: "fromAdvance" }
+  ];
+
+  const getPaymentOptionByValue = (value: string) => {
+    return paymentOptions.find(option => option.value === value);
+  };
+
+
+  const [selectedPaymentOptions, setSelectedPaymentOptions] = useState<{ [key: number]: any }>({});
+
+  // useEffect para sincronizar los pagos con las opciones seleccionadas
+  useEffect(() => {
+    // Crear un nuevo objeto para almacenar las opciones seleccionadas
+    const newSelectedOptions: { [key: number]: any } = {};
+    
+    // Recorrer cada pago y establecer la opción seleccionada correspondiente
+    payments.forEach((payment, index) => {
+
+      if (!payment.type) return;
+      // Obtener la opción de pago basada en el tipo del pago
+      const paymentOption = getPaymentOptionByValue(payment.type);
+      
+      // Si se encuentra una opción válida, asignarla al índice correspondiente
+      if (paymentOption) {
+        newSelectedOptions[index] = paymentOption;
+      }
+    });
+    
+    // Actualizar el estado con las nuevas opciones seleccionadas
+    setSelectedPaymentOptions(newSelectedOptions);
+    
+    // Este efecto se ejecuta cuando cambia el array de pagos
+  }, [payments]);
+
+
   // useEffect to calculate the total
   useEffect(() => {
     let total = 0;
@@ -492,7 +596,8 @@ const useNotesView = () => {
     if (customerPaymentInOne && !note) {
       setPayments([{
         amount: total,
-        dateMade: getISODate(new Date())
+        dateMade: getISODate(new Date()),
+        type: 'deposit'
       }])
     }
   }, [transactions]);
@@ -530,6 +635,13 @@ const useNotesView = () => {
         }
         return {}
       }) as { [key: number]: Partial<RawProduct | FabricatedProduct | Service> })
+
+      setSelectedPaymentOptions(note.payments?.map((payment) => {
+        if (payment.type) {
+          return payment.type
+        }
+        return {}
+      }) as { [key: number]: any } || {})
 
       if (note) {
         setCustomerPaymentInOne(false)
@@ -592,7 +704,13 @@ const useNotesView = () => {
     setVisibleDeleteModal,
     selectedIndexTransactionPrice,
     price,
-    setPrice
+    setPrice,
+    customerAdvances,
+    paymentOptions,
+    handleTypePaymentChange,
+    getPaymentOptionByValue,
+    selectedPaymentOptions,
+    setSelectedPaymentOptions
   }
 }
 

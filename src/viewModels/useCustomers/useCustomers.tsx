@@ -12,6 +12,13 @@ const GET_CUSTOMERS = gql`
       name
       phoneNumber
       email
+      advances {
+        id
+        idNotes {
+          id
+        }
+        amount
+      }
     }
   }
 `;

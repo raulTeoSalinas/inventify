@@ -1,10 +1,11 @@
-
+import { Advance } from "../useAdvances/useAdvances.model";
 
 export interface Customer {
   id: string;
   name: string;
   phoneNumber: string | null;
   email: string | null;
+  advances: Advance[];
 }
 
 export interface CustomersData {
