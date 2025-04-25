@@ -26,6 +26,7 @@ import { useMainContext } from '../../../contexts/mainContext';
 import { Note } from '../../../viewModels/useNotes/useNotes.model';
 import { formatCurrency } from '../../../utils/formatCurrency';
 import { Row } from './CalculateComissionView.styles';
+import { Transaction } from '../../../viewModels/useTransactions/useTransactions.model';
 
 export type CalculateComissionViewProps = NativeStackScreenProps<RootStackParamList, "CalculateComissionView">;
 
@@ -34,67 +35,22 @@ export type CalculateComissionViewProps = NativeStackScreenProps<RootStackParamL
 
 const useCalculateComissionView = () => {
 
-  const segmentsOptions = ["CALCULATE_COMISSIONS_DAY", "CALCULATE_COMISSIONS_WEEK"]
-  const [selectedSegment, setSelectedSegment] = useState(segmentsOptions[0]);
   const route = useRoute({ screenName: "CalculateComissionView" });
 
   const { seller } = route.params || {};
 
   const { notes } = useMainContext();
 
-  const [notesFiltered, setNotesFiltered] = useState(notes.all.list ?? []);
+  const calculateTotalAmount = (transactions: Transaction[]): number => {
+    return transactions.reduce((total, transaction) => {
+      // Verificar que precio y cantidad no sean undefined y convertirlos a números
+      const price = Number(transaction.price) || 0;
+      const quantity = Math.abs(Number(transaction.quantity) || 1); // IF quantity is 0, set it to 1 for services
 
-  useEffect(() => {
-    if (notes.all.list) {
-      const filtered = notes.all.list.filter((note) => {
-        // Convertir la fecha de la nota a objeto Date
-        const noteDate = new Date(note.dateMade);
-        const selectedDate = new Date();
-
-        if (selectedSegment === segmentsOptions[0]) {
-          // Filtrar por día - deben tener la misma fecha (año, mes, día)
-          return (
-            noteDate.getFullYear() === selectedDate.getFullYear() &&
-            noteDate.getMonth() === selectedDate.getMonth() &&
-            noteDate.getDate() === selectedDate.getDate()
-          );
-        } else if (selectedSegment === segmentsOptions[1]) {
-          // Filtrar por semana - necesitamos calcular el inicio y fin de la semana
-          // donde el lunes es el primer día y el domingo el último
-
-          // Clonar la fecha seleccionada para no modificar el estado original
-          const currentDate = new Date(selectedDate);
-
-          // Obtener el día de la semana (0 = domingo, 1 = lunes, ..., 6 = sábado)
-          const dayOfWeek = currentDate.getDay();
-
-          // Calcular cuántos días restar para llegar al lunes (inicio de semana)
-          // Si es domingo (0), restamos 6 días para llegar al lunes anterior
-          const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-
-          // Establecer la fecha al lunes (inicio de la semana)
-          const startOfWeek = new Date(currentDate);
-          startOfWeek.setDate(currentDate.getDate() - daysToSubtract);
-          startOfWeek.setHours(0, 0, 0, 0);
-
-          // Establecer la fecha al domingo (fin de la semana)
-          const endOfWeek = new Date(startOfWeek);
-          endOfWeek.setDate(startOfWeek.getDate() + 6);
-          endOfWeek.setHours(23, 59, 59, 999);
-
-          // Comprobar si la fecha de la nota está dentro del rango de la semana
-          return noteDate >= startOfWeek && noteDate <= endOfWeek;
-        }
-
-        return true; // Por defecto, incluir todas las notas si no hay filtro
-      });
-
-      setNotesFiltered(filtered);
-
-    }
-  }, [notes.all.list, selectedSegment]);
-
-
+      return total + (price * quantity);
+    }, 0);
+  };
+  
   function calculateCommissions(notes: Note[]) {
     // Objeto para almacenar las comisiones totales
     const commissions: {
@@ -114,6 +70,18 @@ const useCalculateComissionView = () => {
 
     // Iterar sobre todas las notas
     notes.forEach(note => {
+
+      if (note.isComissionPaid) return;
+
+      const totalAmount = calculateTotalAmount(note.transactions as Transaction[]);
+  
+      const totalPayments = note.payments.reduce((acc, payment) => {
+        return acc + Number(payment.amount);
+      }, 0);
+
+      // Si la nota no tiene pagos o el total de pagos es mayor al total de la nota, no calcular comisiones
+      if (totalPayments < totalAmount) return;
+
       // Crear un objeto para almacenar los productos de esta nota
       const noteCommission = {
         noteID: note.id,
@@ -232,14 +200,12 @@ const useCalculateComissionView = () => {
     return commissions;
   }
 
-  const comissions = calculateCommissions(notesFiltered);
+  const comissions = calculateCommissions(notes.all.list || []);
 
   return {
     comissions,
-    segmentsOptions,
-    selectedSegment,
-    setSelectedSegment,
     seller,
+    notes
   }
 }
 

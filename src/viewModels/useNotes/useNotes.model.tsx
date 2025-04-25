@@ -14,6 +14,7 @@ export interface Note {
   payments: Partial<Payment>[];
   transactions: Partial<Transaction>[];
   advances: Partial<Advance>[] | null;
+  isComissionPaid?: boolean; 
 }
 
 export interface NotesData {

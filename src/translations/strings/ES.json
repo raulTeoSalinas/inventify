@@ -247,7 +247,7 @@
   "MORE_HEADER_DESCRIPTION": "Otras funcionalidades de Inventify.",
   "MORE_SELLERS": "VENDEDORES",
   "MORE_SELLERS_DESC": "Edita y agrega vendedores",
-  "MORE_COMISSIONS": "Calcular comisiones",
+  "MORE_COMISSIONS": "Pagar comisiones",
   "MORE_DATA": "TUS DATOS",
   "MORE_CUSTOMERS": "Edita y agrega clientes",
   "MORE_COMPANY": "Edita la información de tu empresa",
@@ -325,10 +325,14 @@
   "CUSELLER_TOAST_DELETE_ERROR": "Error al eliminar el vendedor.",
   "SELLERS_COMISSIONS": "Comisiones",
   "SELLERS_COMISSIONS_DESC": "Consulta las comisiones de tus vendedores.",
-  "CALCULATE_COMISSIONS": "Calcular comisiones",
+  "CALCULATE_COMISSIONS": "Pagar comisiones",
   "CALCULATE_COMISSIONS_DESC": "Calcula las comisiones de {{seller}}.",
   "CALCULATE_COMISSIONS_TOTAL": "Comisiones totales",
   "CALCULATE_COMISSIONS_DETAIL": "Desglose",
   "CALCULATE_COMISSIONS_DAY": "De Hoy",
-  "CALCULATE_COMISSIONS_WEEK": "De Esta Semana"
+  "CALCULATE_COMISSIONS_WEEK": "De Esta Semana",
+  "CALCULATE_COMISSIONS_PAY": "Pagar",
+  "CALCULATE_COMISSIONS_PAY_DESC": "¿Estás seguro de marcar como pagada la comisión {{id}} ?",
+  "CALCULATE_COMISSIONS_PAY_SUCCESS": "Comisión pagada satisfactoriamente.",
+  "CALCULATE_COMISSIONS_PAY_ERROR": "Error al pagar la comisión."
 }

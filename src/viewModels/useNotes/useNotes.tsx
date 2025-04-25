@@ -14,6 +14,7 @@ const GET_NOTES = gql`
   query GetNotes {
     notes(filter: {isDeleted: {_eq: false}}, limit: -1, sort: "-id") {
       id
+      isComissionPaid
       advances {
         id
         idCustomers {
@@ -92,6 +93,7 @@ const GET_NOTE = gql`
   query GetNote($id: ID = "") {
     notes_by_id(id: $id) {
       id
+      isComissionPaid
       advances {
         id
         idCustomers {
